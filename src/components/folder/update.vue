@@ -25,20 +25,8 @@
                   size="large"
                   ref="formRef"
                 >
-                  <n-form-item label="ឈ្មោះក្នុងប្រព័ន្ធ" path="username" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.username" placeholder="ឈ្មោះក្នុងប្រព័ន្ធ" />
-                  </n-form-item>
-                  <n-form-item label="ត្រកូល" path="lastname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.lastname" placeholder="ត្រកូល" />
-                  </n-form-item>
-                  <n-form-item label="ឈ្មោះ" path="firstname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.firstname" placeholder="ឈ្មោះ" />
-                  </n-form-item>
-                  <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" />
-                  </n-form-item>
-                  <n-form-item label="អ៊ីមែល" path="email" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.email" placeholder="អ៊ីមែល" />
+                <n-form-item label="ឈ្មោះ" path="name" class="w-4/5 mr-8" >
+                    <n-input v-model:value="record.name" placeholder="ឈ្មោះថតឯកសារ" />
                   </n-form-item>
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
@@ -80,12 +68,7 @@ export default {
       default: () => {
         return reactive({
           id: 0 ,
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
-          person: null
+          mame: '' 
         })
       },
       // validator: (val) => {
@@ -115,14 +98,9 @@ export default {
      * Variables
      */    
     var rules = {
-        firstname: {
+        name: {
           required: true,
           message: 'សូមបញ្ចូលឈ្មោះ',
-          trigger: [ 'blur']
-        },
-        lastname: {
-          required: true,
-          message: 'សូមបញ្ចូលត្រកូល',
           trigger: [ 'blur']
         }
     }
@@ -131,38 +109,21 @@ export default {
      */
     function clearRecord(){
       props.record.id = 0
-      props.record.username = ""
-      props.record.firstname = ""
-      props.record.lastname = ""
-      props.record.phone = ""
-      props.record.email = ""
-      props.record.person = null
+      props.record.name = ""
     }
 
     function update(){
-      if( props.record.phone == "" && props.record.email == "" ){
+      if( props.record.name == "" ){
         notify.warning({
           title: 'ពិនិត្យព័ត៌មាន' ,
-          description: 'សូមបំពេញ លេខទូរស័ព្ទ ឬ អ៊ីមែល' ,
-          duration: 2000
-        })
-        return false
-      }
-      if( props.model === undefined || props.model.name == "" ){
-        notify.warning({
-          title: 'ពិនិត្យព័ត៌មាន' ,
-          description: 'ទម្រង់នៃព័ត៌មានមិនទាន់បានកំណត់។' ,
+          description: 'សូមបំពេញ ឈ្មោះ' ,
           duration: 2000
         })
         return false
       }
       store.dispatch( props.model.name+'/update',{
         id: props.record.id ,
-        username: props.record.username ,
-        firstname: props.record.firstname ,
-        lastname: props.record.lastname ,
-        phone: props.record.phone ,
-        email: props.record.email
+        name: props.record.name
       }).then( res => {
         if( res.data.ok ){
           notify.warning({

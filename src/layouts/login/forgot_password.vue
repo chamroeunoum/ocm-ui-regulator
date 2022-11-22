@@ -61,6 +61,14 @@ export default {
         }
 
         function requestReset(){
+            if( model.email === "" || model.email == null ){
+                notify.warning({
+                    title: 'កំណត់ពាក្យសម្ងាត់' ,
+                    content: 'សូមពិនិត្យ អ៊ីមែល របស់អ្នក។' ,
+                    duration: 3000
+                })
+                return false
+            }
             disabledHelper.value = true
             store.dispatch('user/passwordForgot',{ email: model.email }).then( res => {
                 if( res.data.ok ){
@@ -75,7 +83,7 @@ export default {
                     notify.warning({
                         title: 'កំណត់ពាក្យសម្ងាត់' ,
                         content: res.data.message ,
-                        description: res.data.message ,
+                        // description: res.data.message ,
                         duration: 3000
                     })
                 }

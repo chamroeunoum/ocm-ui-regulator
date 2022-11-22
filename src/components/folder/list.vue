@@ -1,4 +1,6 @@
 <template>
+  <div class="flex flex-wrap">
+  </div>
   <div>
   <!-- Top action panel of crud -->
     <div class="flex title-bar border-b border-gray-200">
@@ -6,7 +8,7 @@
       <div class="flex w-64 h-10 py-1 title " >
         <div class="submenu-icon h-8 flex">
           <svg class="flex-none mr-2 text-yellow-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
-          <div class="submenu-icon-title flex-grow w-full leading-9 leading-8 font-bold" v-html="model.title" ></div>
+          <div class="submenu-icon-title flex-grow w-full leading-8 font-bold" v-html="model.title" ></div>
         </div>
       </div>
       <!-- Actions button of the crud -->
@@ -29,13 +31,22 @@
               <Search20Regular />
             </n-icon>
           </Icon>
-          <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
+          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
             <n-icon>
               <Filter />
             </n-icon>
-          </Icon>
+          </Icon> -->
         </div>
-        
+        <div class="mt-1 ml-2">
+          <n-button type="default" @click="$router.push('/welcome')" class="mx-2"  >
+            <template #icon>
+              <n-icon>
+                <ArrowBackIosRound />
+              </n-icon>
+            </template>
+            ស្វែងរកឯកសារ
+          </n-button>
+        </div>
       </div>
     </div>
     <!-- Table of crud -->
@@ -45,14 +56,18 @@
           <th class="vcb-table-header" >ល.រ</th>
           <th class="vcb-table-header">ឈ្មោះ</th>
           <th class="vcb-table-header">ចំនួនឯកសារ</th>
+          <th class="vcb-table-header">បង្កើត</th>
+          <th class="vcb-table-header">កែប្រែ</th>
           <th class="vcb-table-header text-right w-28" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
           <td class="vcb-table-cell" v-html="record.name" ></td>
           <td  class="vcb-table-cell" >
-            <router-link :to="'/folders/'+record.id+'/regulators'" >{{ record.regulators.length }}</router-link>
+            <router-link :to="'/folders/'+record.id+'/regulators'" >{{ record.regulators !== undefined ? record.regulators.length : 0 }}</router-link>
           </td>
+          <td  class="vcb-table-cell" >{{ record.created_at }}</td>
+          <td  class="vcb-table-cell" >{{ record.updated_at }}</td>
           <td class="vcb-table-actions-panel text-right" >
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
@@ -118,6 +133,7 @@ import { Icon } from '@vicons/utils'
 import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
 import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
+import { ArrowBackIosRound } from '@vicons/material'
 import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular } from '@vicons/fluent'
 /**
  * CRUD component form
@@ -145,7 +161,8 @@ export default {
     Save20Regular ,
     TrashOutline ,
     ContactCard28Regular ,
-    Filter
+    Filter ,
+    ArrowBackIosRound
   },
   setup(){
     var store = useStore()
@@ -168,20 +185,10 @@ export default {
       },
       columns: {
         searchable: {
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
-          active: ''
+          name: '' ,
         },
         format: {
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '' ,
-          active: ''
+          name: ''
         }
       } ,
       pagination: {
@@ -286,37 +293,6 @@ export default {
       return table.pagination.totalPages ? table.pagination.totalPages : 0
     })
 
-    function activateRegulator(record){
-      dialog.warning({
-        title: "បិទ ឬ បើក ឯកសារ" ,
-        content: "តើអ្នកចង់ " + ( record.active == 1 ? "បិទ" : "បើក" )+ " ឯកសារនេះមែនទេ ?" ,
-        positiveText: 'បាទ / ចាស',
-        negativeText: 'ទេ',
-        onPositiveClick: () => {
-          store.dispatch( model.name+(parseInt(record.active)==1?'/deactivate':'/activate'),{id:record.id}).then( res => {
-            if( res.data.ok ){
-              notify.success({
-                title: 'ស្ថានភាពឯកសារ' ,
-                description: 'ស្ថានភាពឯកសារបានកែប្រែជោគជ័យ។' ,
-                duration: 3000
-              })
-              getRecords()
-            }else{
-              notify.error({
-                title: 'ស្ថានភាពគណនី' ,
-                description: 'មានបញ្ហាក្នុងពេលកែប្រែស្ថានភាពឯកសារ។' ,
-                duration: 3000
-              })
-            }
-          }).catch( err => {
-            message.error( err )
-          })
-        },
-        onNegativeClick: () => {
-          
-        }
-      })
-    }
     /**
      * Create modal handling
      */
@@ -342,45 +318,33 @@ export default {
     })
     function showEditModal(record){
       editRecord.id = record.id
-      editRecord.number = record.number
-      editRecord.title = record.title
-      editRecord.objective = record.objective
-      editRecord.type_id = record.type_id
-      editRecord.year = new Date( record.year ).getTime()
+      editRecord.name = record.name
       editModal.show = true
     }
     function closeEditModal(record){
       editModal.show = false
       getRecords()
     }
-    function inputPassword(record){
-      changePasswordModal.account = record
-      changePasswordModal.form = {
-        id: record.id ,
-        password: record.password
-      }
-      changePasswordModal.show = true
-    }
 
     function destroy(record){
       dialog.warning({
-        title: "លុបឯកសារ" ,
-        content: "តើអ្នកចង់ លុប ឯកសារនេះមែនទេ ?" ,
+        title: "លុបថតឯកសារ" ,
+        content: "តើអ្នកចង់ លុប ថតឯកសារនេះមែនទេ ?" ,
         positiveText: 'បាទ / ចាស',
         negativeText: 'ទេ',
         onPositiveClick: () => {
           store.dispatch(model.name+'/delete',{id:record.id}).then( res => {
             if( res.data.ok ){
               notify.success({
-                title: 'លុបឯកសារ' ,
+                title: 'លុបថតឯកសារ' ,
                 description: 'លុបបានរួចរាល់។' ,
                 duration: 3000
               })
               getRecords()
             }else{
               notify.success({
-                title: 'លុបឯកសារ' ,
-                description: 'មានបញ្ហាក្នុងពេលលុបឯកសារ។' ,
+                title: 'លុបថតឯកសារ' ,
+                description: 'មានបញ្ហាក្នុងពេលលុថតឯកសារ។' ,
                 duration: 3000
               })
             }
@@ -439,7 +403,6 @@ export default {
       /**
        * Functions
        */
-      activateRegulator ,
       destroy
     }
   }

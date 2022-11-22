@@ -35,7 +35,16 @@
             </n-icon>
           </Icon> -->
         </div>
-        
+        <div class="mt-1 ml-2">
+          <n-button type="default" @click="$router.push('/folders')" class="mx-2"  >
+            <template #icon>
+              <n-icon>
+                <ArrowBackIosRound />
+              </n-icon>
+            </template>
+            បកក្រោយ
+          </n-button>
+        </div>
       </div>
     </div>
     <!-- Table of crud -->
@@ -59,15 +68,22 @@
             <!-- <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
             </n-icon>
-            <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(record)" title="លុបគណនីនេះចោល" >
-              <TrashOutline />
-            </n-icon>
-            <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+             -->
+            <!-- <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <IosCheckmarkCircleOutline />
             </n-icon> -->
             <!-- <n-icon size="30" :class="'cursor-pointer ' + (record.pdf == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <DocumentPdf24Regular />
             </n-icon> -->
+            <n-icon size="20" class="cursor-pointer text-red-500 p-2  pt-1  mx-1" @click="removeDocumentFromFolder(record)" title="ដកឯកសារចេញពីថត" >
+              <TrashOutline />
+            </n-icon>
+            <!-- <n-icon size="20" class="cursor-pointer text-red-500 p-2 mx-1" @click="viewPdf(record)" title="មើលឯកសារយោង" >
+              <DocumentPdf24Regular />
+            </n-icon> -->
+            <n-icon v-if="record.pdf != 1" size="20" class="cursor-pointer text-red-500 p-2 pt-1  mx-1"  @click="viewPdf(record)" title="មើលឯកសារ" alt="មើលឯកសារ"  >
+              <DocumentPdf24Regular />
+            </n-icon>
           </td>
         </tr>
       </table>
@@ -85,6 +101,16 @@
           </Icon>
         </div>
       </div>
+      <!-- PDF Dialog -->
+      <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white ">
+        <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
+        <div class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
+          <Icon size="40" class="text-red-600" >
+            <CloseCircleOutline />
+          </Icon>
+        </div>
+      </div>
+      <!-- End PDF Dialog -->
     </div>
     <!-- Pagination of crud -->
     <div class="vcb-table-pagination">
@@ -122,7 +148,9 @@ import { Icon } from '@vicons/utils'
 import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
 import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
+import { ArrowBackIosRound } from '@vicons/material'
 import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular } from '@vicons/fluent'
+import VuePdfEmbed from 'vue-pdf-embed'
 /**
  * CRUD component form
  */
@@ -145,7 +173,9 @@ export default {
     Save20Regular ,
     TrashOutline ,
     ContactCard28Regular ,
-    Filter
+    Filter,
+    ArrowBackIosRound ,
+    VuePdfEmbed
   },
   setup(){
     var store = useStore()
@@ -234,29 +264,41 @@ export default {
         page: table.pagination.page
       }).then(res => {
         console.log( res )
-        table.records.all = table.records.matched = res.data.records
-        table.pagination = res.data.pagination
+        if( res.data.ok ){
+          table.records.all = table.records.matched = res.data.records
+          table.pagination = res.data.pagination
 
-        var paginationNumberList = 5
-        if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
-          table.pagination.start = 1
-          table.pagination.end = table.pagination.totalPages > 9 ? 9 : table.pagination.totalPages
+          var paginationNumberList = 5
+          if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
+            table.pagination.start = 1
+            table.pagination.end = table.pagination.totalPages > 9 ? 9 : table.pagination.totalPages
+          }
+          else{
+            table.pagination.start = table.pagination.page  - ( paginationNumberList - 1 )
+            table.pagination.end = table.pagination.page + 4 >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 4
+          }
+          /**
+           * Create pagination buttons
+           */
+          table.pagination.buttons = []
+          for(var i=table.pagination.start;i<=table.pagination.end;i++){
+            table.pagination.buttons.push(i)
+          }
+        }else{
+          notify.warning({
+            title: 'អានឯកសារ' ,
+            description: res.data.message ,
+            duration: 3000
+          })
         }
-        else{
-          table.pagination.start = table.pagination.page  - ( paginationNumberList - 1 )
-          table.pagination.end = table.pagination.page + 4 >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 4
-        }
-        /**
-         * Create pagination buttons
-         */
-        table.pagination.buttons = []
-        for(var i=table.pagination.start;i<=table.pagination.end;i++){
-          table.pagination.buttons.push(i)
-        }
-
         closeTableLoading()
       }).catch( err => {
-        console.log( err )
+        notify.warning({
+            title: 'អានឯកសារ' ,
+            description: err.response.data.message ,
+            duration: 3000
+          })
+          closeTableLoading()
       })
     }
     function closeTableLoading(){
@@ -288,38 +330,60 @@ export default {
       return table.pagination.totalPages ? table.pagination.totalPages : 0
     })
 
-    function destroy(record){
+    function removeDocumentFromFolder(document){
       dialog.warning({
-        title: "លុបឯកសារ" ,
-        content: "តើអ្នកចង់ លុប ឯកសារនេះមែនទេ ?" ,
+        title: "ដកឯកសារ" ,
+        content: "តើអ្នកចង់ ដកឯកសារនេះចេញមែនទេ?" ,
         positiveText: 'បាទ / ចាស',
         negativeText: 'ទេ',
         onPositiveClick: () => {
-          store.dispatch(model.name+'/delete',{id:record.id}).then( res => {
-            if( res.data.ok ){
-              notify.success({
-                title: 'លុបឯកសារ' ,
-                description: 'លុបបានរួចរាល់។' ,
-                duration: 3000
-              })
-              getRecords()
-            }else{
-              notify.success({
-                title: 'លុបឯកសារ' ,
-                description: 'មានបញ្ហាក្នុងពេលលុបឯកសារ។' ,
-                duration: 3000
-              })
-            }
-        }).catch( err => {
-          message.error( err )
-        })
+          store.dispatch('folder/removeRegulator',{
+            id: route.params.id ,
+            document_id : document.id
+          }).then( res => {
+            notify.success({
+              title: "ដកឯកសារចេញពីថត" ,
+              content: res.data.message ,
+              duration: 3000
+            })
+            getRecords()
+          }).catch( err => {
+            console.log( err.response.data )
+            notify.error({
+              title: "ដកឯកសារចេញពីថត" ,
+              content: res.response.data.message ,
+              duration: 3000
+            })
+          })
         },
         onNegativeClick: () => {
         }
       })
     }
 
+    const pdf = reactive({
+      viewer: false ,
+      url: ''
+    })
+    function viewPdf(document){
+      if( document.pdf != "" && document.pdf != null ){
+        console.log( document.pdf )
+        pdf.url = document.pdf 
+        pdf.viewer = true
+      }else{
+        notify.info({
+          title: 'ឯកសារយោង' ,
+          description: "មិនមានឯកសារយោងសម្រាប់បង្ហាញ" ,
+          duration: 3000
+        })  
+      }
+    }
 
+    function closePdf(){
+      pdf.viewer = false
+      pdf.url = ""
+    }
+  
     /**
      * Initial the data
      */
@@ -333,6 +397,7 @@ export default {
       model ,
       table ,
       filterPanel ,
+      pdf ,
       /**
        * Table
        */
@@ -352,7 +417,9 @@ export default {
       /**
        * Functions
        */
-      destroy
+      removeDocumentFromFolder ,
+      viewPdf ,
+      closePdf
     }
   }
 }

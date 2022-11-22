@@ -25,23 +25,8 @@
                   size="large"
                   ref="formRef"
                 >
-                  <n-form-item label="ឈ្មោះក្នុងប្រព័ន្ធ" path="username" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.username" placeholder="ឈ្មោះក្នុងប្រព័ន្ធ" @blur="checkUsername" />
-                  </n-form-item>
-                  <n-form-item label="ត្រកូល" path="lastname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.lastname" placeholder="នាមត្រកូល" />
-                  </n-form-item>
-                  <n-form-item label="ឈ្មោះ" path="firstname" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.firstname" placeholder="នាមខ្លួន" />
-                  </n-form-item>
-                  <n-form-item label="អ៊ីមែល" path="email" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.email" placeholder="អ៊ីមែល" @blur="checkEmail" />
-                  </n-form-item>
-                  <n-form-item label="ទូរស័ព្ទ" path="phone" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.phone" placeholder="ទូរស័ព្ទ" @blur="checkPhone" />
-                  </n-form-item>
-                  <n-form-item label="ពាក្យសម្ងាត់" path="password" class="w-4/5 mr-8" >
-                    <n-input type="password" show-password-on="mousedown" v-model:value="record.password" placeholder="ពាក្យសម្ងាត់" />
+                  <n-form-item label="ឈ្មោះ" path="name" class="w-4/5 mr-8" >
+                    <n-input v-model:value="record.name" placeholder="ឈ្មោះថតឯកសារ" />
                   </n-form-item>
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
@@ -83,13 +68,7 @@ export default {
       default: () => {
         return reactive({
           id: 0 ,
-          username: '' ,
-          firstname: '' ,
-          lastname: '' ,
-          email: '' ,
-          phone: '',
-          active: 1 ,
-          password: ''
+          name: ''
         })
       },
       // validator: (val) => {
@@ -118,19 +97,9 @@ export default {
      * Variables
      */    
     const rules = {
-        firstname: {
+        name: {
           required: true,
-          message: 'សូមបញ្ចូលនាមខ្លួន',
-          trigger: [ 'blur']
-        },
-        lastname: {
-          required: true,
-          message: 'សូមបញ្ចូលត្រកូល',
-          trigger: [ 'blur']
-        },
-        password: {
-          required: true,
-          message: 'សូមបញ្ចូលពាក្យសម្ងាត់',
+          message: 'សូមបញ្ចូលនាម',
           trigger: [ 'blur']
         }
     }
@@ -145,50 +114,22 @@ export default {
     function clearRecord(){
       props.record = {
         id : 0 ,
-        username: '' ,
-        lastname: '' ,
-        firstname: '' ,
-        phone: '' ,
-        email: '' ,
-        password: '' ,
-        active: 1
+        name: '' 
       }
     }
 
     function create(){
-      if( props.record.email == "" ){
+      if( props.record.name == "" ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
-          'description' : 'សូមបំពេញ អ៊ីមែល។' ,
-          duration : 3000
-        })
-        return false
-      }
-      // if( props.record.phone == "" ){
-      //   notify.warning({
-      //     'title' : 'ពិនិត្យព័ត៌មាន' ,
-      //     'description' : 'សូមបំពេញ លេខទូរស័ព្ទ។' ,
-      //     duration : 3000
-      //   })
-      //   return false
-      // }
-      if( props.model === undefined || props.model.name == "" ){
-        notify.warning({
-          'title' : 'ពិនិត្យព័ត៌មាន' ,
-          'description' : 'ទម្រង់នៃព័ត៌មានមិនទាន់បានកំណត់។' ,
+          'description' : 'សូមបំពេញ ឈ្មោះរបស់ថតឯកសារ។' ,
           duration : 3000
         })
         return false
       }
       store.dispatch( props.model.name+'/create',{
         // id: props.record.id ,
-        username: props.record.username ,
-        firstname: props.record.firstname ,
-        lastname: props.record.lastname ,
-        phone: props.record.phone ,
-        email: props.record.email ,
-        password: props.record.password ,
-        active: props.record.active == 1 ? 1 : 0
+        name: props.record.name
       }).then( res => {
         switch( res.status ){
           case 200 : 
@@ -211,66 +152,6 @@ export default {
       })
     }
     
-    function checkUsername(){
-      if( props.record.username != "" ){
-        store.dispatch('user/checkUsername',{username: props.record.username}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យឈ្មោះអ្នកប្រើប្រាស់' ,
-              description : "ឈ្មោះអ្នកប្រើប្រាស់ មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'ពិនិត្យឈ្មោះអ្នកប្រើប្រាស់' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យឈ្មោះអ្នកប្រើប្រាស់។' ,
-            duration : 3000
-          })
-        })
-      }
-    }
-    function checkPhone(){
-      if( props.record.phone != "" ){
-        store.dispatch('user/checkPhone',{phone: props.record.phone}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យលេខទូរស័ព្ទ' ,
-              description : "លេខទូរស័ព្ទ មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'ពិនិត្យលេខទូរស័ព្ទ' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យលេខទូរស័ព្ទ។' ,
-            duration : 3000
-          })
-        })
-      }
-    }
-    function checkEmail(){
-      if( props.record.email != "" ){
-        store.dispatch('user/checkEmail',{email: props.record.email}).then( res => {
-          if( res.data.ok ){
-            notify.info({
-              title: 'ពិនិត្យអ៊ីមែល' ,
-              description : "ពិនិត្យអ៊ីមែល មានរួចហើយ។" ,
-              duration : 3000
-            })
-          }
-        }).catch( err => {
-          console.log( err )
-          notify.error({
-            'title' : 'រក្សារទុកព័ត៌មាន' ,
-            'description' : 'មានបញ្ហាក្នុងពេលពិនិត្យអ៊ីមែល។' ,
-            duration : 3000
-          })
-        })
-      }
-    }
 
     return {
       /**
@@ -280,10 +161,7 @@ export default {
       /**
        * Functions
        */
-      create ,
-      checkUsername ,
-      checkPhone ,
-      checkEmail
+      create
     }
   }
 }

@@ -61,11 +61,30 @@ const actions = {
     true
   )},
   async addRegulator ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/add")
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/add",params)
   },
   async removeRegulator ({ state, commit, rootState },params) {
-    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/remove")
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/regulators/remove",params)
   },
+  async ofUser ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/user"+ "?" + new URLSearchParams({
+      search: params.search ,
+      perPage: params.perPage ,
+      page: params.page
+    }).toString(),
+    null,
+    true
+  )},
+  async listDocumentWithValidation ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/list/document/validation"+ "?" + new URLSearchParams({
+      search: params.search ,
+      perPage: params.perPage ,
+      page: params.page ,
+      document_id : params.document_id
+    }).toString(),
+    null,
+    true
+  )},
 }
 
 // mutations

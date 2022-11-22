@@ -73,12 +73,17 @@
       <!-- Table of crud -->
       <div class="vcb-table-panel flex flex-row w-full m-8 ">
         <div class="vcb-table w-full" >
-          <div v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
-            <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="record.objective" ></div>
-            <div  class="vcb-table-cell" >{{ record.fid }} - {{ record.type.name }} - {{ record.document_year.slice(0,10) }}</div>
-            <div v-if="record.pdf != 1" class="vcb-table-actions-panel absolute bottom-0 right-0 text-right" @click="pdfPreview(record)" >
+          <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
+            <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="document.objective" ></div>
+            <div  class="vcb-table-cell" >{{ document.fid }} - {{ document.type.name }} - {{ document.document_year.slice(0,10) }}</div>
+            <div v-if="document.pdf != 1" class="vcb-table-actions-panel absolute bottom-0 right-0 text-right" @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
               <n-icon size="20" class="cursor-pointer text-red-500" >
                 <DocumentPdf24Regular />
+              </n-icon>
+            </div>
+            <div v-if="isLoggedIn" class="vcb-table-actions-panel absolute bottom-0 right-12 text-right" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" >
+              <n-icon size="20" class="cursor-pointer text-blue-700 font-bold" >
+                <Folder20Regular />
               </n-icon>
             </div>
           </div>
@@ -125,6 +130,38 @@
         <!-- Total per page -->
       </div>
     </div>
+    <!-- Folder modal selection -->
+    <n-modal v-model:show="showFolderModal" @on-after-leave="showFolderModal.value=false" >
+      <n-card
+        style="width: 600px"
+        title="សូមជ្រើសរើសថតឯកសារ"
+        :bordered="false"
+        size="huge"
+        role="dialog"
+        aria-modal="true"
+      >
+        <!-- <template #header-extra>
+          Oops!
+        </template> -->
+        <!-- Where the available folder of the user -->
+        <div v-for="(folder, index) in listFolders.value" :key="index" class="p-2 cursor-pointer hover:bg-gray-100 rounded duration-500 flex" 
+        >
+          <div class="flex-grow">
+            {{ (index +1 ) + '. ' + folder.name }}
+          </div>
+          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" @click="addDocumentToFolder(folder)"  >
+            <CheckboxChecked20Regular />
+          </Icon>
+          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeDocumentFromFolder(folder)"  >
+            <CheckboxChecked20Regular />
+          </Icon>
+        </div>  
+        <!-- <template #footer>
+          Footer
+        </template> -->
+      </n-card>
+    </n-modal>
+    <!-- End folder modal selection -->
     <div class="flex flex-wrap bottom-5 mx-auto w-full">
       <FooterComponent />
     </div>
@@ -140,7 +177,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useDialog, useNotification, useMessage } from 'naive-ui'
 import { Icon } from '@vicons/utils'
-import { Search20Regular , DocumentPdf24Regular } from '@vicons/fluent'
+import { Search20Regular , DocumentPdf24Regular, Folder20Regular, CheckboxChecked20Regular } from '@vicons/fluent'
 import { IosRefresh } from '@vicons/ionicons4'
 import { CloseCircleOutline } from '@vicons/ionicons5'
 import { Refresh } from '@vicons/tabler'
@@ -156,7 +193,9 @@ export default {
     FooterComponent ,
     Search20Regular ,
     Icon ,
-    VuePdfEmbed
+    VuePdfEmbed ,
+    Folder20Regular ,
+    CheckboxChecked20Regular
   },
   setup(){
     /**
@@ -168,6 +207,9 @@ export default {
     const notify = useNotification()
     const dialog = useDialog()
     const subMenuHelper = ref(false)
+    const showFolderModal = ref(false)
+    const listFolders = reactive([])
+    const selectedDocumentId = ref(0)
     /**
      * Data
      */
@@ -350,6 +392,76 @@ export default {
       }
     }
 
+    function getFolders(){
+      store.dispatch('folder/listDocumentWithValidation',{
+        search: '' ,
+        page: 1 ,
+        perPage: 50 ,
+        document_id : selectedDocumentId.value
+      }).then( res => {
+        listFolders.value = res.data.records
+      }).catch( err => {
+        console.log( err.response )
+      })
+    }
+
+    function showFolderModalPopup(document){
+      showFolderModal.value = true
+      /**
+       * Mark the selected document
+       */
+      selectedDocumentId.value = document.id
+      getFolders()
+    }
+
+    function closeFolderModalPopup(){
+      showFolderModal.value = false
+      listFolders.value = []
+      selectedDocumentId.value = 0
+    }
+
+    function addDocumentToFolder(folder){
+      store.dispatch('folder/addRegulator',{
+        id: folder.id ,
+        document_id : selectedDocumentId.value
+      }).then( res => {
+        notify.success({
+          title: "ដាក់ឯកសារចូលថត" ,
+          content: res.data.message ,
+          duration: 3000
+        })
+        getFolders()
+      }).catch( err => {
+        console.log( err.response.data )
+        notify.error({
+          title: "ដាក់ឯកសារចូលថត" ,
+          content: res.response.data.message ,
+          duration: 3000
+        })
+      })
+    }
+
+    function removeDocumentFromFolder(folder){
+      store.dispatch('folder/removeRegulator',{
+        id: folder.id ,
+        document_id : selectedDocumentId.value
+      }).then( res => {
+        notify.success({
+          title: "ដកឯកសារចេញពីថត" ,
+          content: res.data.message ,
+          duration: 3000
+        })
+        getFolders( )
+      }).catch( err => {
+        console.log( err.response.data )
+        notify.error({
+          title: "ដកឯកសារចេញពីថត" ,
+          content: res.response.data.message ,
+          duration: 3000
+        })
+      })
+    }
+
     /**
      * Start fetching records
      */
@@ -364,6 +476,8 @@ export default {
       filterPanel ,
       pdf ,
       subMenuHelper ,
+      showFolderModal ,
+      listFolders ,
       /**
        * Table
        */
@@ -387,6 +501,9 @@ export default {
        * Functions
        */
       logout ,
+      addDocumentToFolder ,
+      removeDocumentFromFolder ,
+      showFolderModalPopup ,
       /**
        * Components
        */
