@@ -74,7 +74,7 @@
       <div class="vcb-table-panel flex flex-row w-full m-8 ">
         <div class="vcb-table w-full" >
           <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
-            <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="document.objective" ></div>
+            <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="applyTagMark(document.objective)" ></div>
             <div  class="vcb-table-cell" >{{ document.fid }} - {{ document.type.name }} - {{ document.document_year.slice(0,10) }}</div>
             <div v-if="document.pdf != 1" class="vcb-table-actions-panel absolute bottom-0 right-0 text-right" @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
               <n-icon size="20" class="cursor-pointer text-red-500" >
@@ -348,6 +348,17 @@ export default {
       return table.pagination.totalPages ? table.pagination.totalPages : 0
     })
 
+    function applyTagMark(str){
+      // Split the string by whitespace
+      if( table.search.trim() != "" ){
+        var arrStrSearch = table.search.split(/(\s+)/).filter( e => e.trim().length > 0).map( e => e.replaceAll(" ","") )
+        for( var i in arrStrSearch ){
+          if( str.includes( arrStrSearch[i] ) ) str = str.replaceAll( arrStrSearch[i] , '<mark>' + arrStrSearch[i] + '</mark>' ) 
+        }
+      }
+      return str
+    }
+
     /**
      * Check the authentication of the user
      */
@@ -504,6 +515,7 @@ export default {
       addDocumentToFolder ,
       removeDocumentFromFolder ,
       showFolderModalPopup ,
+      applyTagMark ,
       /**
        * Components
        */
