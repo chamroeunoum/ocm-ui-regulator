@@ -372,8 +372,22 @@ export default {
     })
     function pdfPreview(record){
       if( record.pdf != "" && record.pdf != null ){
-        pdf.url = record.pdf 
-        pdf.viewer = true
+        store.dispatch('regulator/pdf',{id:record.id})
+          .then( res => {
+            pdf.url = res.data
+            pdf.viewer = true
+            notify.success({
+              title: "បង្ហាញឯកសារយោង" ,
+              content: res.data.message ,
+              duration: 3000
+            })
+          }).catch( err => {
+            notify.error({
+              title: "បង្ហាញឯកសារយោង" ,
+              content: err.response.data.message ,
+              duration: 3000
+            })
+          })
       }else{
         notify.info({
           title: 'ឯកសារយោង' ,

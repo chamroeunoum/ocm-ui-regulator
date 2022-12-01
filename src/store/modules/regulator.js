@@ -40,6 +40,9 @@ const actions = {
   async read ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id)
   },
+  async pdf ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf?"+params.id)
+  },
   async compact ({ state, commit, rootState },params) {
     return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({
       page: params.page ,
