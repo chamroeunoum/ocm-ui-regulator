@@ -76,7 +76,7 @@
           <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
             <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="applyTagMark(document.objective)" ></div>
             <div  class="vcb-table-cell" >{{ document.fid }} - {{ document.type.name }} - {{ document.document_year.slice(0,10) }}</div>
-            <div v-if="document.pdf != 1" class="vcb-table-actions-panel absolute bottom-0 right-0 text-right" @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
+            <div v-if="document.pdf" class="vcb-table-actions-panel absolute bottom-0 right-0 text-right" @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
               <n-icon size="20" class="cursor-pointer text-red-500" >
                 <DocumentPdf24Regular />
               </n-icon>
