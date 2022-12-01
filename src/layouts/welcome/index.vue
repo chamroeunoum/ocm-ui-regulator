@@ -368,13 +368,15 @@ export default {
   
     const pdf = reactive({
       viewer: false ,
+      filename: '' ,
       url: ''
     })
     function pdfPreview(record){
       if( record.pdf != "" && record.pdf != null ){
         store.dispatch('regulator/pdf',{id:record.id})
           .then( res => {
-            pdf.url = res.data
+            pdf.filename = res.data.filename
+            pdf.url = res.data.pdf
             pdf.viewer = true
             notify.success({
               title: "បង្ហាញឯកសារយោង" ,
