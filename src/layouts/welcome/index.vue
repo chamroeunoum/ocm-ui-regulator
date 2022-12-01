@@ -372,7 +372,7 @@ export default {
       url: ''
     })
     function pdfPreview(record){
-      if( record.pdf != "" && record.pdf != null ){
+      if( record.pdf ){
         store.dispatch('regulator/pdf',{id:record.id})
           .then( res => {
             pdf.filename = res.data.filename
