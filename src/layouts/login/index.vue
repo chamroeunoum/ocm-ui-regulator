@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-full mx-8 sm:w-1/2 md:w-2/4 lg:w-2/5 xl:w-1/4 p-8 mt-24">
+    <div class="w-full mx-8 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 md:mt-24 sm:mt-12 mb-24">
       <div class="w-28 mx-auto my-4">
         <img src="./../../assets/ocmlogo.png" alt="SASTRA Logo" class="w-full" >
       </div>
@@ -39,15 +39,15 @@
         </n-input>
       </n-space>
       <div class="w-full my-12">
-        <n-button type="default" class="w-48 mr-4" @click="$router.push('/welcome')"  >
-          ស្វែងរកឯកសារ
+        <n-button type="default" class="w-32 mx-1" @click="$router.push('/welcome')"  >
+          ស្វែងរក
           <template #icon>
             <n-icon size="16" class='text-red-500 ' >
               <DocumentPdf />
             </n-icon>
           </template>
         </n-button>
-        <n-button :loading="loading" @click="funcLogin" type="success" class="w-48"  >
+        <n-button  type="success" class="w-32 mx-1" :loading="loading" @click="funcLogin"  >
           ចូល
           <template #icon>
             <n-icon size="16" class='text-white ' >
@@ -57,12 +57,23 @@
         </n-button>
       </div>
       <div class="w-full mt-8">
-        <router-link to="/register" class="w-50 px-8 text-blue-600"  >
-          ចូលជាសមាជិកថ្មី
+        <router-link to="/register" class="w-60 mx-2"  >
+          <n-icon size="22" class='text-blue-500 pt-1 mr-2' ><PersonOutlined /></n-icon>ចូលជាសមាជិកថ្មី
         </router-link>
-        <router-link to="/password/forgot" class="w-48 px-8 text-blue-600"  >
-          ភ្លេចពាក្យសម្ងាត់ ?
+        <router-link to="/password/forgot" class="w-60 mx-2 "  >
+          <n-icon size="22" class='text-blue-500 mr-2 pt-1' ><VpnKeyOutlined /></n-icon>ភ្លេចពាក្យសម្ងាត់ ?
         </router-link>
+      </div>
+      <div class="w-full mt-8">
+        <div class="mx-auto underline mb-4" >ទំនាក់ទំនងមកយើងខ្ញុំ</div>
+        <a class="w-50 mx-2" target="_blank_" href="https://t.me/edmsocm"  >
+          <n-icon size="22" class=' pt-1 mr-2 ' >
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="text-blue-500" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19c-.14.75-.42 1-.68 1.03c-.58.05-1.02-.38-1.58-.75c-.88-.58-1.38-.94-2.23-1.5c-.99-.65-.35-1.01.22-1.59c.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02c-.09.02-1.49.95-4.22 2.79c-.4.27-.76.41-1.08.4c-.36-.01-1.04-.2-1.55-.37c-.63-.2-1.12-.31-1.08-.66c.02-.18.27-.36.74-.55c2.92-1.27 4.86-2.11 5.83-2.51c2.78-1.16 3.35-1.36 3.73-1.36c.08 0 .27.02.39.12c.1.08.13.19.14.27c-.01.06.01.24 0 .38z" fill="currentColor"></path></svg>
+          </n-icon>តេលេក្រាម
+        </a>
+        <a class="w-50 mx-2"  href="mailto:edmsocm@gmail.com" >
+          <n-icon size="22" class='text-blue-500 pt-1 mr-2 ' ><EmailOutlined /></n-icon>អ៊ីមែល
+        </a>
       </div>
     </div>
     <div class="fixed bottom-0 mx-auto w-full">
@@ -74,7 +85,7 @@
 import { getUser } from './../../plugins/authentication'
 import FooterComponent from './../../components/footer/copy-right.vue'
 import { Key20Regular } from "@vicons/fluent";
-import { AlternateEmailOutlined } from '@vicons/material'
+import { AlternateEmailOutlined , PersonOutlined, VpnKeyOutlined, EmailOutlined } from '@vicons/material'
 import { Login, DocumentPdf } from '@vicons/carbon'
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
@@ -86,7 +97,10 @@ export default {
   components: {
     Login ,
     DocumentPdf ,
-    FooterComponent
+    FooterComponent,
+    PersonOutlined ,
+    VpnKeyOutlined ,
+    EmailOutlined
   },
   setup(){
     /**
@@ -159,15 +173,16 @@ export default {
       }).catch( err => {
         loading.value = false
         if( err.response !== null ){
-          let message = err.response.status + ": " + err.response.statusText + ". " 
+          let message = err.response.status + ": " + err.response.statusText + "."
           if( err.response.data !== null ){
             for(var key in err.response.data.errors ){
               message += err.response.data.errors[key]
             }  
           }
           notification.error({
-            content: 'បញ្ហា' ,
-            meta: err.response.data.message !== "" ? err.response.data.message : message
+            title: "ចូលប្រើប្រាស់" ,
+            meta: message ,
+            content: err.response.data.message
           })
         }else{
           console.log( err.response )

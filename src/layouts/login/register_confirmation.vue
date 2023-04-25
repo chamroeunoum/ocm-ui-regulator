@@ -1,5 +1,5 @@
 <template >
-    <div class="flex mx-auto pb-20 mt-8 mb-20 min-w-min w-8/12 sm:w-8/12 md:w-6/12 lg:w-5/12 xl:w-5/12 2xl:w-3/12">  
+    <div class="flex mx-auto pb-8 mt-8 mb-20 sm:w-12/12 md:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-6/12">  
         <div class="w-full p-8" >
             <div class="w-28 mx-auto my-4">
                 <img src="./../../assets/ocmlogo.png" alt="SASTRA Logo" class="w-full" >
@@ -11,14 +11,14 @@
             </div>
             <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធឯកសារអេឡិចត្រូនិច</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">បញ្ជាក់ការចុះឈ្មោះជាសមាជិក</div>
-            <n-form :model="model" :rules="rules">
+            <n-form :model="model" :rules="rules" class="mb-24" >
                 <n-form-item path="code" label="កូតសម្ងាត់">
                     <n-input v-model:value="model.code" @keydown.enter.prevent placeholder="កូតសម្ងាត់" class="text-left " />
                 </n-form-item>
-                <n-form-item class="mt-2" >
-                    <n-button @click="$router.push('/login')" secondary type="default" class="mx-auto" size="medium" >បកក្រោយ</n-button>
-                    <n-button @click="handleSubmit" secondary type="success" class="mx-auto" size="medium" >បញ្ជាក់លេខកូដចុះឈ្មោះ</n-button>
-                </n-form-item>
+                
+                    <n-button @click="$router.push('/login')" secondary type="default" class="mx-4 my-1 w-44" size="medium" >បកក្រោយ</n-button>
+                    <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-44" size="medium" >បញ្ជាក់លេខកូដចុះឈ្មោះ</n-button>
+                
             </n-form>
         </div>
     </div>

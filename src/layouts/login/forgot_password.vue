@@ -1,5 +1,5 @@
 <template >
-    <div class="flex mx-auto pb-20 mt-8 mb-20 min-w-min w-8/12 sm:w-8/12 md:w-6/12 lg:w-5/12 xl:w-5/12 2xl:w-3/12">  
+    <div class="flex mx-auto pb-8 mt-8 mb-20 sm:w-12/12 md:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-6/12">  
         <div class="w-full p-8" >
             <div class="w-28 mx-auto my-4">
                 <img src="./../../assets/ocmlogo.png" alt="SASTRA Logo" class="w-full" >
@@ -11,17 +11,16 @@
             </div>
             <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធឯកសារអេឡិចត្រូនិច</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សំណើរប្ដូរពាក្យសម្ងាត់</div>
-            <n-form :model="model" :rules="rules">
+            <n-form :model="model" :rules="rules" class="mb-24" >
                 <!-- <n-form-item path="phone" label="ទូរស័ព្ទ">
                     <n-input v-model:value="model.phone" @keydown.enter.prevent placeholder="ទូរស័ព្ទ" class="text-left " />
                 </n-form-item> -->
                 <n-form-item path="email" label="អ៊ីមែល">
                     <n-input v-model:value="model.email" placeholder="អ៊ីមែល" class="text-left " @keyup.enter="requestReset()" :disabled="disabledHelper.value" />
                 </n-form-item>
-                <n-form-item class="mt-2" >
-                    <n-button @click="$router.push('/login')" secondary type="default" class="mx-auto" size="medium" :disabled="disabledHelper.value" >ចូលប្រើប្រាស់</n-button>
-                    <n-button secondary type="success" class="mx-auto" size="medium" @click="requestReset()" :disabled="disabledHelper.value" >ស្នើរប្ដូរពាក្យសម្ងាត់</n-button>
-                </n-form-item>
+                
+                <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-40" size="medium" :disabled="disabledHelper.value" >ចូលប្រើប្រាស់</n-button>
+                <n-button secondary type="success" class="mx-4 my-1 w-40" size="medium" @click="requestReset()" :disabled="disabledHelper.value" >ស្នើរប្ដូរពាក្យសម្ងាត់</n-button>
             </n-form>
         </div>
     </div>

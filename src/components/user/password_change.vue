@@ -32,8 +32,8 @@
             <n-input type="password" placeholder="បញ្ជាក់ពាក្យសម្ងាត់" class="text-left" v-model:value="model.confirmPassword" />
           </n-form-item-row>
         </n-form>
-        <router-link to="/welcome" class="mx-8 w-32" >បកក្រោយ</router-link>
-        <n-button type="primary" secondary class="mx-8 w-32" @click="changePassword()" >ប្ដូរពាក្យសម្ងាត់</n-button>
+        <n-button type="default" class="mx-8 w-32 my-1" @click="$router.push('/welcome')" >បកក្រោយ</n-button>
+        <n-button type="primary" secondary class="mx-8 w-32 my-1" @click="changePassword()" >ប្ដូរពាក្យសម្ងាត់</n-button>
       </div>
     </div>
     <div class="fixed bottom-0 w-full ">

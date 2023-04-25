@@ -64,7 +64,9 @@ const actions = {
   async passwordUpdate({ state, commit, rootState },params) {
     return await crud.put(rootState.apiServer+"/password/reset",params)
   },
-  
+  async upload({ state, commit, rootState },formData) {    
+    return await crud.upload(rootState.apiServer+"/"+state.model.name+"/upload",formData)
+  },
 }
 
 // mutations

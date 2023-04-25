@@ -10,7 +10,7 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
   state: {
-    apiServer: 'http://127.0.0.1:8000/api/webapp' ,
+    apiServer: 'http://127.0.0.1:8888/api/webapp' ,
     // branch: ''
   },
   modules: {

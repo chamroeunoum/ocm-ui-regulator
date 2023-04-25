@@ -32,13 +32,13 @@
             </svg>
           </div>
           <div v-if="subMenuHelper" class="submenu absolute bg-white shadow-md w-64 right-1 top-14 p-4 flex flex-wrap text-left z-50 ">
-            <router-link to="/folders" class="myFolders w-full h-8 my-2 border-b border-gray-100" >
+            <router-link to="/folders" class="myFolders w-full h-10 my-2 border-b border-gray-100" >
               <div class="submenu-icon h-8 flex">
                 <svg class="flex-none mr-2 text-yellow-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
                 <div class="submenu-icon-title flex-grow w-full leading-9" >ថតឯកសារ</div>
               </div>
             </router-link>
-            <router-link to="/profile" class="myProfile  w-full h-8 my-2 border-b border-gray-100" >
+            <router-link to="/profile" class="myProfile  w-full h-10 my-2 border-b border-gray-100" >
               <div class="submenu-icon h-8 flex">
                 <svg xmlns="http://www.w3.org/2000/svg" class="flex-none mr-2 " fill="none" viewBox="0 0 24 24" stroke="#0066FF">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -46,13 +46,13 @@
                 <div class="submenu-icon-title flex-grow w-full leading-9" >ព៌ត័មានខ្ញុំ</div>
               </div>
             </router-link>
-            <router-link to="/password/change"  class="changePassword  w-full h-8 my-2 border-b border-gray-100" >
+            <router-link to="/password/change"  class="changePassword  w-full h-10 my-2 border-b border-gray-100" >
               <div class="submenu-icon h-8 flex">
                 <svg xmlns="http://www.w3.org/2000/svg" class="flex-none mr-2 text-blue-500" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M21 2a8.998 8.998 0 0 0-8.612 11.612L2 24v6h6l10.388-10.388A9 9 0 1 0 21 2zm0 16a7.013 7.013 0 0 1-2.032-.302l-1.147-.348l-.847.847l-3.181 3.181L12.414 20L11 21.414l1.379 1.379l-1.586 1.586L9.414 23L8 24.414l1.379 1.379L7.172 28H4v-3.172l9.802-9.802l.848-.847l-.348-1.147A7 7 0 1 1 21 18z" fill="currentColor"></path><circle cx="22" cy="10" r="2" fill="currentColor"></circle></svg>
                 <div class="submenu-icon-title flex-grow w-full leading-9" >ប្ដូរពាក្យសម្ងាត់</div>
               </div>
             </router-link>
-            <div class="submenu-icon h-8 flex" @click="logout()" >
+            <div class="submenu-icon h-10 flex" @click="logout()" >
               <svg xmlns="http://www.w3.org/2000/svg" class="flex-none mr-2 text-red-500"  xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10.5 2.5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0v-6zM13.743 4a.5.5 0 1 0-.499.867a6.5 6.5 0 1 1-6.494.004a.5.5 0 1 0-.5-.866A7.5 7.5 0 1 0 13.743 4z" fill="currentColor"></path></g></svg>
               <div class="submenu-icon-title flex-grow w-full leading-9" >ចាកចេញ</div>
             </div>
@@ -76,13 +76,11 @@
           <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
             <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="applyTagMark(document.objective)" ></div>
             <div  class="vcb-table-cell" >{{ document.fid }} - {{ document.type.name }} - {{ document.document_year.slice(0,10) }}</div>
-            <div v-if="document.pdf" class="vcb-table-actions-panel absolute bottom-0 right-0 text-right" @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
-              <n-icon size="20" class="cursor-pointer text-red-500" >
+            <div class="vcb-table-actions-panel h-5 absolute bottom-0 right-0 text-right">
+              <n-icon v-if="document.pdf"  size="20" class="cursor-pointer text-red-500 mr-2"  @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
                 <DocumentPdf24Regular />
               </n-icon>
-            </div>
-            <div v-if="isLoggedIn" class="vcb-table-actions-panel absolute bottom-0 right-12 text-right" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" >
-              <n-icon size="20" class="cursor-pointer text-blue-700 font-bold" >
+              <n-icon v-if="isLoggedIn"  size="20" class="cursor-pointer text-blue-700 font-bold ml-2" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" >
                 <Folder20Regular />
               </n-icon>
             </div>

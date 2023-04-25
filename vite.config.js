@@ -11,11 +11,10 @@ export default defineConfig({
             esModule: true,
             resolveStyle: (name) => `${name}/style`,
         }),
-
     ],  
     server: {
-        // host: '127.0.0.1',
-        host: '127.0.0.1' ,
-        port: 3001
+        host: '127.0.0.1',
+        // host: '192.168.31.32' ,
+        port: 4001
     }
 })
