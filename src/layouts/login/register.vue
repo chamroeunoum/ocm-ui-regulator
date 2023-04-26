@@ -2,14 +2,12 @@
     <div class="flex mx-auto pb-8 mt-8 mb-20 sm:w-12/12 md:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-6/12">  
         <div class="w-full p-8" >
             <div class="w-28 mx-auto my-4">
-                <img src="./../../assets/ocmlogo.png" alt="SASTRA Logo" class="w-full" >
+                <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
             </div>
             <div class="text-center" >
-                <div class="my-2 text-md">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
-                <div class="my-2 text-md">អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ</div>
-                <div class="my-2 text-md">នាយកដ្ខានឯកសារអេឡិចត្រូនិច និងព័ត៌មានវិទ្យា</div>
+                <div class="my-2 text-md">{{ store.state.organization.name }}</div>
             </div>
-            <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធឯកសារអេឡិចត្រូនិច</div>
+            <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធគ្រប់គ្រងបណ្ដុំឯកសារ</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សំណើរចូលជាសមាជិក</div>
             <n-form :model="model" :rules="rules" class="mb-24" >
                 <n-form-item path="lastname" label="គោត្តនាម">

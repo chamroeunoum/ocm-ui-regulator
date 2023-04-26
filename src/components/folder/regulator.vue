@@ -363,13 +363,28 @@ export default {
 
     const pdf = reactive({
       viewer: false ,
+      filename: '' ,
       url: ''
     })
-    function viewPdf(document){
-      if( document.pdf != "" && document.pdf != null ){
-        console.log( document.pdf )
-        pdf.url = document.pdf 
-        pdf.viewer = true
+    function viewPdf(record){
+      if( record.pdf ){
+        store.dispatch('regulator/pdf',{id:record.id})
+          .then( res => {
+            pdf.filename = res.data.filename
+            pdf.url = res.data.pdf
+            pdf.viewer = true
+            notify.success({
+              title: "បង្ហាញឯកសារយោង" ,
+              content: res.data.message ,
+              duration: 3000
+            })
+          }).catch( err => {
+            notify.error({
+              title: "បង្ហាញឯកសារយោង" ,
+              content: err.response.data.message ,
+              duration: 3000
+            })
+          })
       }else{
         notify.info({
           title: 'ឯកសារយោង' ,

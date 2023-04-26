@@ -6,12 +6,10 @@
                     <Col span="12" offset="9" >
                         <Card style="width:350px; margin: 120px 0px 0px; " >
                             <div style="text-align: center;" >
-                                <img src="assets('/ocmlogo.png')" style=" height: 100px; " />
+                                <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
                             </div>
                             <div style="text-align:center">
-                                <h3 style="font-family: KHMUOL; font-size: 0.8rem; margin: 5px auto; ">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</h3>
-                                <h3 style="font-family: KHMUOL; font-size: 0.8rem; margin: 5px auto;  ">អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ</h3>
-                                <h3 style="font-family: KHMUOL; font-size: 0.8rem; margin: 5px auto;  ">ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច</h3>
+                                <h3 style="font-family: KHMUOL; font-size: 0.8rem; margin: 5px auto; ">{{ store.state.organization.name }}</h3>
                             </div>
                             <div style="text-align:left; margin: 20px auto auto; ">
                                 <h3 style="font-size: 0.7rem; ">ចូលប្រើប្រព័ន្ធ</h3>
@@ -52,103 +50,113 @@
                     </Col>
                 </Row>
             </Content>
-            <Footer class="text-center col-md-12" style="color: #666; font-size: 0.7rem; line-height: 50px; " >អភិវឌ្ឍន៍ដោយ ៖ នាយកដ្ឋាន ឯកសារអេឡិចត្រូនិច និង ព័ត៌មានវិទ្យា</Footer>
+            <Footer class="text-center col-md-12" style="color: #666; font-size: 0.7rem; line-height: 50px; " >អភិវឌ្ឍន៍ដោយ ៖ ក្រុមការងារផ្កាឈូក ។</Footer>
         </Layout>
     </div>
 </template>
 <script>
 import Footer from './../../components/footer/copy-right.vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { useNotification } from 'naive-ui'
 
 export default {
+    setup(){
+        const store = useStore()
+        return {
+            store
+        }
+    },
     components: {
         Footer
     },
     name: 'login_page' ,
     data () {
-            return {
-                user: null ,
-                btnSubmitLoading: false ,
-                formInline: {
-                    email: '',
-                    password: '' ,
-                    rememberMe: false
-                },
-                token: null ,
-                ruleInline: {
-                    email: [
-                        { required: true, message: 'សូមបំពេញអសយដ្ឋានសំបុត្រ !', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: 'សូមបំពេញពាក្យសម្ងាត់ !', trigger: 'blur' },
-                        { type: 'string', min: 6, message: 'ពាក្យសម្ងាត់យ៉ាងហោចណាស់ ៦ ខ្ទង់ !', trigger: 'blur' }
-                    ]
-                }
-            }
-        },
-        computed: {
-            
-        },
-        mounted() {
-            this.checkTokenString()
-        },
-        methods: {
-            checkTokenString() {
-                this.user = JSON.parse( localStorage.getItem( 'user' ) )
-                if( this.user !== null ) {
-                    window.location= '/search'
-                }
+        return {
+            user: null ,
+            btnSubmitLoading: false ,
+            formInline: {
+                email: '',
+                password: '' ,
+                rememberMe: false
             },
-            handleSubmit(name) {
-                this.$refs[name].validate( (valid) => {
-                    if (valid) {
-                        this.btnSubmitLoading = true
-                        axios({
-                            url: `/api/auth/login`,
-                            data: {
-                                "email" : this.formInline.email ,
-                                "password" : this.formInline.password ,
-                                "remember_me" : this.formInline.rememberMe
-                            },
-                            method: 'post'
-                        })
-                        .then(response => {
-                        // Buildup the Data Manager
-                            switch( response.status ){
-                                case 200:
-                                    this.user = response.data.user
-                                    localStorage.setItem( 'token' , JSON.stringify ( response.data.token ) )
-                                    localStorage.setItem( 'user' , JSON.stringify( this.user ) )
-                                    // អានបានជោគជ័យ
-                                    this.$Message.success( 'សូមស្វាគមន៍ ' + this.user.lastname + ' ' + this.user.firstname  )
-                                    setTimeout(() => {
-                                        window.location= '/search'
-                                    }, 1200);
-                                break;
-                                case 201 :
-                                    this.$Message.warning( {
-                                        content: response.data.message
-                                    })
-                                break;
-                            }
-                            this.btnSubmitLoading = false
-                        })
-                        .catch(error => {
-                            this.btnSubmitLoading = false
-                            if( error.response ){
-                                this.$Message.warning({
-                                    content: error.response.data.message ,
-                                    duration: 0,
-                                    closable: true
-                                })
-                            }
-                        })
-                    } else {
-                        this.btnSubmitLoading = false
-                        this.$Message.error('បរាជ័យ !');
-                    }
-                })
+            token: null ,
+            ruleInline: {
+                email: [
+                    { required: true, message: 'សូមបំពេញអសយដ្ឋានសំបុត្រ !', trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, message: 'សូមបំពេញពាក្យសម្ងាត់ !', trigger: 'blur' },
+                    { type: 'string', min: 6, message: 'ពាក្យសម្ងាត់យ៉ាងហោចណាស់ ៦ ខ្ទង់ !', trigger: 'blur' }
+                ]
             }
         }
+    },
+    computed: {
+        
+    },
+    mounted() {
+        this.checkTokenString()
+    },
+    methods: {
+        checkTokenString() {
+            this.user = JSON.parse( localStorage.getItem( 'user' ) )
+            if( this.user !== null ) {
+                window.location= '/search'
+            }
+        },
+        handleSubmit(name) {
+            this.$refs[name].validate( (valid) => {
+                if (valid) {
+                    this.btnSubmitLoading = true
+                    axios({
+                        url: `/api/auth/login`,
+                        data: {
+                            "email" : this.formInline.email ,
+                            "password" : this.formInline.password ,
+                            "remember_me" : this.formInline.rememberMe
+                        },
+                        method: 'post'
+                    })
+                    .then(response => {
+                    // Buildup the Data Manager
+                        switch( response.status ){
+                            case 200:
+                                this.user = response.data.user
+                                localStorage.setItem( 'token' , JSON.stringify ( response.data.token ) )
+                                localStorage.setItem( 'user' , JSON.stringify( this.user ) )
+                                // អានបានជោគជ័យ
+                                this.$Message.success( 'សូមស្វាគមន៍ ' + this.user.lastname + ' ' + this.user.firstname  )
+                                setTimeout(() => {
+                                    window.location= '/search'
+                                }, 1200);
+                            break;
+                            case 201 :
+                                this.$Message.warning( {
+                                    duration: 3000,
+                                    content: response.data.message
+                                })
+                            break;
+                        }
+                        this.btnSubmitLoading = false
+                    })
+                    .catch(error => {
+                        this.btnSubmitLoading = false
+                        if( error.response ){
+                            this.$Message.warning({
+                                content: error.response.data.message ,
+                                duration: 3000,
+                                closable: true
+                            })
+                        }
+                    })
+                } else {
+                    this.btnSubmitLoading = false
+                    this.$Message.error('បរាជ័យ !');
+                }
+            })
+        }
+    }
 }
 </script>
 <style >

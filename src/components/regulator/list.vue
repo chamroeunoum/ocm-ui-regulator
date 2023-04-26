@@ -9,7 +9,7 @@
             <DocumentPdf24Regular />
           </n-icon>
         </Icon>
-        <div class="leading-8 font-bold" v-html="model.title" ></div>
+        <div class="leading-8 font-muol" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">
@@ -31,13 +31,22 @@
               <Search20Regular />
             </n-icon>
           </Icon>
-          <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
+          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
             <n-icon>
               <Filter />
             </n-icon>
-          </Icon>
+          </Icon> -->
         </div>
-        
+        <div class="mt-1 ml-2">
+          <n-button type="default" @click="$router.push('/welcome')" class="mx-2"  >
+            <template #icon>
+              <n-icon>
+                <ArrowBackIosRound />
+              </n-icon>
+            </template>
+            ស្វែងរកឯកសារ
+          </n-button>
+        </div>
       </div>
     </div>
     <!-- Table of crud -->
@@ -49,14 +58,16 @@
           <th class="vcb-table-header">លេខ</th>
           <th class="vcb-table-header w-32">ប្រភេទ</th>
           <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
-          <th class="vcb-table-header text-right w-28" >ប្រតិបត្តិការ</th>
+          <!-- <th class="vcb-table-header w-40">អ្នកបង្កើត</th> -->
+          <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
         </tr>
         <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
           <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
-          <td class="vcb-table-cell" v-html="record.objective" ></td>
+          <td class="vcb-table-cell" v-html="applyTagMark(record.objective)" ></td>
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
           <td  class="vcb-table-cell" >{{ record.type.name }}</td>
           <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
+          <!-- <td  class="vcb-table-cell" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td> -->
           <td class="vcb-table-actions-panel text-right" >
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
@@ -67,8 +78,13 @@
             <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <IosCheckmarkCircleOutline />
             </n-icon>
-            <!-- <n-icon size="30" :class="'cursor-pointer ' + (record.pdf == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
-              <DocumentPdf24Regular />
+            <div v-if="record.pdf" class="cursor-pointer " @click="pdfPreview(record)" title="មើលឯកសារ" alt="មើលឯកសារ" >
+              <n-icon size="20" class="cursor-pointer text-red-500" >
+                <DocumentPdf24Regular />
+              </n-icon>
+            </div>
+            <!-- <n-icon size="20" class="cursor-pointer mx-1" @click="$router.push('/regulator/child/'+record.id)" >
+              <ParentChild />
             </n-icon> -->
           </td>
         </tr>
@@ -87,6 +103,7 @@
           </Icon>
         </div>
       </div>
+      
     </div>
     <!-- Pagination of crud -->
     <div class="vcb-table-pagination">
@@ -115,6 +132,15 @@
     <create-form v-bind:model="model" v-bind:show="createModal.show" :onClose="closeCreateModal"/>
     <!-- Form update account -->
     <update-form v-bind:model="model" v-bind:record="editRecord" v-bind:show="editModal.show" :onClose="closeEditModal"/>
+    <!-- PDF Dialog -->
+    <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white z-40">
+      <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
+      <div class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
+        <Icon size="40" class="text-red-600" >
+          <CloseCircleOutline />
+        </Icon>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -123,7 +149,8 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Vue3Barcode from 'vue3-barcode'
-import { Switcher, Filter, DataStructured } from '@vicons/carbon'
+import VuePdfEmbed from 'vue-pdf-embed'
+import { Switcher, Filter, DataStructured , ParentChild} from '@vicons/carbon'
 import { Icon } from '@vicons/utils'
 import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
 import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
@@ -137,6 +164,7 @@ import UpdateForm from './update.vue'
 export default {
   name: "Regulator" ,
   components: {
+    ParentChild, 
     QrcodeVue ,
     Vue3Barcode,
     Switcher,
@@ -155,7 +183,8 @@ export default {
     Save20Regular ,
     TrashOutline ,
     ContactCard28Regular ,
-    Filter
+    Filter ,
+    VuePdfEmbed
   },
   setup(){
     var store = useStore()
@@ -167,7 +196,7 @@ export default {
      */    
     const model = reactive( {
       name: "regulator" ,
-      title: "លិខិតបទដ្ឋានគតិយុត្ត"
+      title: "ឯកសារ"
     })
     const table = reactive( {
       loading: false , 
@@ -347,15 +376,20 @@ export default {
       objective: "" ,
       type_id: null ,
       year: null ,
-      pdfs: []
+      pdfs: [] ,
+      publish: 0 ,
+      active: 0 
     })
     function showEditModal(record){
       editRecord.id = record.id
-      editRecord.number = record.number
+      editRecord.number = record.fid
       editRecord.title = record.title
       editRecord.objective = record.objective
-      editRecord.type_id = record.type_id
-      editRecord.year = new Date( record.year ).getTime()
+      editRecord.type_id = record.document_type
+      editRecord.year = new Date( record.document_year ).getTime()
+      editRecord.publish = record.publish
+      editRecord.active = record.active
+      // editRecord.pdfs = record.pdf
       editModal.show = true
     }
     function closeEditModal(record){
@@ -406,17 +440,67 @@ export default {
      * Load pivot data of this model
      */
     function getDocumentTypes(){
-      // store.dispatch('regulatorType/compact').then(res=>{
-      //   store.commit('regulatorType/setRecords',res.data.records)
-      // }).catch(err =>{
-      //   notify.error({
-      //     title: 'អានប្រភេទឯកសារ' ,
-      //     description: 'មានបញ្ហាក្នុងពេលអានប្រភេទឯកសារ។'
-      //   })
-      //   console.log( err )
-      // })
+      store.dispatch('regulatorType/compact').then(res=>{
+        store.commit('regulatorType/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានប្រភេទឯកសារ' ,
+          description: 'មានបញ្ហាក្នុងពេលអានប្រភេទឯកសារ។'
+        })
+        console.log( err )
+      })
     }
 
+    /**
+     * Mark the matched text with in search box
+     */
+     function applyTagMark(str){
+      // Split the string by whitespace
+      if( table.search.trim() != "" ){
+        var arrStrSearch = table.search.split(/(\s+)/).filter( e => e.trim().length > 0).map( e => e.replaceAll(" ","") )
+        for( var i in arrStrSearch ){
+          if( str.includes( arrStrSearch[i] ) ) str = str.replaceAll( arrStrSearch[i] , '<mark>' + arrStrSearch[i] + '</mark>' ) 
+        }
+      }
+      return str
+    }
+
+    const pdf = reactive({
+      viewer: false ,
+      filename: '' ,
+      url: ''
+    })
+    function pdfPreview(record){
+      if( record.pdf ){
+        store.dispatch('regulator/pdf',{id:record.id})
+          .then( res => {
+            pdf.filename = res.data.filename
+            pdf.url = res.data.pdf
+            pdf.viewer = true
+            notify.success({
+              title: "បង្ហាញឯកសារយោង" ,
+              content: res.data.message ,
+              duration: 3000
+            })
+          }).catch( err => {
+            notify.error({
+              title: "បង្ហាញឯកសារយោង" ,
+              content: err.response.data.message ,
+              duration: 3000
+            })
+          })
+      }else{
+        notify.info({
+          title: 'ឯកសារយោង' ,
+          description: "មិនមានឯកសារយោងសម្រាប់បង្ហាញ" ,
+          duration: 3000
+        })  
+      }
+    }
+    function closePdf(){
+      pdf.url = ""
+      pdf.viewer = false
+    }
 
     /**
      * Initial the data
@@ -432,6 +516,7 @@ export default {
       model ,
       table ,
       filterPanel ,
+      pdf,
       /**
        * Table
        */
@@ -465,7 +550,10 @@ export default {
        * Functions
        */
       activateRegulator ,
-      destroy
+      destroy ,
+      applyTagMark ,
+      pdfPreview ,
+      closePdf
     }
   }
 }
@@ -474,7 +562,7 @@ export default {
 
 <style scoped>
   .vcb-table-panel {
-    @apply absolute right-4 left-4 mt-4 mb-16 top-12 overflow-auto;
+    @apply absolute right-4 left-4 mt-4 mb-16 top-12 bottom-0 overflow-auto;
   }
   .vcb-table {
     @apply w-full ;

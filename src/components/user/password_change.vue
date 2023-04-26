@@ -3,7 +3,7 @@
     <!-- Menu -->
     <div class="flex w-full h-20 p-2 border-b" >
       <div class="flex-none w-16 rounded-full" >
-        <img src="./../../assets/ocmlogo.png" alt="ប្រពន្ធ័គ្រប់គ្រងឯកសារ អេឡិចត្រូនិច" title="ប្រពន្ធ័គ្រប់គ្រងឯកសារ អេឡិចត្រូនិច" class="w-full" >
+        <img src="./../../assets/logo.png" class="w-full" >
       </div>
       <div class="flex-grow px-4 text-left text-lg leading-10 py-3">ប្ដូរពាក្យសម្ងាត់ </div>
       <div class="flex-none hidden">
@@ -15,7 +15,7 @@
     <!-- End Menu -->    
     <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border my-8">
       <div class="profileImage border rounded-full border-gray-200 p-2 w-40 max-h-40 flex-none mx-auto">
-        <img src="./../../assets/ocmlogo.png" alt="Profile picture" class="w-full" >
+        <img src="./../../assets/logo.png" alt="Profile picture" class="w-full" >
       </div>
       <div class="my-12">
         <n-form

@@ -3,7 +3,7 @@
     <!-- Menu -->
     <div class="flex w-full h-20 p-2 border-b" >
       <div class="flex-none w-16 rounded-full" >
-        <img src="./../../assets/ocmlogo.png" alt="ប្រពន្ធ័គ្រប់គ្រងឯកសារ អេឡិចត្រូនិច" title="ប្រពន្ធ័គ្រប់គ្រងឯកសារ អេឡិចត្រូនិច" class="w-full" >
+        <img src="./../../assets/logo.png" class="w-full" >
       </div>
       <div class="flex-grow px-4 text-left text-lg leading-10 py-3">ព័ត៌មានអ្នកប្រើប្រាស់</div>
       <div class="flex-none hidden">
@@ -117,8 +117,8 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
           phone: user.value.phone ,
           username: user.value.username
         }).then( res => {
-          localStorage.setItem( 'token' , JSON.stringify ( response.data.token ) )
-          localStorage.setItem( 'user' , JSON.stringify( response.data.user ) )
+          localStorage.setItem( 'token' , JSON.stringify ( res.data.token ) )
+          localStorage.setItem( 'user' , JSON.stringify( res.data.user ) )
           console.log( res )
         }).catch( err => {
           console.log( err )
@@ -217,7 +217,8 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
         document.getElementById('referenceDocument').click()
       }
       function uploadFiles(){
-        if( files.value.length >= 0 ) {
+        console.log( files.value )
+        if( files.value.length < 0 ) {
           notify.info({
             title: "រក្សារទុករូបភាពគណនី" ,
             content: "សូមជ្រើសរើសរូបភាពជាមុនសិន។" ,
@@ -245,7 +246,7 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
             localStorage.setItem( 'user' , JSON.stringify( res.data.record ) )
             base64Avatar.value = user.value.avatar_url
             formData = new FormData()
-            files = ref([])
+            files.value = []
         }).catch( err => {
           console.log( err )
           notify.error({
@@ -259,7 +260,7 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
        * Update local photo
        */
       const localProfile = computed( () => {
-        return base64Avatar.value !== "" && base64Avatar.value !== null ? base64Avatar.value : ( user.value.avatar_url !== "" && user.value.avatar_url !== null ? user.value.avatar_url : "/src/assets/ocmlogo.png" )
+        return base64Avatar.value !== "" && base64Avatar.value !== null ? base64Avatar.value : ( user.value.avatar_url !== "" && user.value.avatar_url !== null ? user.value.avatar_url : "/src/assets/logo.png" )
       })
 
       return {

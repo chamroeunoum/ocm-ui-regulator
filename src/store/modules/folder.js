@@ -33,9 +33,7 @@ const actions = {
         search: params.search ,
         perPage: params.perPage ,
         page: params.page
-      }).toString(),
-      null,
-      true
+      }).toString()
     )
   },
   async read ({ state, commit, rootState },params) {

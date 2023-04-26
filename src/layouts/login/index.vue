@@ -2,14 +2,12 @@
   <div class="flex justify-center">
     <div class="w-full mx-8 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 md:mt-24 sm:mt-12 mb-24">
       <div class="w-28 mx-auto my-4">
-        <img src="./../../assets/ocmlogo.png" alt="SASTRA Logo" class="w-full" >
+        <img src="./../../assets/logo.png" class="w-full" >
       </div>
       <div class="text-center" >
-        <div class="my-2 text-md">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
-        <div class="my-2 text-md">អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ</div>
-        <div class="my-2 text-md">នាយកដ្ខានឯកសារអេឡិចត្រូនិច និងព័ត៌មានវិទ្យា</div>
+        <div class="my-2 text-md">{{ store.state.organization.name }}</div>
       </div>
-      <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធឯកសារអេឡិចត្រូនិច</div>
+      <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធគ្រប់គ្រងបណ្ដុំឯកសារ</div>
       <div class="w-full mx-auto my-8 text-left text-md">ចូលប្រព័ន្ធ</div>
       <n-space vertical>
         <n-input round 
@@ -58,13 +56,13 @@
       </div>
       <div class="w-full mt-8">
         <router-link to="/register" class="w-60 mx-2"  >
-          <n-icon size="22" class='text-blue-500 pt-1 mr-2' ><PersonOutlined /></n-icon>ចូលជាសមាជិកថ្មី
+          <n-icon size="22" class='text-blue-500 pt-1 mr-2' ><PersonOutlined /></n-icon>ចូលជាសមាជិក
         </router-link>
         <router-link to="/password/forgot" class="w-60 mx-2 "  >
           <n-icon size="22" class='text-blue-500 mr-2 pt-1' ><VpnKeyOutlined /></n-icon>ភ្លេចពាក្យសម្ងាត់ ?
         </router-link>
       </div>
-      <div class="w-full mt-8">
+      <div class="w-full mt-8 hidden">
         <div class="mx-auto underline mb-4" >ទំនាក់ទំនងមកយើងខ្ញុំ</div>
         <a class="w-50 mx-2" target="_blank_" href="https://t.me/edmsocm"  >
           <n-icon size="22" class=' pt-1 mr-2 ' >
@@ -167,7 +165,11 @@ export default {
           //   this.$router.push('/receive')
           // }
         }else{
-          notification.warning(res.data.message)
+          notification.warning({
+            title: 'ចូលប្រើប្រាស់' ,
+            content: res.data.message ,
+            duration: 1500
+          })
         }
         loading.value = false
       }).catch( err => {
@@ -182,6 +184,7 @@ export default {
           notification.error({
             title: "ចូលប្រើប្រាស់" ,
             meta: message ,
+            duration: 1500,
             content: err.response.data.message
           })
         }else{
@@ -198,6 +201,7 @@ export default {
        */
       credentials ,
       loading, 
+      store ,
       /**
        * Functions
        */

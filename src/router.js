@@ -14,11 +14,12 @@ import DashboardComponent from './layouts/dashboard/index.vue'
  * Folder Section
  */
 import FolderComponent from './components/folder/index.vue'
-import FolderListCrud from './components/folder/list.vue'
-import FolderCreateCrud from './components/folder/create.vue'
-import FolderUpdateCrud from './components/folder/update.vue'
-import FolderDetailCrud from './components/folder/detail.vue'
+import FolderListComponent from './components/folder/list.vue'
+import FolderDetailComponent from './components/folder/detail.vue'
 import FolderRegulatorComponent from './components/folder/regulator.vue'
+
+import RegulatorComponent from './components/regulator/index.vue'
+import RegulatorListComponent from './components/regulator/list.vue'
 /**
  * Error
  */
@@ -132,27 +133,34 @@ routes = [{
             {
                 name: "FolderList" ,
                 path: '' ,
-                component: FolderListCrud
-            },
-            {
-                name: "FolderCreate" ,
-                path: 'create' ,
-                component: FolderCreateCrud
-            },
-            {
-                name: "FolderUpdate" ,
-                path: 'update' ,
-                component: FolderUpdateCrud
+                component: FolderListComponent
             },
             {
                 name: "FolderDetail" ,
                 path: ':id/detail' ,
-                component: FolderDetailCrud
+                component: FolderDetailComponent
             },
             {
                 name: "FolderRegulators" ,
                 path: ':id/regulators' ,
                 component: FolderRegulatorComponent
+            },
+        ]
+    },
+    {
+        name: 'Regulator' ,
+        path: '/regulators',
+        component: RegulatorComponent ,
+        meta: { 
+            transition: 'slide-right' ,
+            requiresAuth: true,
+            is_admin : true
+        },
+        children: [
+            {
+                name: "RegulatorList" ,
+                path: '' ,
+                component: RegulatorListComponent
             },
         ]
     },

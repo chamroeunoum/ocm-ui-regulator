@@ -2,7 +2,9 @@ import { createStore, createLogger } from 'vuex'
 import auth from './modules/authentication'
 import user from './modules/user'
 import regulator from './modules/regulator'
+import search_regulator from './modules/search_regulators'
 import folder from './modules/folder'
+import regulatorType from './modules/type'
 // import client from './modules/client'
 // import staff from './modules/staff'
 
@@ -10,8 +12,11 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
   state: {
-    apiServer: 'http://127.0.0.1:8888/api/webapp' ,
-    // branch: ''
+    apiServer: 'http://127.0.0.1:8000/api/webapp' ,
+    organization: {
+      name: 'ក្រុមហ៊ុនបណ្ដុំឯកសារ'
+    }
+    // branch: '' 
   },
   modules: {
     // product ,
@@ -22,6 +27,8 @@ export default createStore({
      * Regulator Section
      */
     regulator,
+    search_regulator ,
+    regulatorType ,
     // client,
     // staff
   },
