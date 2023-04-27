@@ -416,6 +416,7 @@ export default {
   }
   .vcb-table {
     @apply w-full ;
+    height: fit-content ;
   }
   .vcb-table tr.vcb-table-row {
     @apply border-b border-gray-100 text-left ;

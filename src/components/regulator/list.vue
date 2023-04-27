@@ -565,7 +565,8 @@ export default {
     @apply absolute right-4 left-4 mt-4 mb-16 top-12 bottom-0 overflow-auto;
   }
   .vcb-table {
-    @apply w-full ;
+    @apply w-full;
+    height: fit-content ;
   }
   .vcb-table tr.vcb-table-row {
     @apply border-b border-gray-100 text-left ;
