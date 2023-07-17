@@ -8,7 +8,8 @@ import PasswordChangeComponent from './components/user/password_change.vue'
 import RegisterComponent from './layouts/login/register.vue'
 import RegisterConfirmationComponent from './layouts/login/register_confirmation.vue'
 import WelcomeComponent from './layouts/welcome/index.vue'
-import ProfileComponent from './components/user/profile.vue'
+import UserComponent from './components/user/index.vue'
+import UserProfileComponent from './components/user/profile.vue'
 import DashboardComponent from './layouts/dashboard/index.vue'
 /**
  * Folder Section
@@ -20,6 +21,7 @@ import FolderRegulatorComponent from './components/folder/regulator.vue'
 
 import RegulatorComponent from './components/regulator/index.vue'
 import RegulatorListComponent from './components/regulator/list.vue'
+import GlobalSharedRegulatorComponent from './components/regulator/globalshare/index.vue'
 /**
  * Error
  */
@@ -105,16 +107,16 @@ routes = [{
         }
     },
     {
-        name: 'Profile',
-        path: '/profile',
-        component: ProfileComponent ,
+        name: "UserProfile" ,
+        path: '/profile' ,
+        component: UserProfileComponent ,
         meta: {
             // transition: 'fade'
         }
     },
     {
-        name: 'PasswordChange',
-        path: '/password/change',
+        name: "UserPasswordChange" ,
+        path: '/password/change' ,
         component: PasswordChangeComponent ,
         meta: {
             // transition: 'fade'
@@ -161,8 +163,18 @@ routes = [{
                 name: "RegulatorList" ,
                 path: '' ,
                 component: RegulatorListComponent
-            },
+            }
         ]
+    },
+    {
+        name: "GlobalSharedRegulator" ,
+        path: '/globalshare/:serial' ,
+        component: GlobalSharedRegulatorComponent ,
+        meta: { 
+            transition: 'slide-right' ,
+            requiresAuth: false,
+            is_admin : false
+        },
     },
     ]
 
@@ -170,6 +182,16 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes
 })
+
+// Meta Handling
+// router.beforeEach((to, from, next) => {
+//     if ( !isAuth() ){
+//         next({ path: '/' })
+//     }else if(isAuth()){
+//         next()
+//     }
+//     return false
+// })
 
 // Meta Handling
 // router.beforeEach((to, from, next) => {})

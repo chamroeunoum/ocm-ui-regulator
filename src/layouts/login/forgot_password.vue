@@ -5,9 +5,9 @@
                 <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
             </div>
             <div class="text-center" >
-                <div class="my-2 text-md">{{ store.state.organization.name }}</div>
+                <div class="my-2 text-xl">{{ companyName }}</div>
             </div>
-            <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធគ្រប់គ្រងបណ្ដុំឯកសារ</div>
+            <div class="w-full mx-auto my-8 text-lg ">{{ systemName }}</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សំណើរប្ដូរពាក្យសម្ងាត់</div>
             <n-form :model="model" :rules="rules" class="mb-24" >
                 <!-- <n-form-item path="phone" label="ទូរស័ព្ទ">
@@ -27,7 +27,7 @@
 </template>
 <script>
 import Footer from './../../components/footer/copy-right.vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useNotification } from 'naive-ui'
@@ -45,6 +45,14 @@ export default {
             phone: '',
             email: ''
         })
+        
+        const systemName = computed( () => {
+            return store.state.system.name != "" ? store.state.system.name : 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច' 
+        })
+        const companyName = computed( () => {
+            return store.state.organization.name != "" ? store.state.organization.name : 'ឈ្មោះក្រុមហ៊ុន' 
+        })
+
         const disabledHelper = ref(false)
 
         const rules = {
@@ -75,7 +83,8 @@ export default {
                         // description: 'សូមពិនិត្យ អ៊ីមែល របស់អ្នក។ សូមប្រើប្រាស់ លេខកូត ដែលបានបញ្ជូនទៅអ៊ីមែលរបស់អ្នកដើម្បីកំណ់តពាក្យសម្ងាត់ថ្មី។'
                         duration: 3000
                     })
-                    router.push( { name: 'PasswordForgotConfirmation', params: { email: model.email } } )
+                    localStorage.setItem( 'email' , model.email )
+                    router.push( { name: 'PasswordForgotConfirmation', params: { } } )
                 }else{
                     notify.warning({
                         title: 'កំណត់ពាក្យសម្ងាត់' ,
@@ -95,7 +104,9 @@ export default {
             model ,
             rules ,
             requestReset ,
-            disabledHelper
+            disabledHelper ,
+            companyName ,
+            systemName
         }
     }
 }

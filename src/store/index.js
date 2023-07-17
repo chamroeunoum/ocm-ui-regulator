@@ -15,7 +15,10 @@ export default createStore({
     apiServer: 'http://127.0.0.1:8000/api/webapp' ,
     // apiServer: 'http://edocservice.sctthaicambodia.com/api/webapp' ,
     organization: {
-      name: 'ក្រុមហ៊ុនបណ្ដុំឯកសារ'
+      name: 'ក្រុមហ៊ុន'
+    } ,
+    system: {
+      name: 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច'
     }
     // branch: '' 
   },
@@ -27,10 +30,10 @@ export default createStore({
     /**
      * Regulator Section
      */
-    regulator,
+    regulator ,
     search_regulator ,
     regulatorType ,
-    // client,
+    // client ,
     // staff
   },
   strict: debug,

@@ -5,9 +5,9 @@
                 <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
             </div>
             <div class="text-center" >
-                <div class="my-2 text-md">{{ store.state.organization.name }}</div>
+                <div class="my-2 text-xl">{{ companyName }}</div>
             </div>
-            <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធគ្រប់គ្រងបណ្ដុំឯកសារ</div>
+            <div class="w-full mx-auto my-8 text-lg ">{{ systemName }}</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">ពាក្យសម្ងាត់ថ្មី</div>
             <n-form :model="model" :rules="rules">
                 <n-form-item path="password" label="ពាក្យសម្ងាត់">
@@ -27,7 +27,7 @@
 </template>
 <script>
 import Footer from '../../components/footer/copy-right.vue'
-import { reactive } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router' 
 import { useNotification } from 'naive-ui'
@@ -49,6 +49,13 @@ export default {
             confirmPassword: ''
         })
 
+        const systemName = computed( () => {
+            return store.state.system.name != "" ? store.state.system.name : 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច' 
+        })
+        const companyName = computed( () => {
+            return store.state.organization.name != "" ? store.state.organization.name : 'ឈ្មោះក្រុមហ៊ុន' 
+        })
+
         const rules = {
             password: [
                 { required: true, message: 'សូមបញ្ចូលពាក្យសម្ងាត់!', trigger: 'blur' }
@@ -59,6 +66,14 @@ export default {
         }
 
         function updatePassword(){
+            if( model.password == '' || model.confirmPassword == '' ){
+                notify.warning({  
+                    title: 'ពិនិត្យពាក្យសម្ងាត់' ,
+                    content: 'សូមបំពេញ ពាក្យសម្ងាត់ និង បញ្ជាក់ពាក្យសម្ងាត់។' ,
+                    duration: 1000
+                })
+                return false
+            }
             if( model.password !== model.confirmPassword ) {
                 notify.warning({
                     title: 'ពិនិត្យពាក្យសម្ងាត់' ,
@@ -66,8 +81,17 @@ export default {
                 })
                 return false
             }
+            let email = localStorage.getItem( 'email')
+            if( email == "" || email == null || email == undefined ){
+                notify.warning({
+                    title: 'ប្ដូរពាក្យសម្ងាត់' ,
+                    description: 'មានបញ្ហាក្នុងពេលកំពុងប្ដូរពាក្យសម្ងាត់។ សូមស្នើរសុំប្ដូរ សារជាថ្មីម្ដងទៀត ។' ,
+                    duration: 3000
+                })
+                return false
+            }
             store.dispatch('user/passwordUpdate',{
-                email: route.params.email ,
+                email: email ,
                 password: model.password
             }).then( res => {
                 if( res.data.ok ){
@@ -76,11 +100,9 @@ export default {
                         content: res.data.message ,
                         duration: 3000
                     })
+                    localStorage.removeItem('email')
                     router.push({
-                        name: "Login" ,
-                        params: {
-                            email: route.params.email
-                        }
+                        name: "Login"
                     })
                 }else{
                     notify.warning({
@@ -101,7 +123,9 @@ export default {
         return {
             model ,
             rules ,
-            updatePassword
+            updatePassword ,
+            companyName ,
+            systemName
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
-  <div>
-  <!-- Top action panel of crud -->
-    <div class="flex title-bar border-b border-gray-200">
+  <div class="w-full" >
+    <!-- Top action panel of crud -->
+    <div class="flex w-full title-bar border-b border-gray-200 px-4 ">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
         <Icon size="27" class="text-red-600 mr-2" >
@@ -9,7 +9,7 @@
             <DocumentPdf24Regular />
           </n-icon>
         </Icon>
-        <div class="leading-8 font-muol" v-html="model.title" ></div>
+        <div class="leading-9 font-muol" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">
@@ -17,12 +17,16 @@
         <div class="mt-1 ml-2">
           <n-button type="success" @click="showCreateModal()" >
             <template #icon>
-              <n-icon>
-                <Add20Regular />
-              </n-icon>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2z" fill="currentColor"></path></svg>
             </template>
             បន្ថែម
           </n-button>
+          <!-- <n-button type="default" @click="$router.push('/welcome')" class="mx-2 "  >
+            <template #icon>
+              <svg class="text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M6.5 11a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-.166h.333a1.167 1.167 0 0 0 0-2.334H6.5zm.833 1.334H7V12h.333a.167.167 0 0 1 0 .334zM12 11.499a.5.5 0 0 1 .5-.499h.999a.5.5 0 0 1 0 1h-.5v.335h.5a.5.5 0 1 1 0 1h-.5l.001.164a.5.5 0 0 1-1 .002L12 12.834L12 11.499zM9.498 11a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5H10a1.5 1.5 0 0 0 0-3h-.502zm.5 2v-1H10a.5.5 0 0 1 0 1h-.002zM4 4a2 2 0 0 1 2-2h4.585a1.5 1.5 0 0 1 1.061.44l3.914 3.914a1.5 1.5 0 0 1 .44 1.06v1.668a1.5 1.5 0 0 1 .998 1.414v4.003A1.5 1.5 0 0 1 16 15.913V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-.087A1.5 1.5 0 0 1 3 14.5v-4.003A1.5 1.5 0 0 1 4 9.082V4zm11 4h-3.5A1.5 1.5 0 0 1 10 6.5V3H6a1 1 0 0 0-1 1v4.996h10V8zM5 15.999A1 1 0 0 0 6 17h8a1 1 0 0 0 1-1.001H5zm6-12.792V6.5a.5.5 0 0 0 .5.5h3.293L11 3.207zM4.5 9.996a.5.5 0 0 0-.5.5v4.003a.5.5 0 0 0 .5.5h10.997a.5.5 0 0 0 .5-.5v-4.003a.5.5 0 0 0-.5-.5H4.501z" fill="currentColor"></path></g></svg>
+            </template>
+            ស្វែងរកឯកសារ
+          </n-button> -->
         </div>
         <div class="w-2/5 relative" >
           <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
@@ -37,20 +41,11 @@
             </n-icon>
           </Icon> -->
         </div>
-        <div class="mt-1 ml-2">
-          <n-button type="default" @click="$router.push('/welcome')" class="mx-2"  >
-            <template #icon>
-              <n-icon>
-                <ArrowBackIosRound />
-              </n-icon>
-            </template>
-            ស្វែងរកឯកសារ
-          </n-button>
-        </div>
+        <div class="mt-1 ml-2"></div>
       </div>
     </div>
     <!-- Table of crud -->
-    <div class="vcb-table-panel relative flex">
+    <div class="vcb-table-panel">
       <table class="vcb-table" >
         <tr class="vcb-table-headers" >
           <th class="vcb-table-header" >ល.រ</th>
@@ -69,6 +64,9 @@
           <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
           <!-- <td  class="vcb-table-cell" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td> -->
           <td class="vcb-table-actions-panel text-right" >
+            <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(record)" title="ប្រតិបត្តិការផ្សេងៗ" >
+              <AppsList20Regular />
+            </n-icon>
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
             </n-icon>
@@ -77,6 +75,9 @@
             </n-icon>
             <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
               <IosCheckmarkCircleOutline />
+            </n-icon>
+            <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(record)" title="ឯកសារកំពុងបើកជាសាធារណ" >
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
             </n-icon>
             <div v-if="record.pdf" class="cursor-pointer " @click="pdfPreview(record)" title="មើលឯកសារ" alt="មើលឯកសារ" >
               <n-icon size="20" class="cursor-pointer text-red-500" >
@@ -136,11 +137,21 @@
     <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white z-40">
       <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
       <div class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
-        <Icon size="40" class="text-red-600" >
-          <CloseCircleOutline />
-        </Icon>
+        <svg class="w-12 h-12 mr-4 mt-0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" fill="currentColor"></path></svg>
+      </div>
+      <div class="absolute top-3 right-20 cursor-pointer " @click="copyShareLink" >
+        <svg class="w-8 h-8 mr-4 mt-2 cursor-pointer font-bold ml-4"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><g><g><path d="M383.822,344.427c-16.045,0-31.024,5.326-41.721,15.979l-152.957-88.42c1.071-5.328,2.142-9.593,2.142-14.919
+          c0-5.328-1.071-9.593-2.142-14.919l150.826-87.35c11.762,10.653,26.741,17.041,43.852,17.041c35.295,0,64.178-28.766,64.178-63.92
+          C448,72.767,419.117,44,383.822,44c-35.297,0-64.179,28.767-64.179,63.92c0,5.327,1.065,9.593,2.142,14.919l-150.821,87.35
+          c-11.767-10.654-26.741-17.041-43.856-17.041c-35.296,0-63.108,28.766-63.108,63.92c0,35.153,28.877,63.92,64.178,63.92
+          c17.115,0,32.089-6.389,43.856-17.042l151.891,88.421c-1.076,4.255-2.141,8.521-2.141,13.847
+          c0,34.094,27.806,61.787,62.037,61.787c34.229,0,62.036-27.693,62.036-61.787C445.858,372.12,418.052,344.427,383.822,344.427z"></path></g></g></svg>
       </div>
     </div>
+    <!-- Form Action Menu -->
+    <add-remove-reader-form v-bind:model="model" v-bind:record="regulatorRecord" v-bind:show="regulatorModal.show" :onClose="closeShareRegulatorModal"/>
+    <!-- Form Accessibility -->
+    <accessibility-form v-bind:model="model" v-bind:record="accessibilityRecord" v-bind:show="accessibilityModal.show" :onClose="closeAccessibilityModal"/>
   </div>
 </template>
 <script>
@@ -155,12 +166,14 @@ import { Icon } from '@vicons/utils'
 import { IosCheckmarkCircleOutline, IosRefresh } from '@vicons/ionicons4'
 import { TrashOutline, CloseCircleOutline } from '@vicons/ionicons5'
 import { useDialog, useMessage, useNotification } from 'naive-ui'
-import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular } from '@vicons/fluent'
+import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regular , ContactCard28Regular, DocumentPdf24Regular, AppsList20Regular } from '@vicons/fluent'
 /**
  * CRUD component form
  */
 import CreateForm from './create.vue'
 import UpdateForm from './update.vue'
+import AddRemoveReaderForm from './actions/addremovereader.vue'
+import AccessibilityForm from './actions/accessibility.vue'
 export default {
   name: "Regulator" ,
   components: {
@@ -184,7 +197,10 @@ export default {
     TrashOutline ,
     ContactCard28Regular ,
     Filter ,
-    VuePdfEmbed
+    VuePdfEmbed ,
+    AppsList20Regular ,
+    AddRemoveReaderForm ,
+    AccessibilityForm
   },
   setup(){
     var store = useStore()
@@ -198,6 +214,15 @@ export default {
       name: "regulator" ,
       title: "ឯកសារ"
     })
+
+    const regulatorAccessibilities = ref([
+      "បិទទាំងស្រុង" , // 0 
+      "ខ្លួនឯង និង អ្នកដែលចែករំលែកទៅ" , // 1 
+      "ទូទាំងប្រព័ន្ធ" , // 2 
+      "" , // 3 
+      "ជាសកល" , // 4 
+    ])
+
     const table = reactive( {
       loading: false , 
       search: '' ,
@@ -396,6 +421,75 @@ export default {
       editModal.show = false
       getRecords()
     }
+
+    /**
+     * Action Modal
+     */
+    var regulatorModal = reactive({show:false})
+    var regulatorRecord = reactive({
+      id: 0 ,
+      number: "" ,
+      title: "" ,
+      objective: "" ,
+      type_id: null ,
+      year: null ,
+      pdfs: [] ,
+      publish: 0 ,
+      active: 0 ,
+      accessibility: 0
+    })
+    function showShareRegulatorModal(record){
+      regulatorRecord.id = record.id
+      regulatorRecord.number = record.fid
+      regulatorRecord.title = record.title
+      regulatorRecord.objective = record.objective
+      regulatorRecord.type_id = record.document_type
+      regulatorRecord.year = new Date( record.document_year ).getTime()
+      regulatorRecord.publish = record.publish
+      regulatorRecord.active = record.active
+      regulatorRecord.accessibility = record.accessibility
+      // actionRecord.pdfs = record.pdf
+      regulatorModal.show = true
+    }
+    function closeShareRegulatorModal(record){
+      regulatorModal.show = false
+      getRecords()
+    }
+
+    /**
+     * Accessibility Modal
+     */
+    var accessibilityModal = reactive({show:false})
+    var accessibilityRecord = reactive({
+      id: 0 ,
+      number: "" ,
+      title: "" ,
+      objective: "" ,
+      type_id: null ,
+      year: null ,
+      pdfs: [] ,
+      publish: 0 ,
+      active: 0 ,
+      accessibility : 0
+    })
+    function showAccessibilityModal(record){
+      accessibilityRecord.id = record.id
+      accessibilityRecord.number = record.fid
+      accessibilityRecord.title = record.title
+      accessibilityRecord.objective = record.objective
+      accessibilityRecord.type_id = record.document_type
+      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.publish = record.publish
+      accessibilityRecord.active = record.active
+      accessibilityRecord.accessibility = record.accessibility
+      // actionRecord.pdfs = record.pdf
+      accessibilityModal.show = true
+    }
+    function closeAccessibilityModal(record){
+      accessibilityModal.show = false
+      getRecords()
+    }
+
     function inputPassword(record){
       changePasswordModal.account = record
       changePasswordModal.form = {
@@ -470,18 +564,20 @@ export default {
       filename: '' ,
       url: ''
     })
+    const pdfShareLink = ref(null)
     function pdfPreview(record){
       if( record.pdf ){
         store.dispatch('regulator/pdf',{id:record.id})
           .then( res => {
+            pdfShareLink.value = res.data.serial != "" ? window.origin+"/#/globalshare/"+res.data.serial : null
             pdf.filename = res.data.filename
             pdf.url = res.data.pdf
             pdf.viewer = true
-            notify.success({
-              title: "បង្ហាញឯកសារយោង" ,
-              content: res.data.message ,
-              duration: 3000
-            })
+            // notify.success({
+            //   title: "បង្ហាញឯកសារយោង" ,
+            //   content: res.data.message ,
+            //   duration: 1000
+            // })
           }).catch( err => {
             notify.error({
               title: "បង្ហាញឯកសារយោង" ,
@@ -500,6 +596,14 @@ export default {
     function closePdf(){
       pdf.url = ""
       pdf.viewer = false
+    }
+    function copyShareLink(){
+      if( pdfShareLink.value != "" && pdfShareLink.value != null && pdfShareLink.value != undefined ){
+        navigator.clipboard.writeText( pdfShareLink.value )
+        message.info("អសយដ្ឋាន សម្រាប់ចែករំលែកឯកសារនេះបាន ចម្លងទុកក្នុង Clipboart ។")
+      }else{
+        message.warning("មានបញ្ហាចែករំលែកពេលចម្លង អសយដ្ឋានឯកសារ ចូលក្នុង Clipboart ។")
+      }
     }
 
     /**
@@ -547,13 +651,33 @@ export default {
       closeEditModal , 
       editRecord ,
       /**
+       * Actions
+       */
+      showShareRegulatorModal ,
+      closeShareRegulatorModal , 
+      /**
        * Functions
        */
       activateRegulator ,
       destroy ,
       applyTagMark ,
       pdfPreview ,
-      closePdf
+      closePdf ,
+      copyShareLink ,
+      /**
+       * Actions
+       */
+      regulatorModal ,
+      showShareRegulatorModal ,
+      closeShareRegulatorModal , 
+      regulatorRecord ,
+      /**
+       * Accessibility
+       */
+      accessibilityModal ,
+      showAccessibilityModal ,
+      closeAccessibilityModal ,
+      accessibilityRecord
     }
   }
 }
@@ -562,7 +686,7 @@ export default {
 
 <style scoped>
   .vcb-table-panel {
-    @apply absolute right-4 left-4 mt-4 mb-16 top-12 bottom-0 overflow-auto;
+    @apply relative p-4 overflow-auto;
   }
   .vcb-table {
     @apply w-full;
@@ -587,7 +711,7 @@ export default {
     @apply px-2 py-4 text-left ;
   }
   .vcb-table-pagination {
-    @apply flex flex-row absolute bg-white right-0 bottom-0 border border-l p-3 ;
+    @apply flex flex-row fixed bg-white right-0 bottom-0 border border-l p-3  z-50;
   }
   .vcb-pagination-page {
     @apply  rounded-full border border-gray-200 mx-1 leading-7 w-8 h-8 font-bold cursor-pointer hover:text-blue-500 hover:border-blue-500 duration-300;

@@ -134,6 +134,21 @@ const actions = {
       document_id : params.document_id 
     })
   },
+  async updateAccessibility ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/accessibility',{mode: params.mode})
+  },
+  async addReader ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/addreader",{
+      user_id : params.user_id ,
+      document_id : params.document_id 
+    })
+  },
+  async removeReader ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+"/removereader",{
+      user_id : params.user_id ,
+      document_id : params.document_id 
+    })
+  },
   async pdf ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf?id="+params.id)
   },

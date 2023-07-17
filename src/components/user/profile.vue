@@ -1,74 +1,88 @@
 <template>
-  <div class="profilePage flex flex-col">
-    <!-- Menu -->
-    <div class="flex w-full h-20 p-2 border-b" >
-      <div class="flex-none w-16 rounded-full" >
-        <img src="./../../assets/logo.png" class="w-full" >
+  <div class="w-full relative flex flex-wrap" >
+    <top-menu />
+    <div class="w-full">
+      <div class="flex w-full title-bar border-b border-gray-200 px-4 ">
+        <!-- Title of crud -->
+        <div class="flex w-64 h-10 py-1 title " >
+          <svg class="w-8 h-8 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div class="leading-9 font-muol ml-2" v-html="model.title" ></div>
+        </div>
+        <!-- Actions button of the crud -->
+        <div class="flex-grow action-buttons flex-row-reverse flex">
+          <!-- New Button -->
+          <div class="mt-1 ml-2">
+            <!-- <n-button type="default" @click="$router.push('/welcome')" class="mx-2 "  >
+              <template #icon>
+                <svg class="text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M6.5 11a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-.166h.333a1.167 1.167 0 0 0 0-2.334H6.5zm.833 1.334H7V12h.333a.167.167 0 0 1 0 .334zM12 11.499a.5.5 0 0 1 .5-.499h.999a.5.5 0 0 1 0 1h-.5v.335h.5a.5.5 0 1 1 0 1h-.5l.001.164a.5.5 0 0 1-1 .002L12 12.834L12 11.499zM9.498 11a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5H10a1.5 1.5 0 0 0 0-3h-.502zm.5 2v-1H10a.5.5 0 0 1 0 1h-.002zM4 4a2 2 0 0 1 2-2h4.585a1.5 1.5 0 0 1 1.061.44l3.914 3.914a1.5 1.5 0 0 1 .44 1.06v1.668a1.5 1.5 0 0 1 .998 1.414v4.003A1.5 1.5 0 0 1 16 15.913V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-.087A1.5 1.5 0 0 1 3 14.5v-4.003A1.5 1.5 0 0 1 4 9.082V4zm11 4h-3.5A1.5 1.5 0 0 1 10 6.5V3H6a1 1 0 0 0-1 1v4.996h10V8zM5 15.999A1 1 0 0 0 6 17h8a1 1 0 0 0 1-1.001H5zm6-12.792V6.5a.5.5 0 0 0 .5.5h3.293L11 3.207zM4.5 9.996a.5.5 0 0 0-.5.5v4.003a.5.5 0 0 0 .5.5h10.997a.5.5 0 0 0 .5-.5v-4.003a.5.5 0 0 0-.5-.5H4.501z" fill="currentColor"></path></g></svg>
+              </template>
+              ស្វែងរកឯកសារ
+            </n-button> -->
+          </div>
+          <div class="w-2/5 relative" ></div>
+          <div class="mt-1 ml-2"></div>
+        </div>
       </div>
-      <div class="flex-grow px-4 text-left text-lg leading-10 py-3">ព័ត៌មានអ្នកប្រើប្រាស់</div>
-      <div class="flex-none hidden">
-        <div class="border rounded-full w-12 h-12 my-2 leading-10 p-1 bg-red-500 text-white cursor-pointer" alt="ចាកចេញពីប្រព័ន្ធ" title="ចាកចេញពីប្រព័ន្ធ" @click="logout" >
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M10.5 2.5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0v-6zM13.743 4a.5.5 0 1 0-.499.867a6.5 6.5 0 1 1-6.494.004a.5.5 0 1 0-.5-.866A7.5 7.5 0 1 0 13.743 4z" fill="currentColor"></path></g></svg>
+      <!-- End Menu -->    
+      <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border my-8 relative">
+        <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden" >
+          <img :src="localProfile" alt="Profile picture" class="w-40 h-40" >
+        </div>
+        <div class="uploader absolute right-0 top-0 w-24flex" >
+          <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
+          <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload"  >
+                  <n-icon size="22" class="text-gray-600" >
+                    <CameraOutline />
+                  </n-icon>
+                </div>
+              </template>ប្ដូររូបភាពគណនី
+            </n-tooltip>
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <div class="saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" >
+                  <n-icon size="22" class="text-gray-600" >
+                    <CloudUploadOutline />
+                  </n-icon>
+                </div>
+              </template>រក្សារទុករូបភាពថ្មី
+            </n-tooltip>
+          </div>
+        </div>
+        <div class="my-12">
+          <n-form
+          ref="formRef"
+          label-placement="left"
+          :model="user"
+          label-width="120"
+          >
+            <n-form-item-row label="ឈ្មោះគណនី" >
+              <n-input placeholder="ឈ្មោះគណនី" class="text-left" v-model:value="user.username" />
+            </n-form-item-row>
+            <n-form-item-row label="គោត្តនាម" >
+              <n-input placeholder="គោត្តនាម" class="text-left" v-model:value="user.lastname" />
+            </n-form-item-row>
+            <n-form-item-row label="នាម">
+              <n-input placeholder="នាម" class="text-left" v-model:value="user.firstname" />
+            </n-form-item-row>
+            <n-form-item-row label="ទូរស័ព្ទ">
+              <n-input placeholder="ទូរស័ព្ទ" class="text-left" v-model:value="user.phone" />
+            </n-form-item-row>
+            <n-form-item-row label="អ៊ីមែល" >
+              <n-input placeholder="អ៊ីមែល" class="text-left" disabled v-model:value="user.email" />
+            </n-form-item-row>
+          </n-form>
+          <n-button type="default" class="mx-8 w-32 my-1" @click="$router.push('/welcome')" >បកក្រោយ</n-button>
+          <n-button type="primary" secondary class="mx-8 w-32 my-1" @click="save()" >រក្សារទុក</n-button>
         </div>
       </div>
     </div>
-    <!-- End Menu -->    
-    <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border my-8 relative">
-      <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden" >
-        <img :src="localProfile" alt="Profile picture" class="w-40 h-40" >
-      </div>
-      <div class="uploader absolute right-0 top-0 w-24flex" >
-        <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
-        <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >
-          <n-tooltip trigger="hover">
-            <template #trigger>
-              <div class="changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload"  >
-                <n-icon size="22" class="text-gray-600" >
-                  <CameraOutline />
-                </n-icon>
-              </div>
-            </template>ប្ដូររូបភាពគណនី
-          </n-tooltip>
-          <n-tooltip trigger="hover">
-            <template #trigger>
-              <div class="saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" >
-                <n-icon size="22" class="text-gray-600" >
-                  <CloudUploadOutline />
-                </n-icon>
-              </div>
-            </template>រក្សារទុករូបភាពថ្មី
-          </n-tooltip>
-        </div>
-      </div>
-      <div class="my-12">
-        <n-form
-        ref="formRef"
-        label-placement="left"
-        :model="user"
-        label-width="120"
-        >
-          <n-form-item-row label="ឈ្មោះគណនី" >
-            <n-input placeholder="ឈ្មោះគណនី" class="text-left" v-model:value="user.username" />
-          </n-form-item-row>
-          <n-form-item-row label="គោត្តនាម" >
-            <n-input placeholder="គោត្តនាម" class="text-left" v-model:value="user.lastname" />
-          </n-form-item-row>
-          <n-form-item-row label="នាម">
-            <n-input placeholder="នាម" class="text-left" v-model:value="user.firstname" />
-          </n-form-item-row>
-          <n-form-item-row label="ទូរស័ព្ទ">
-            <n-input placeholder="ទូរស័ព្ទ" class="text-left" v-model:value="user.phone" />
-          </n-form-item-row>
-          <n-form-item-row label="អ៊ីមែល" >
-            <n-input placeholder="អ៊ីមែល" class="text-left" disabled v-model:value="user.email" />
-          </n-form-item-row>
-        </n-form>
-        <n-button type="default" class="mx-8 w-32 my-1" @click="$router.push('/welcome')" >បកក្រោយ</n-button>
-        <n-button type="primary" secondary class="mx-8 w-32 my-1" @click="save()" >រក្សារទុក</n-button>
-      </div>
-    </div>
-    <div class="fixed bottom-0 w-full ">
-      <footer-component></footer-component>
+    <div class="flex flex-wrap bottom-0 mx-auto w-full fixed z-40">
+      <FooterComponent />
     </div>
   </div>
 </template>
@@ -78,6 +92,7 @@ import { reactive, ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import FooterComponent from './../../components/footer/copy-right.vue'
+import TopMenu from './../menu/topmenu.vue'
 import { useMessage, useNotification } from 'naive-ui'
 import { Icon } from '@vicons/utils'
 import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
@@ -88,7 +103,8 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
       FooterComponent ,
       Icon ,
       CameraOutline ,
-      CloudUploadOutline
+      CloudUploadOutline ,
+      TopMenu
     },
     setup(){
       const router = useRouter()
@@ -110,16 +126,35 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
           email: ''
         })
       }
+
+      /**
+       * Variables
+       */    
+      const model = reactive( {
+        name: "UserProfile" ,
+        title: "ព័ត៌មានអំពីគណនី"
+      })
+      
       function save(){
+        console.log( user.value )
         store.dispatch('user/update',{
           lastname: user.value.lastname ,
           firstname: user.value.firstname ,
           phone: user.value.phone ,
           username: user.value.username
         }).then( res => {
-          localStorage.setItem( 'token' , JSON.stringify ( res.data.token ) )
-          localStorage.setItem( 'user' , JSON.stringify( res.data.user ) )
-          console.log( res )
+          notify.success({
+            title: 'រក្សារទុករួចរាល់។' ,
+            content: res.data.message ,
+            duration: 1000
+          })
+          let tmpUser = getUser()
+          tmpUser.lastname = res.data.user.lastname
+          tmpUser.firstname = res.data.user.firstname
+          tmpUser.phone = res.data.user.phone
+          tmpUser.username = res.data.user.username
+          localStorage.setItem( 'user' , JSON.stringify( tmpUser ) )
+          user.value = getUser()
         }).catch( err => {
           console.log( err )
         })
@@ -201,13 +236,13 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
              * Read binary string from 'e.target.result' and convert to base64
              */
             base64Avatar.value = "data:"+file.type+";base64," + btoa( e.target.result )
+            files.value.push( file )
           }
           // // // Read in the image file as base64 type
           // // reader.readAsDataURL(file);
           reader.readAsBinaryString(file)
-          
-          files.value.push( file )
 
+          // files.value.push( file )
         }
       }
       /**
@@ -229,24 +264,29 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
         notify.info({
           title: 'ដាក់រូបភាពអ្នកប្រើប្រាស់' ,
           description: 'កំពុងដាក់រូបភាព។' ,
-          duration: 3000
+          duration: 1000
         })
 
+        console.log( files.value )
         let formData = new FormData()
         formData.append('id', user.value.id )
-        formData.append('files',files.value[0])
+        formData.append('files',files.value[0],files.value[0].name)
         
         store.dispatch('user/upload', formData ).then( res => {
           notify.success({
             title: 'ដាក់រូបភាពអ្នកប្រើប្រាស់' ,
             description: 'កំពុងរក្សាទុករូបភាព។' ,
-            duration: 3000
+            duration: 1000
           })
-            user.value = res.data.record
-            localStorage.setItem( 'user' , JSON.stringify( res.data.record ) )
+          if( res.data.record != null && res.data.record != undefined ){
+            let tmpUser = getUser()
+            tmpUser.avatar_url = res.data.record.avatar_url
+            localStorage.setItem( 'user' , JSON.stringify( tmpUser ) )
+            user.value = getUser()
             base64Avatar.value = user.value.avatar_url
             formData = new FormData()
             files.value = []
+          }
         }).catch( err => {
           console.log( err )
           notify.error({
@@ -270,7 +310,8 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
         fileChange ,
         uploadFiles,
         clickUpload ,
-        localProfile
+        localProfile ,
+        model
       }
     }
 

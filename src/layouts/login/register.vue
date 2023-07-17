@@ -132,21 +132,21 @@ export default {
                     notify.success({
                         title: 'ចុះឈ្មោះសមាជិកថ្មី' ,
                         description: 'ទទួលបានជោគជ័យ សម្រាប់ការចុះឈ្មោះ។ សូមពិនិត្យមើល អ៊ីមែល របស់អ្នក។ យើងបានបញ្ជូនលេខកូត ដើម្បីបញ្ជាក់អំពីការចុះឈ្មោះអ្នក។' ,
-                        duration: 4000
+                        duration: 2000
                     })
                     router.push('/register/confirmation')
                 }else{
                     notify.error({
                         title: 'ចុះឈ្មោះសមាជិកថ្មី' ,
                         description: 'មានកំហុសក្នុងការចុះឈ្មោះសមាជិកថ្មី។ <br/> ' + res.message ,
-                        duration: 3000
+                        duration: 2000
                     })
                 }
             }).catch( err => {
                 notify.error({
                     title: 'ចុះឈ្មោះសមាជិកថ្មី' ,
                     description: 'មានកំហុសក្នុងការចុះឈ្មោះសមាជិកថ្មី។' ,
-                    content: err.message , 
+                    content: err.response.data.message , 
                     duration: 3000
                 })
             })

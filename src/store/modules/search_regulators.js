@@ -41,7 +41,12 @@ const actions = {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id)
   },
   async pdf ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf?id="+params.id)
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/pdf" + ( params !== undefined ? "?" + new URLSearchParams(
+      ( params.id != undefined && parseInt( params.id ) > 0 ) ? { id : params.id } 
+        : (
+          typeof params.serial == 'string' && params.serial.length > 0 ? { serial : params.serial } : ''
+        )
+    ).toString(): ""))
   },
   async compact ({ state, commit, rootState },params) {
     return await crud.list(rootState.apiServer+"/"+state.model.name + "/compact" + ( params !== undefined ? "?" + new URLSearchParams({

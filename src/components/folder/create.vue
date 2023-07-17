@@ -133,7 +133,7 @@ export default {
       }).then( res => {
         switch( res.status ){
           case 200 : 
-          notify.warning({
+          notify.success({
             'title' : 'រក្សារទុកព័ត៌មាន' ,
             'description' : res.data.message ,
             duration : 3000

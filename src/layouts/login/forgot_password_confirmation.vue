@@ -5,9 +5,9 @@
                 <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
             </div>
             <div class="text-center" >
-                <div class="my-2 text-md">{{ store.state.organization.name }}</div>
+                <div class="my-2 text-xl">{{ companyName }}</div>
             </div>
-            <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធគ្រប់គ្រងបណ្ដុំឯកសារ</div>
+            <div class="w-full mx-auto my-8 text-lg ">{{ systemName }}</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">បញ្ជាក់ការប្ដូរពាក្យសម្ងាត់</div>
             <n-form :model="model" :rules="rules" class="mb-24">
                 <n-form-item path="code" label="កូតសម្ងាត់">
@@ -24,7 +24,7 @@
 </template>
 <script>
 import Footer from '../../components/footer/copy-right.vue'
-import { reactive } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router' 
 import { useNotification } from 'naive-ui'
@@ -46,6 +46,13 @@ export default {
             code: ''
         })
 
+        const systemName = computed( () => {
+            return store.state.system.name != "" ? store.state.system.name : 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច' 
+        })
+        const companyName = computed( () => {
+            return store.state.organization.name != "" ? store.state.organization.name : 'ឈ្មោះក្រុមហ៊ុន' 
+        })
+
         const rules = {
             code: [
                 { required: true, message: 'សូមបញ្ចូលកូតសម្ងាត់ដែលអ្នកទទួលបានតាមរយះ អ៊ីមែល ឬ សារទូរសព្ទ !', trigger: 'blur' }
@@ -53,20 +60,29 @@ export default {
         }
 
         function confirm(){
+            let email = localStorage.getItem( 'email')
+            if( email == "" || email == null || email == undefined ){
+                notify.warning({
+                    title: 'ប្ដូរពាក្យសម្ងាត់' ,
+                    description: 'មានបញ្ហាក្នុងពេលកំពុងប្ដូរពាក្យសម្ងាត់។ សូមស្នើរសុំប្ដូរ សារជាថ្មីម្ដងទៀត ។' ,
+                    duration: 3000
+                })
+                return false
+            }
             store.dispatch('user/passwordForgotConfirmation',{
-                email: route.params.email ,
+                email: email ,
                 code: model.code
             }).then( res => {
                 if( res.data.ok ){
                     notify.success({
-                        title: 'បញ្ចាក់កូត' ,
+                        title: 'ប្ដូរពាក្យសម្ងាត់' ,
                         content: res.data.message ,
-                        duration: 3000
+                        duration: 1000
                     })
                     router.push({
                         name: "PasswordUpdate" ,
                         params: {
-                            email: route.params.email
+                            email: email
                         }
                     })
                 }else{
@@ -88,7 +104,9 @@ export default {
         return {
             model ,
             rules ,
-            confirm
+            confirm ,
+            companyName ,
+            systemName
         }
     }
 }

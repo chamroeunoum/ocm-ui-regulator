@@ -31,9 +31,9 @@ const actions = {
       }).toString()
     )
   },
-  async list ({ state, commit, rootState },params) {
-    return await crud.list(rootState.apiServer+"/"+state.model.name,params)
-  },
+  // async list ({ state, commit, rootState },params) {
+  //   return await crud.list(rootState.apiServer+"/"+state.model.name,params)
+  // },
   async read ({ state, commit, rootState },params) {
     return await crud.read(rootState.apiServer+"/"+state.model.name+"/"+params.id)
   },
