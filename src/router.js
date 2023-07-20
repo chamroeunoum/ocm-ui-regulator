@@ -8,6 +8,7 @@ import PasswordChangeComponent from './components/user/password_change.vue'
 import RegisterComponent from './layouts/login/register.vue'
 import RegisterConfirmationComponent from './layouts/login/register_confirmation.vue'
 import WelcomeComponent from './layouts/welcome/index.vue'
+import GlobalFolderComponent from './layouts/welcome/folder.vue'
 import UserComponent from './components/user/index.vue'
 import UserProfileComponent from './components/user/profile.vue'
 import DashboardComponent from './layouts/dashboard/index.vue'
@@ -43,6 +44,14 @@ routes = [{
         name: 'Welcome',
         path: '/welcome',
         component: WelcomeComponent ,
+        meta: {
+            // transition: 'fade'
+        }
+    },
+    {
+        name: 'GlobalFolder',
+        path: '/global/:folder_id/regulators',
+        component: GlobalFolderComponent ,
         meta: {
             // transition: 'fade'
         }

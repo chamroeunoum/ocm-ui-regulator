@@ -1,7 +1,7 @@
 <template>
   <div class="w-full" >
     <!-- Top action panel of crud -->
-    <div class="flex w-full title-bar border-b border-gray-200 px-4 ">
+    <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
         <Icon size="27" class="text-red-600 mr-2" >
@@ -84,6 +84,9 @@
                 <DocumentPdf24Regular />
               </n-icon>
             </div>
+            <n-icon size="20" class="cursor-pointer text-blue-700 mx-1" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(record)" >
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
+            </n-icon>
             <!-- <n-icon size="20" class="cursor-pointer mx-1" @click="$router.push('/regulator/child/'+record.id)" >
               <ParentChild />
             </n-icon> -->
@@ -152,6 +155,38 @@
     <add-remove-reader-form v-bind:model="model" v-bind:record="regulatorRecord" v-bind:show="regulatorModal.show" :onClose="closeShareRegulatorModal"/>
     <!-- Form Accessibility -->
     <accessibility-form v-bind:model="model" v-bind:record="accessibilityRecord" v-bind:show="accessibilityModal.show" :onClose="closeAccessibilityModal"/>
+    <!-- Folder modal selection -->
+    <n-modal v-model:show="showFolderModal" @on-after-leave="showFolderModal.value=false" >
+      <n-card
+        style="width: 600px"
+        title="សូមជ្រើសរើសថតឯកសារ"
+        :bordered="false"
+        size="huge"
+        role="dialog"
+        aria-modal="true"
+      >
+        <!-- <template #header-extra>
+          Oops!
+        </template> -->
+        <!-- Where the available folder of the user -->
+        <div v-for="(folder, index) in listFolders" :key="index" class="p-2 cursor-pointer hover:bg-gray-100 rounded duration-500 flex" 
+        >
+          <div class="flex-grow">
+            {{ (index +1 ) + '. ' + folder.name }}
+          </div>
+          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" @click="addDocumentToFolder(folder)"  >
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
+          </Icon>
+          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeDocumentFromFolder(folder)"  >
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
+          </Icon>
+        </div>  
+        <!-- <template #footer>
+          Footer
+        </template> -->
+      </n-card>
+    </n-modal>
+    <!-- End folder modal selection -->
   </div>
 </template>
 <script>
@@ -207,6 +242,9 @@ export default {
     const dialog = useDialog()
     const message = useMessage()
     const notify = useNotification()
+    const showFolderModal = ref(false)
+    const listFolders = ref([])
+    const selectedDocumentId = ref(0)
     /**
      * Variables
      */    
@@ -599,11 +637,88 @@ export default {
     }
     function copyShareLink(){
       if( pdfShareLink.value != "" && pdfShareLink.value != null && pdfShareLink.value != undefined ){
-        navigator.clipboard.writeText( pdfShareLink.value )
-        message.info("អសយដ្ឋាន សម្រាប់ចែករំលែកឯកសារនេះបាន ចម្លងទុកក្នុង Clipboart ។")
+        if (window.isSecureContext) {
+          navigator.clipboard.writeText( pdfShareLink.value )
+          message.info("អសយដ្ឋាន សម្រាប់ចែករំលែកឯកសារនេះបាន ចម្លងទុកក្នុង Clipboart ។")
+        } else {
+          dialog.info({
+            title: 'ចែករំលែកឯកសារ',
+            content: () => 'អសយដ្ឋាននៃឯកសារ សម្រាប់ចែករំលែក ៖ ' + pdfShareLink.value
+          })
+        }
       }else{
         message.warning("មានបញ្ហាចែករំលែកពេលចម្លង អសយដ្ឋានឯកសារ ចូលក្នុង Clipboart ។")
       }
+    }
+
+    function getFolders(){
+      store.dispatch('folder/listDocumentWithValidation',{
+        search: '' ,
+        page: 1 ,
+        perPage: 50 ,
+        document_id : selectedDocumentId.value
+      }).then( res => {
+        listFolders.value = res.data.records
+      }).catch( err => {
+        console.log( err.response )
+      })
+    }
+
+    function showFolderModalPopup(document){
+      showFolderModal.value = true
+      /**
+       * Mark the selected document
+       */
+      selectedDocumentId.value = document.id
+      getFolders()
+    }
+
+    function closeFolderModalPopup(){
+      showFolderModal.value = false
+      listFolders.value = []
+      selectedDocumentId.value = 0
+    }
+
+    function addDocumentToFolder(folder){
+      store.dispatch('folder/addRegulator',{
+        id: folder.id ,
+        document_id : selectedDocumentId.value
+      }).then( res => {
+        notify.success({
+          title: "ដាក់ឯកសារចូលថត" ,
+          content: res.data.message ,
+          duration: 3000
+        })
+        getFolders()
+      }).catch( err => {
+        console.log( err.response.data )
+        notify.error({
+          title: "ដាក់ឯកសារចូលថត" ,
+          content: res.response.data.message ,
+          duration: 3000
+        })
+      })
+    }
+
+    function removeDocumentFromFolder(folder){
+      store.dispatch('folder/removeRegulator',{
+        id: folder.id ,
+        document_id : selectedDocumentId.value
+      }).then( res => {
+        notify.success({
+          title: "ដកឯកសារចេញពីថត" ,
+          content: res.data.message ,
+          duration: 3000
+        })
+        getFolders( )
+      }).catch( err => {
+        console.log( err.response.data )
+        notify.error({
+          title: "ដកឯកសារចេញពីថត" ,
+          content: res.response.data.message ,
+          duration: 3000
+        })
+      })
     }
 
     /**
@@ -677,7 +792,17 @@ export default {
       accessibilityModal ,
       showAccessibilityModal ,
       closeAccessibilityModal ,
-      accessibilityRecord
+      accessibilityRecord ,
+      /**
+       * Folder
+       */
+      getFolders ,
+      showFolderModalPopup ,
+      closeFolderModalPopup ,
+      addDocumentToFolder ,
+      removeDocumentFromFolder ,
+      showFolderModal ,
+      listFolders
     }
   }
 }

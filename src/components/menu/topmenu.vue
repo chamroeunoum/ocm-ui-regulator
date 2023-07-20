@@ -1,29 +1,19 @@
 <template>
-  <div class="font-pvh flex w-full h-16 p-2 mb-4 border-b border-gray-300" >
-    <div class="flex-none w-12 h-12">
-      <router-link to="/dashboard">
-        <img src="./../../assets/logo.png" class="w-full rounded-full p-1 bg-gray-100" alt="SCT Logo" title="SCT Logo" />
-      </router-link>
+  <div class="font-pvh flex w-full h-20 p-2 border-b border-gray-300" >
+    <div class="flex-none w-16 rounded-full" >
+      <img src="./../../assets/logo.png" alt="គ្រប់គ្រងបណ្ដុំឯកសារ" title="គ្រប់គ្រងបណ្ដុំឯកសារ" class="w-full" >
     </div>
-    <div class="flex-grow h-12 text-xl leading-10 text-left pl-4 pt-1 ">{{ systemName }}</div>
+    <div class="flex-grow h-16 text-xl leading-10 text-left px-4 py-3 ">{{ systemName }}</div>
+    <div class="flex-none w-32 h-16 px-4 py-3 leading-10 text-right">{{ username }}</div>
     <div class="flex-none ">
       <!-- User profile -->
       <div v-if="isLoggedIn" class="relative w-12 h-12 "  >
-        <!-- <div class="w-12 h-12 rounded-full" >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mt-2" fill="none" viewBox="0 0 24 24" stroke="#195598">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div> -->
-        <div class="w-12 h-12 rounded-full overflow-hidden" @click="subMenuHelper=!subMenuHelper" >
+        <div class="w-12 h-12 rounded-full overflow-hidden mt-2" @click="subMenuHelper=!subMenuHelper" >
           <svg v-if="profilePicture==null" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
+
           <img v-if="profilePicture!=null" :src="profilePicture" class="h-12 cursor-pointer" />
-          <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 550 550" class="pt-2 " @click="subMenuHelper=!subMenuHelper" >
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="48" d="M88 152h336"></path>
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="48" d="M88 256h336"></path>
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="48" d="M88 360h336"></path>
-          </svg> -->
         </div>
         <div v-if="subMenuHelper" class="submenu fixed bg-white shadow-md left-0 right-0 top-0 p-4 flex flex-wrap text-left z-50 ">
           <router-link to="/welcome" class="searchDocument w-32 h-32 m-2 p-4 rounded border border-gray-200 cursor-pointer hover:border-gray-300 hover:shadow duration-300 " >

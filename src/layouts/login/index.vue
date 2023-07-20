@@ -5,9 +5,9 @@
         <img src="./../../assets/logo.png" class="w-full" >
       </div>
       <div class="text-center" >
-        <div class="my-2 text-md">{{ store.state.organization.name }}</div>
+        <div class="my-2 text-lg">{{ store.state.organization.name }}</div>
       </div>
-      <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធគ្រប់គ្រងបណ្ដុំឯកសារ</div>
+      <div class="w-full mx-auto my-8 text-lg ">{{ store.state.system.name }}</div>
       <div class="w-full mx-auto my-8 text-left text-md">ចូលប្រព័ន្ធ</div>
       <n-space vertical>
         <n-input round 

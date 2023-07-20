@@ -26,10 +26,15 @@ const actions = {
   async list ({ state, commit, rootState },params) {
     return await crud.list(
       rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
-        // unit: params.unit ,
-        // date: params.date ,
-        // number: params.number ,
-        // type: params.type ,
+        search: params.search ,
+        perPage: params.perPage ,
+        page: params.page
+      }).toString()
+    )
+  },
+  async globalFolder ({ state, commit, rootState },params) {
+    return await crud.list(
+      rootState.apiServer+"/"+state.model.name + "/global?" + new URLSearchParams({
         search: params.search ,
         perPage: params.perPage ,
         page: params.page
@@ -83,6 +88,9 @@ const actions = {
     null,
     true
   )},
+  async updateAccessibility ({ state, commit, rootState },params) {
+    return await crud.update(rootState.apiServer+"/"+state.model.name+'/'+params.id+'/accessibility',{mode: params.mode})
+  },
 }
 
 // mutations

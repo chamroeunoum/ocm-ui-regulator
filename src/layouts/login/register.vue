@@ -5,9 +5,9 @@
                 <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
             </div>
             <div class="text-center" >
-                <div class="my-2 text-md">{{ store.state.organization.name }}</div>
+                <div class="my-2 text-lg">{{ store.state.organization.name }}</div>
             </div>
-            <div class="w-full mx-auto my-8 text-lg ">ប្រព័ន្ធគ្រប់គ្រងបណ្ដុំឯកសារ</div>
+            <div class="w-full mx-auto my-8 text-lg ">{{ store.state.system.name }}</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សំណើរចូលជាសមាជិក</div>
             <n-form :model="model" :rules="rules" class="mb-24" >
                 <n-form-item path="lastname" label="គោត្តនាម">

@@ -2,7 +2,7 @@
   <div class="w-full relative flex flex-wrap" >
     <top-menu />
     <div class="w-full">
-      <div class="flex w-full title-bar border-b border-gray-200 px-4 ">
+      <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
         <!-- Title of crud -->
         <div class="flex w-64 h-10 py-1 title " >
           <svg class="w-8 h-8 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,7 +26,7 @@
         </div>
       </div>
       <!-- End Menu -->    
-      <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border my-8 relative">
+      <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-20 relative">
         <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden" >
           <img :src="localProfile" alt="Profile picture" class="w-40 h-40" >
         </div>
@@ -76,7 +76,7 @@
               <n-input placeholder="អ៊ីមែល" class="text-left" disabled v-model:value="user.email" />
             </n-form-item-row>
           </n-form>
-          <n-button type="default" class="mx-8 w-32 my-1" @click="$router.push('/welcome')" >បកក្រោយ</n-button>
+          <!-- <n-button type="default" class="mx-8 w-32 my-1" @click="$router.push('/welcome')" >បកក្រោយ</n-button> -->
           <n-button type="primary" secondary class="mx-8 w-32 my-1" @click="save()" >រក្សារទុក</n-button>
         </div>
       </div>

@@ -5,7 +5,7 @@
                 <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
             </div>
             <div class="text-center" >
-                <div class="my-2 text-xl">{{ companyName }}</div>
+                <div class="my-2 text-lg">{{ companyName }}</div>
             </div>
             <div class="w-full mx-auto my-8 text-lg ">{{ systemName }}</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">បញ្ជាក់ការប្ដូរពាក្យសម្ងាត់</div>

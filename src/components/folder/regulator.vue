@@ -1,12 +1,12 @@
 <template>
-  <div>
-  <!-- Top action panel of crud -->
-    <div class="flex title-bar border-b border-gray-200">
+  <div class="w-full" >
+    <!-- Top action panel of crud -->
+    <div class="flex w-full title-bar border-b px-4 border-gray-200">
       <!-- Title of crud -->
       <div class="flex w-64 h-10 py-1 title " >
         <div class="submenu-icon h-8 flex">
           <svg class="flex-none mr-2 text-yellow-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
-          <div class="submenu-icon-title flex-grow w-full leading-9 leading-8 font-bold" v-html="model.title" ></div>
+          <div class="submenu-icon-title flex-grow w-full leading-9 font-bold" v-html="model.title" ></div>
         </div>
       </div>
       <!-- Actions button of the crud -->
@@ -20,6 +20,14 @@
               </n-icon>
             </template>
             បន្ថែម
+          </n-button> -->
+          <!-- <n-button type="default" @click="$router.push('/welcome')" class="mx-2"  >
+            <template #icon>
+              <n-icon>
+                <svg class="text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M6.5 11a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-.166h.333a1.167 1.167 0 0 0 0-2.334H6.5zm.833 1.334H7V12h.333a.167.167 0 0 1 0 .334zM12 11.499a.5.5 0 0 1 .5-.499h.999a.5.5 0 0 1 0 1h-.5v.335h.5a.5.5 0 1 1 0 1h-.5l.001.164a.5.5 0 0 1-1 .002L12 12.834L12 11.499zM9.498 11a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5H10a1.5 1.5 0 0 0 0-3h-.502zm.5 2v-1H10a.5.5 0 0 1 0 1h-.002zM4 4a2 2 0 0 1 2-2h4.585a1.5 1.5 0 0 1 1.061.44l3.914 3.914a1.5 1.5 0 0 1 .44 1.06v1.668a1.5 1.5 0 0 1 .998 1.414v4.003A1.5 1.5 0 0 1 16 15.913V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-.087A1.5 1.5 0 0 1 3 14.5v-4.003A1.5 1.5 0 0 1 4 9.082V4zm11 4h-3.5A1.5 1.5 0 0 1 10 6.5V3H6a1 1 0 0 0-1 1v4.996h10V8zM5 15.999A1 1 0 0 0 6 17h8a1 1 0 0 0 1-1.001H5zm6-12.792V6.5a.5.5 0 0 0 .5.5h3.293L11 3.207zM4.5 9.996a.5.5 0 0 0-.5.5v4.003a.5.5 0 0 0 .5.5h10.997a.5.5 0 0 0 .5-.5v-4.003a.5.5 0 0 0-.5-.5H4.501z" fill="currentColor"></path></g></svg>
+              </n-icon>
+            </template>
+            ស្វែងរកឯកសារ
           </n-button> -->
         </div>
         <div class="w-2/5 relative" >
@@ -35,16 +43,7 @@
             </n-icon>
           </Icon> -->
         </div>
-        <div class="mt-1 ml-2">
-          <n-button type="default" @click="$router.push('/folders')" class="mx-2"  >
-            <template #icon>
-              <n-icon>
-                <ArrowBackIosRound />
-              </n-icon>
-            </template>
-            បកក្រោយ
-          </n-button>
-        </div>
+        <div class="mt-1 ml-2"></div>
       </div>
     </div>
     <!-- Table of crud -->
@@ -101,16 +100,6 @@
           </Icon>
         </div>
       </div>
-      <!-- PDF Dialog -->
-      <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white ">
-        <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
-        <div class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
-          <Icon size="40" class="text-red-600" >
-            <CloseCircleOutline />
-          </Icon>
-        </div>
-      </div>
-      <!-- End PDF Dialog -->
     </div>
     <!-- Pagination of crud -->
     <div class="vcb-table-pagination">
@@ -135,6 +124,22 @@
         </Icon>
       </div>
     </div>
+    <!-- PDF Dialog -->
+    <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white z-50">
+        <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
+        <div class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
+          <svg class="w-12 h-12 mr-4 mt-0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" fill="currentColor"></path></svg>
+        </div>
+        <div class="absolute top-3 right-20 cursor-pointer " @click="copyShareLink" >
+          <svg class="w-8 h-8 mr-4 mt-2 cursor-pointer font-bold ml-4"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><g><g><path d="M383.822,344.427c-16.045,0-31.024,5.326-41.721,15.979l-152.957-88.42c1.071-5.328,2.142-9.593,2.142-14.919
+            c0-5.328-1.071-9.593-2.142-14.919l150.826-87.35c11.762,10.653,26.741,17.041,43.852,17.041c35.295,0,64.178-28.766,64.178-63.92
+            C448,72.767,419.117,44,383.822,44c-35.297,0-64.179,28.767-64.179,63.92c0,5.327,1.065,9.593,2.142,14.919l-150.821,87.35
+            c-11.767-10.654-26.741-17.041-43.856-17.041c-35.296,0-63.108,28.766-63.108,63.92c0,35.153,28.877,63.92,64.178,63.92
+            c17.115,0,32.089-6.389,43.856-17.042l151.891,88.421c-1.076,4.255-2.141,8.521-2.141,13.847
+            c0,34.094,27.806,61.787,62.037,61.787c34.229,0,62.036-27.693,62.036-61.787C445.858,372.12,418.052,344.427,383.822,344.427z"></path></g></g></svg>
+        </div>
+      </div>
+      <!-- End PDF Dialog -->
   </div>
 </template>
 <script>
@@ -366,18 +371,20 @@ export default {
       filename: '' ,
       url: ''
     })
+    const pdfShareLink = ref(null)
     function viewPdf(record){
       if( record.pdf ){
         store.dispatch('regulator/pdf',{id:record.id})
           .then( res => {
+            pdfShareLink.value = res.data.serial != "" ? window.origin+"/#/globalshare/"+res.data.serial : null
             pdf.filename = res.data.filename
             pdf.url = res.data.pdf
             pdf.viewer = true
-            notify.success({
-              title: "បង្ហាញឯកសារយោង" ,
-              content: res.data.message ,
-              duration: 3000
-            })
+            // notify.success({
+            //   title: "បង្ហាញឯកសារយោង" ,
+            //   content: res.data.message ,
+            //   duration: 3000
+            // })
           }).catch( err => {
             notify.error({
               title: "បង្ហាញឯកសារយោង" ,
@@ -397,6 +404,21 @@ export default {
     function closePdf(){
       pdf.viewer = false
       pdf.url = ""
+    }
+    function copyShareLink(){
+      if( pdfShareLink.value != "" && pdfShareLink.value != null && pdfShareLink.value != undefined ){
+        if (window.isSecureContext) {
+          navigator.clipboard.writeText( pdfShareLink.value )
+          message.info("អសយដ្ឋាន សម្រាប់ចែករំលែកឯកសារនេះបាន ចម្លងទុកក្នុង Clipboart ។")
+        } else {
+          dialog.info({
+            title: 'ចែករំលែកឯកសារ',
+            content: () => 'អសយដ្ឋាននៃឯកសារ សម្រាប់ចែករំលែក ៖ ' + pdfShareLink.value
+          })
+        }
+      }else{
+        message.warning("មានបញ្ហាចែករំលែកពេលចម្លង អសយដ្ឋានឯកសារ ចូលក្នុង Clipboart ។")
+      }
     }
   
     /**
@@ -434,7 +456,8 @@ export default {
        */
       removeDocumentFromFolder ,
       viewPdf ,
-      closePdf
+      closePdf ,
+      copyShareLink
     }
   }
 }
@@ -443,7 +466,7 @@ export default {
 
 <style scoped>
   .vcb-table-panel {
-    @apply absolute right-4 left-4 mt-4 mb-16 top-12 overflow-auto;
+    @apply relative p-4 overflow-auto;
   }
   .vcb-table {
     @apply w-full ;
@@ -467,7 +490,7 @@ export default {
     @apply px-2 py-4 text-left ;
   }
   .vcb-table-pagination {
-    @apply flex flex-row absolute bg-white right-0 bottom-0 border border-l p-3 ;
+    @apply flex flex-row fixed bg-white right-0 bottom-0 border border-l p-3 z-50 ;
   }
   .vcb-pagination-page {
     @apply  rounded-full border border-gray-200 mx-1 leading-7 w-8 h-8 font-bold cursor-pointer hover:text-blue-500 hover:border-blue-500 duration-300;

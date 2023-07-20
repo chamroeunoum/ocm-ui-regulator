@@ -8,9 +8,10 @@
                             <div style="text-align: center;" >
                                 <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
                             </div>
-                            <div style="text-align:center">
-                                <h3 style="font-family: KHMUOL; font-size: 0.8rem; margin: 5px auto; ">{{ store.state.organization.name }}</h3>
+                            <div class="text-center" >
+                                <div class="my-2 text-lg">{{ store.state.organization.name }}</div>
                             </div>
+                            <div class="w-full mx-auto my-8 text-lg ">{{ store.state.system.name }}</div>
                             <div style="text-align:left; margin: 20px auto auto; ">
                                 <h3 style="font-size: 0.7rem; ">ចូលប្រើប្រព័ន្ធ</h3>
                             </div>

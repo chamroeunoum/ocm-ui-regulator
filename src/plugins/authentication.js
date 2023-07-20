@@ -25,21 +25,21 @@ export const getToken = () => {
 }
 export const getAuthorization = () => {
   try {
-    return getToken().token_type + ' ' + getToken().access_token
+    return getToken() != null ? ( getToken().token_type + ' ' + getToken().access_token ) : '' 
   } catch (error) {
     console.log(error)
   }
 }
 export const getAccessToken = () => {
   try {
-    return getToken().access_token
+    return getToken() != null ? getToken().access_token : ''
   } catch (error) {
     console.log(error)
   }
 }
 export const getAccessTokenType = () => {
   try {
-    return getToken().token_type
+    return getToken() != null ? getToken().token_type : ''
   } catch (error) {
     console.log(error)
   }
