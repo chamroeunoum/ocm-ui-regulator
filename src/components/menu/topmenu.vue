@@ -4,7 +4,7 @@
       <img src="./../../assets/logo.png" alt="គ្រប់គ្រងបណ្ដុំឯកសារ" title="គ្រប់គ្រងបណ្ដុំឯកសារ" class="w-full" >
     </div>
     <div class="flex-grow h-16 text-xl leading-10 text-left px-4 py-3 ">{{ systemName }}</div>
-    <div class="flex-none w-32 h-16 px-4 py-3 leading-10 text-right">{{ username }}</div>
+    <div class="flex-none w-96 h-16 px-4 py-3 leading-10 text-right">{{ username }}</div>
     <div class="flex-none ">
       <!-- User profile -->
       <div v-if="isLoggedIn" class="relative w-12 h-12 "  >
