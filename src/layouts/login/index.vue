@@ -63,6 +63,10 @@
         </router-link>
       </div>
       <div class="w-full mt-8 hidden">
+        ចូលប្រើប្រាស់តាមរយះ គណនី
+        <div class="g-signin2 w-20 h-20" data-onsuccess="onSignIn"></div>
+      </div>
+      <div class="w-full mt-8 hidden">
         <div class="mx-auto underline mb-4" >ទំនាក់ទំនងមកយើងខ្ញុំ</div>
         <a class="w-50 mx-2" target="_blank_" href="https://t.me/edmsocm"  >
           <n-icon size="22" class=' pt-1 mr-2 ' >

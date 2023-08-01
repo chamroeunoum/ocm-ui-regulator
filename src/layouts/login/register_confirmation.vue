@@ -9,13 +9,14 @@
             </div>
             <div class="w-full mx-auto my-8 text-lg ">{{ store.state.system.name }}</div>
             <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">បញ្ជាក់ការចុះឈ្មោះជាសមាជិក</div>
+            <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សូមបញ្ចូល លេខកូដ ដែលបានបញ្ជូនទៅអ៊ីមែលរបស់អ្នក ដើម្បីបញ្ចប់ការចុះឈ្មោះ ។</div>
             <n-form :model="model" :rules="rules" class="mb-24" >
-                <n-form-item path="code" label="កូតសម្ងាត់">
+                <n-form-item path="code" label="សូមបញ្ចូលកូតសម្ងាត់ដែលបានបញ្ជូនទៅ អ៊ីមែល របស់អ្នក។">
                     <n-input v-model:value="model.code" @keydown.enter.prevent placeholder="កូតសម្ងាត់" class="text-left " />
                 </n-form-item>
                 
-                    <n-button @click="$router.push('/login')" secondary type="default" class="mx-4 my-1 w-44" size="medium" >បកក្រោយ</n-button>
-                    <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-44" size="medium" >បញ្ជាក់លេខកូដចុះឈ្មោះ</n-button>
+                <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-44" size="medium" >បញ្ជាក់លេខកូដចុះឈ្មោះ</n-button>
+                <n-button @click="$router.push('/login')" secondary type="default" class="mx-4 my-1 w-44" size="medium" >បកក្រោយ</n-button>
                 
             </n-form>
         </div>

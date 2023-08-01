@@ -105,7 +105,7 @@
           <div class="vcb-table w-full" >
             <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
               <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="applyTagMark(document.objective)" ></div>
-              <div  class="vcb-table-cell" >{{ document.fid }} - {{ document.type.name }} - {{ document.document_year.slice(0,10) }} - {{ document.createdBy.lastname + ' ' + document.createdBy.firstname }}</div>
+              <div  class="vcb-table-cell" >{{ document.fid }} {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.document_year.slice(0,10) }} {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }}</div>
               <div class="vcb-table-actions-panel h-5 absolute bottom-0 right-0 text-right">
                 <n-icon v-if="document.pdf"  size="20" class="cursor-pointer text-red-500 ml-4"  @click="showShareModalPopup(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
@@ -132,7 +132,7 @@
             </div>
           </div>
           <!-- PDF Dialog -->
-          <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white ">
+          <div v-if="pdf.viewer" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white z-50 ">
             <vue-pdf-embed :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
             <div class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
               <svg class="w-12 h-12 mr-4 mt-0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" fill="currentColor"></path></svg>
@@ -150,7 +150,7 @@
         </div>
         <!-- Pagination of crud -->
         <div class="fixed left-0 right-0 bottom-10 h-12" >
-          <div class="vcb-table-pagination flex flex-wrap justify-center ">
+          <div class="vcb-table-pagination flex flex-wrap justify-center z-40">
             <!-- First -->
             <!-- Previous -->
             <div class="vcb-pagination-page w-8 h-8 text-center align-middle leading-8 font-bold cursor-pointer" v-html='"<"' @click="previous()" ></div>

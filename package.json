@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
@@ -12,6 +15,7 @@
     "axios": "^0.24.0",
     "d3": "^7.6.1",
     "dateformat": "^5.0.3",
+    "electron-squirrel-startup": "^1.0.0",
     "form-data": "^4.0.0",
     "install": "^0.13.0",
     "js-cookie": "^3.0.1",
@@ -21,7 +25,6 @@
     "qrcode.vue": "^3.3.3",
     "remove": "^0.1.5",
     "vant": "^3.5.4",
-    "view-design": "^4.7.0",
     "vue": "^3.2.37",
     "vue-axios": "^3.4.1",
     "vue-pdf-embed": "^1.1.4",
@@ -34,6 +37,12 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.2.1",
+    "@electron-forge/maker-deb": "^6.2.1",
+    "@electron-forge/maker-rpm": "^6.2.1",
+    "@electron-forge/maker-squirrel": "^6.2.1",
+    "@electron-forge/maker-zip": "^6.2.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
     "@vicons/antd": "^0.11.0",
     "@vicons/carbon": "^0.11.0",
     "@vicons/fa": "^0.11.0",
@@ -45,6 +54,7 @@
     "@vicons/utils": "^0.1.4",
     "@vitejs/plugin-vue": "^1.10.2",
     "autoprefixer": "^10.4.8",
+    "electron": "25.3.2",
     "naive-ui": "^2.32.1",
     "postcss": "^8.4.16",
     "tailwindcss": "^2.2.19",

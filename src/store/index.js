@@ -14,6 +14,7 @@ export default createStore({
   state: {
     // apiServer: 'http://127.0.0.1:8000/api/webapp' ,
     apiServer: 'http://edocservice.sctthaicambodia.com/api/webapp' ,
+    // apiServer: 'https://ns2.ocm.gov.kh/api/webapp' ,
     organization: {
       name: 'ក្រុមហ៊ុន'
     } ,
