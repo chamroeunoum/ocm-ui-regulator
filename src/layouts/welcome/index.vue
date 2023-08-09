@@ -101,7 +101,7 @@
       <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="flex flex-wrap z-40">
         <div class="vcb-result-message w-full m-8 mb-0 border-b border-gray-100 pb-4 text-left font-bold">លទ្ធផលនែការស្វែងរកគឺ ៖ <span class="text-lg text-blue-500">{{ table.pagination.totalRecords }}</span></div>
         <!-- Table of crud -->
-        <div class="vcb-table-panel flex flex-row w-full m-8 ">
+        <div class="vcb-table-panel flex flex-row w-full m-8 mb-24 ">
           <div class="vcb-table w-full" >
             <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
               <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="applyTagMark(document.objective)" ></div>
@@ -149,7 +149,7 @@
           <!-- End PDF Dialog -->
         </div>
         <!-- Pagination of crud -->
-        <div class="fixed left-0 right-0 bottom-10 h-12" >
+        <div class="fixed left-0 right-0 bottom-12 h-12 bg-white p-4" >
           <div class="vcb-table-pagination flex flex-wrap justify-center z-40">
             <!-- First -->
             <!-- Previous -->
@@ -383,7 +383,13 @@ export default {
 
         closeTableLoading()
       }).catch( err => {
+        notify.warning({
+          title : "កំហុសលេខ ៖ " + err.response.status ,
+          // content: err.response.data.message
+          content: "ការប្រើប្រាស់មានចំនួនច្រើន សូមរងចាំ បន្តិច ។"
+        })
         console.log( err )
+        table.loading = false
       })
     }
     function closeTableLoading(){

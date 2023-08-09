@@ -1,8 +1,8 @@
 <template >
     <div class="flex mx-auto pb-20 mt-8 mb-20 min-w-min w-8/12 sm:w-8/12 md:w-6/12 lg:w-5/12 xl:w-5/12 2xl:w-3/12">  
         <div class="w-full p-8" >
-            <div class="w-28 mx-auto my-4">
-                <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
+            <div class="w-48 mx-auto my-4">
+                <img src="./../../assets/logo.svg" class="w-full" >
             </div>
             <div class="text-center" >
                 <div class="my-2 text-lg">{{ companyName }}</div>

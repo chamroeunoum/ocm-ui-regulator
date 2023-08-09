@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-center">
     <div class="w-full mx-8 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 md:mt-24 sm:mt-12 mb-24">
-      <div class="w-28 mx-auto my-4">
-        <img src="./../../assets/logo.png" class="w-full" >
+      <div class="w-48 mx-auto my-4">
+        <img src="./../../assets/logo.svg" class="w-full" >
       </div>
       <div class="text-center" >
         <div class="my-2 text-lg">{{ store.state.organization.name }}</div>
