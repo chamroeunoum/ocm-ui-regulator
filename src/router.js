@@ -7,7 +7,8 @@ import PasswordUpdateComponent from './layouts/login/password_update.vue'
 import PasswordChangeComponent from './components/user/password_change.vue'
 import RegisterComponent from './layouts/login/register.vue'
 import RegisterConfirmationComponent from './layouts/login/register_confirmation.vue'
-import WelcomeComponent from './layouts/welcome/index.vue'
+import GlobalSearchComponent from './layouts/welcome/global.vue'
+import MainPageComponent from './layouts/welcome/index.vue'
 import GlobalFolderComponent from './layouts/welcome/folder.vue'
 import UserComponent from './components/user/index.vue'
 import UserProfileComponent from './components/user/profile.vue'
@@ -43,7 +44,15 @@ routes = [{
     {
         name: 'Welcome',
         path: '/welcome',
-        component: WelcomeComponent ,
+        component: MainPageComponent ,
+        meta: {
+            // transition: 'fade'
+        }
+    },
+    {
+        name: 'GlobalSearch',
+        path: '/search',
+        component: GlobalSearchComponent ,
         meta: {
             // transition: 'fade'
         }

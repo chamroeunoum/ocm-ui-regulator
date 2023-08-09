@@ -130,6 +130,7 @@
   </div>
 </template>
 <script>
+import { isAuth, getUser , authLogout } from './../../plugins/authentication'
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -177,6 +178,10 @@ export default {
     const message = useMessage()
     const notify = useNotification()
     const route = useRoute()
+
+    if( getUser() !== undefined && getUser() !== null ){
+      router.push('/welcome')  
+    }
     /**
      * Variables
      */    

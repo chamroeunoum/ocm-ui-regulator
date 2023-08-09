@@ -12,12 +12,12 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
   state: {
-    // apiServer: 'http://127.0.0.1:8000/api/webapp' ,
+    apiServer: 'http://127.0.0.1:8000/api/webapp' ,
     // apiServer: 'http://edocservice.sctthaicambodia.com/api/webapp' ,
-    apiServer: 'https://ns2.ocm.gov.kh/api/webapp' ,
+    // apiServer: 'https://ns2.ocm.gov.kh/api/webapp' ,
     organization: {
       name: 'អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ'
-    } ,
+    },
     system: {
       name: 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច'
     }
