@@ -23,25 +23,28 @@
           <div class="mt-1 ml-2"></div>
         </div>
       </div>
-      <div class="passwordChange p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-20 relative">
-        <div class="my-12">
-          <n-form
-          ref="formRef"
-          label-placement="left"
-          label-width="120"
-          :model="model" 
-          :rules="rules"
-          >
-            <n-form-item-row  path="password"  label="ពាក្យសម្ងាត់" >
-              <n-input type="password" placeholder="ពាក្យសម្ងាត់" class="text-left" v-model:value="model.password" />
-            </n-form-item-row>
-            <n-form-item-row  path="confirmPassword"  label="បញ្ជាក់ពាក្យសម្ងាត់" >
-              <n-input type="password" placeholder="បញ្ជាក់ពាក្យសម្ងាត់" class="text-left" v-model:value="model.confirmPassword" />
-            </n-form-item-row>
-          </n-form>
-          <n-button type="primary" secondary class="mx-8 w-32 my-1" @click="changePassword()" >ប្ដូរពាក្យសម្ងាត់</n-button>
+      <Transition name="slide-fade" >
+        <div  v-if="transitionHelper" class="passwordChange p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-20 relative">
+          <div class="my-12">
+            <n-form
+            ref="formRef"
+            label-placement="left"
+            label-width="120"
+            :model="model" 
+            :rules="rules"
+            >
+              <div class="w-full mb-8  text-left text-md font-bold" >សូមបញ្ចូលពាក្យសម្ងាត់ថ្មីរបស់អ្នកក្នុងប្រអប់ខាងក្រោម ៖</div>
+              <n-form-item-row  path="password"  label="ពាក្យសម្ងាត់" class="text-md" >
+                <n-input type="password" placeholder="ពាក្យសម្ងាត់" class="text-left text-md" v-model:value="model.password" />
+              </n-form-item-row>
+              <n-form-item-row  path="confirmPassword"  label="បញ្ជាក់ពាក្យសម្ងាត់"  class="text-md">
+                <n-input type="password" placeholder="បញ្ជាក់ពាក្យសម្ងាត់" class="text-left text-md" v-model:value="model.confirmPassword" />
+              </n-form-item-row>
+            </n-form>
+            <n-button type="primary" secondary class="mx-8 w-32 my-1 text-md" @click="changePassword()" >ប្ដូរពាក្យសម្ងាត់</n-button>
+          </div>
         </div>
-      </div>
+      </Transition>
     </div>
     <div class="flex flex-wrap bottom-0 mx-auto w-full fixed z-40">
       <FooterComponent />
@@ -50,7 +53,7 @@
 </template>
 <script >
 import { getUser , authLogout } from '../../plugins/authentication'
-import { reactive  } from 'vue'
+import { reactive , ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useNotification } from 'naive-ui'
@@ -67,75 +70,81 @@ import FooterComponent from './../footer/copy-right.vue'
       const router = useRouter()
       const store = useStore()
       const notify = useNotification()
+      const transitionHelper = ref(false)
       
+      setTimeout(function(){
+        transitionHelper.value = true
+      },300)
+
       const model = reactive({
-            password: '' ,
-            confirmPassword: ''
-        })
+          password: '' ,
+          confirmPassword: ''
+      })
 
-        const rules = {
-            password: [
-                { required: true, message: 'សូមបញ្ចូលពាក្យសម្ងាត់!', trigger: 'blur' }
-            ],
-            confirmPassword: [
-                { required: true, message: 'សូមបញ្ចូលពាក្យសម្ងាត់ម្ដងទៀតដើម្បីបញ្ជាក់!', trigger: 'blur' }
-            ]
+      const rules = {
+          password: [
+              { required: true, message: 'សូមបញ្ចូលពាក្យសម្ងាត់!', trigger: 'blur' }
+          ],
+          confirmPassword: [
+              { required: true, message: 'សូមបញ្ចូលពាក្យសម្ងាត់ម្ដងទៀតដើម្បីបញ្ជាក់!', trigger: 'blur' }
+          ]
+      }
+
+      function changePassword(){
+        if( model.password == '' || model.confirmPassword == '' ){
+            notify.warning({  
+                title: 'ពិនិត្យពាក្យសម្ងាត់' ,
+                content: 'សូមបំពេញ ពាក្យសម្ងាត់ និង បញ្ជាក់ពាក្យសម្ងាត់។' ,
+                duration: 1000
+            })
+          return false
         }
-
-        function changePassword(){
-          if( model.password == '' || model.confirmPassword == '' ){
-              notify.warning({  
-                  title: 'ពិនិត្យពាក្យសម្ងាត់' ,
-                  content: 'សូមបំពេញ ពាក្យសម្ងាត់ និង បញ្ជាក់ពាក្យសម្ងាត់។' ,
-                  duration: 1000
-              })
+        if( model.password !== model.confirmPassword ) {
+            notify.warning({
+                title: 'ពិនិត្យពាក្យសម្ងាត់' ,
+                content: 'សូមប្រាកដថា ពាក្យសម្ងាត់ និង បញ្ជាក់ពាក្យសម្ងាត់ គឺដូចគ្នា។' ,
+                duration: 1000
+            })
             return false
-          }
-          if( model.password !== model.confirmPassword ) {
-              notify.warning({
-                  title: 'ពិនិត្យពាក្យសម្ងាត់' ,
-                  content: 'សូមប្រាកដថា ពាក្យសម្ងាត់ និង បញ្ជាក់ពាក្យសម្ងាត់ គឺដូចគ្នា។' ,
-                  duration: 1000
-              })
-              return false
-          }
-          store.dispatch('user/passwordUpdate',{
-              email: getUser().email ,
-              password: model.password
-          }).then( res => {
-              if( res.data.ok ){
-                  notify.success({
-                      title: 'ប្ដូរពាក្យសម្ងាត់ថ្មី' ,
-                      content: res.data.message ,
-                      duration: 1000
-                  })
-                  // authLogout()
-                  router.push({
-                      name: "Login" ,
-                      params: {
-                          email: getUser().email
-                      }
-                  })
-              }else{
-                  notify.warning({
-                      title: 'ប្ដូរពាក្យសម្ងាត់ថ្មី' ,
-                      content: res.data.message ,
-                      duration: 1000
-                  })
-              }
-          }).catch( err => {
-              notify.error({
-                  title: 'ប្ដូរពាក្យសម្ងាត់ថ្មី' ,
-                  content: err.response.data.message ,
-                  duration: 3000
-              })
-          })
         }
+        store.dispatch('user/passwordUpdate',{
+            email: getUser().email ,
+            password: model.password
+        }).then( res => {
+            if( res.data.ok ){
+                notify.success({
+                    title: 'ប្ដូរពាក្យសម្ងាត់ថ្មី' ,
+                    content: res.data.message ,
+                    duration: 1000
+                })
+                // authLogout()
+                router.push({
+                    name: "Login" ,
+                    params: {
+                        email: getUser().email
+                    }
+                })
+            }else{
+                notify.warning({
+                    title: 'ប្ដូរពាក្យសម្ងាត់ថ្មី' ,
+                    content: res.data.message ,
+                    duration: 1000
+                })
+            }
+        }).catch( err => {
+            notify.error({
+                title: 'ប្ដូរពាក្យសម្ងាត់ថ្មី' ,
+                content: err.response.data.message ,
+                duration: 3000
+            })
+        })
+      }
 
       return {
         model ,
         rules ,
-        changePassword
+        changePassword ,
+        transitionHelper
       }
     }
 

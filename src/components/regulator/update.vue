@@ -37,7 +37,7 @@
                   <n-form-item label="កាលបរិច្ឆែក" path="year" class="w-4/5 mr-8" >
                     <n-date-picker v-model:value="record.year" placeholder="កាលបរិច្ឆែក" type="date" clearable class="w-full" />
                   </n-form-item>
-                  <n-form-item label="ប្រភេទឯគសារ" path="type" class="w-4/5 mr-8" >
+                  <n-form-item label="ប្រភេទឯកសារ" path="type" class="w-4/5 mr-8" >
                     <n-select
                       v-model:value="record.type_id"
                       filterable
@@ -65,10 +65,12 @@
                           <DocumentPdf24Regular />
                         </n-icon>
                         <br/>បញ្ចូលឯកសារយោង ដើម្បីជំនួសឯកសារដែលមានរួចហើយ។
-                        <br/>
+                        <br/>ទំហំអតិបរមារបស់ឯកសារគឺ ៖ {{  maxUploadFilesize }}
                       </div>
                       <div class="list-files-upload w-full p-4" >
-                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" v-html="'ឯកសារយោងមានឈ្មោះ៖ ' + pdf.name + ' , ទំហំ៖ ' + (pdf.size/1024/1024).toFixed(2) + ' មេកាបៃ (MB)' " ></div>
+                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" >
+                          <div v-if="pdf.name != undefined && pdf.name != null " class="" > {{ ( index + 1 ) }}. {{  pdf.name }} ( {{ (pdf.size/1024/1024).toFixed(2) }})</div>
+                        </div>
                       </div>
                     </div>
                   </n-form-item>
@@ -87,6 +89,7 @@
 <script>
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { getMaxUploadFilesize }  from './../../plugins/file'
 import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
 import { DocumentPdf24Regular } from '@vicons/fluent'
@@ -147,6 +150,7 @@ export default {
     const message = useMessage()
     const notify = useNotification()
     const btnSavingLoadingRef = ref(false)
+    const maxUploadFilesize = ref( getMaxUploadFilesize() )
     /**
      * Variables
      */    
@@ -272,19 +276,23 @@ export default {
         duration: 3000
       })
       store.dispatch('regulator/upload', formData ).then( res => {
-        notify.success({
-          title: 'រក្សារទុកព័ត៌មាន' ,
-          description: 'បានបញ្ចូលឯកសារយោងរួចរាល់។' ,
-          duration: 3000
-        })
+        message.success('បានបញ្ចូលឯកសារយោងរួចរាល់។')
         props.record.pdfs = []
         btnSavingLoadingRef.value = false 
         props.onClose()
       }).catch( err => {
-        console.log( err )
+        let message = ""
+        switch( err.response.status ){
+          case 413 :
+            message = "ទំហំឯកសារ ហួសការកំណត់។"
+            break;
+          default:
+            message = "មានបញ្ហាពេលបញ្ចូលឯកសារយោង។"
+            break;
+        }
         notify.error({
           title: 'រក្សារទុកព័ត៌មាន' ,
-          description: 'មានបញ្ហាពេលបញ្ចូលឯកសារយោង។' ,
+          description: message ,
           duration: 3000
         })
       })
@@ -337,11 +345,6 @@ export default {
        * Saving information of the regulator
        */
       let year = new Date(props.record.year) 
-      notify.info({
-        title: 'រក្សារទុកព័ត៌មាន' ,
-        description: 'កំពុងរក្សារទុកព័ត៌មាន។' ,
-        duration: 3000
-      })
       btnSavingLoadingRef.value = true
       store.dispatch( props.model.name+'/update',{
         id: props.record.id ,
@@ -356,11 +359,7 @@ export default {
           case 200 : 
             document.getElementById('referenceDocument').value = ''     
             if( res.data.ok ){
-              notify.success({
-                title: 'រក្សារទុកព័ត៌មាន' ,
-                description: 'រក្សារទុកព័ត៌មានរបស់ឯកសាររួចរាល់។' ,
-                duration: 3000
-              })
+              message.success('រក្សារទុកព័ត៌មានរបស់ឯកសាររួចរាល់។')
               /**
                * Start uploading reference document of this regulator
                */
@@ -482,7 +481,8 @@ export default {
        */
       fileChange , 
       clickUpload ,
-      uploadFiles
+      uploadFiles,
+      maxUploadFilesize
     }
   }
 }

@@ -14,7 +14,10 @@ export default defineConfig({
     ],  
     server: {
         host: '127.0.0.1',
-        // host: '192.168.31.32' ,
+        // home
+        // host: '192.168.0.105' ,
+        // OCM
+        // host: '172.29.0.120' ,
         port: 4000
     }
 })

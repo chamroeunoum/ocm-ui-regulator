@@ -1,26 +1,29 @@
 <template >
-    <div class="flex mx-auto pb-8 mt-8 mb-20 sm:w-12/12 md:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-6/12">  
-        <div class="w-full p-8" >
-            <div class="w-48 mx-auto my-4">
-                <img src="./../../assets/logo.svg" class="w-full" >
+    <div class="flex justify-center ">
+        <Transition name="slide-fade" >
+            <div v-if="slideFadeHelper" class="w-full mx-4 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 md:mt-24 sm:mt-12 mb-24">
+                <div class="w-40 mx-auto my-4">
+                    <img src="./../../assets/logo.svg" class="w-full" >
+                </div>
+                <div class="text-center my-2" >
+                    <div class="my-2 text-xs font-muol">{{ store.state.organization.name }}</div>
+                    <div class="my-2 text-xs font-muol">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+                    <div class="my-2 text-4xl font-tactieng" >3</div>
+                </div>
+                <div class="w-full mx-auto my-2 text-xs font-muol">{{ store.state.system.name }}</div>
+                <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-md">បញ្ជាក់ការប្ដូរពាក្យសម្ងាត់</div>
+                <n-form :model="model" :rules="rules" class="mb-24 text-md">
+                    <n-form-item path="code" label="កូតសម្ងាត់" class="md">
+                        <n-input v-model:value="model.code" @keydown.enter.prevent placeholder="កូតសម្ងាត់" class="text-left text-md " @keyup.enter="confirm()" />
+                    </n-form-item>
+                    <n-button @click="$router.push({ name: 'PasswordForgot', params: { email: model.email } })"  type="default" class="mx-4 my-1 w-60 text-md" size="medium" >បកក្រោយ</n-button>
+                    <n-button @click="confirm()" secondary type="success" class="mx-4 my-1 w-60 text-md" size="medium" >បញ្ជាក់លេខកូដប្ដូរពាក្យសម្ងាត់</n-button>
+                    
+                </n-form>
             </div>
-            <div class="text-center" >
-                <div class="my-2 text-lg">{{ companyName }}</div>
-            </div>
-            <div class="w-full mx-auto my-8 text-lg ">{{ systemName }}</div>
-            <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">បញ្ជាក់ការប្ដូរពាក្យសម្ងាត់</div>
-            <n-form :model="model" :rules="rules" class="mb-24">
-                <n-form-item path="code" label="កូតសម្ងាត់">
-                    <n-input v-model:value="model.code" @keydown.enter.prevent placeholder="កូតសម្ងាត់" class="text-left " @keyup.enter="confirm()" />
-                </n-form-item>
-                
-                <n-button @click="$router.push({ name: 'PasswordForgot', params: { email: model.email } })"  type="default" class="mx-4 my-1 w-60" size="medium" >បកក្រោយ</n-button>
-                <n-button @click="confirm()" secondary type="success" class="mx-4 my-1 w-60" size="medium" >បញ្ជាក់លេខកូដប្ដូរពាក្យសម្ងាត់</n-button>
-                
-            </n-form>
-        </div>
+        </Transition>
+        <div class="fixed bottom-0 w-full"><Footer /></div>
     </div>
-    <div class="fixed bottom-0 w-full"><Footer /></div>
 </template>
 <script>
 import Footer from '../../components/footer/copy-right.vue'
@@ -40,6 +43,7 @@ export default {
         const router = useRouter()
         const route = useRoute()
 
+        const slideFadeHelper = ref(false)
 
         const model = reactive({
             email: '' ,
@@ -101,12 +105,18 @@ export default {
             })
         }
 
+        setTimeout( function(){
+            slideFadeHelper.value = true
+        }, 300 )
+
         return {
             model ,
             rules ,
             confirm ,
             companyName ,
-            systemName
+            systemName ,
+            slideFadeHelper ,
+            store
         }
     }
 }

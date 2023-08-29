@@ -46,84 +46,84 @@
     </div>
     <!-- Table of crud -->
     <div class="vcb-table-panel">
-      <table class="vcb-table" >
-        <tr class="vcb-table-headers" >
-          <th class="vcb-table-header" >ល.រ</th>
-          <th class="vcb-table-header">កម្មវត្ថុ</th>
-          <th class="vcb-table-header">លេខ</th>
-          <th class="vcb-table-header w-32">ប្រភេទ</th>
-          <th class="vcb-table-header w-24">ថ្ងៃខែឆ្នាំ</th>
-          <!-- <th class="vcb-table-header w-40">អ្នកបង្កើត</th> -->
-          <th class="vcb-table-header text-right w-40" >ប្រតិបត្តិការ</th>
-        </tr>
-        <tr v-for="(record, index) in table.records.matched" :key='index' class="vcb-table-row" >
-          <td class="vcb-table-cell font-bold" >{{ index + 1 }}</td>
-          <td class="vcb-table-cell" v-html="applyTagMark(record.objective)" ></td>
-          <td  class="vcb-table-cell" >{{ record.fid }}</td>
-          <td  class="vcb-table-cell" >{{ record.type.name }}</td>
-          <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
-          <!-- <td  class="vcb-table-cell" >{{ record.createdBy.lastname + ' ' + record.createdBy.firstname }}</td> -->
-          <td class="vcb-table-actions-panel text-right" >
-            <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(record)" title="ប្រតិបត្តិការផ្សេងៗ" >
-              <AppsList20Regular />
-            </n-icon>
-            <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
-              <Edit20Regular />
-            </n-icon>
-            <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(record)" title="លុបគណនីនេះចោល" >
-              <TrashOutline />
-            </n-icon>
-            <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
-              <IosCheckmarkCircleOutline />
-            </n-icon>
-            <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(record)" title="ឯកសារកំពុងបើកជាសាធារណ" >
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
-            </n-icon>
-            <div v-if="record.pdf" class="cursor-pointer " @click="pdfPreview(record)" title="មើលឯកសារ" alt="មើលឯកសារ" >
-              <n-icon size="20" class="cursor-pointer text-red-500" >
-                <DocumentPdf24Regular />
-              </n-icon>
+      <Transition name="slide-fade" >
+        <div v-if="table.records.matched.length > 0" class="vcb-table w-full" >
+          <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
+            <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="( index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
+            <div  class="vcb-table-cell text-xs mb-2" >
+              លេខចុះ ៖ {{ document.fid }} 
+              កាលបរិច្ឆែទ ៖ {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.document_year.slice(0,10) }} 
+              <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
             </div>
-            <n-icon size="20" class="cursor-pointer text-blue-700 mx-1" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(record)" >
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
-            </n-icon>
-            <!-- <n-icon size="20" class="cursor-pointer mx-1" @click="$router.push('/regulator/child/'+record.id)" >
-              <ParentChild />
-            </n-icon> -->
-          </td>
-        </tr>
-      </table>
+            <!-- Document Actions -->
+            <div class="record-actions-panel flex mb-2" >
+                <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(document)" title="ប្រតិបត្តិការផ្សេងៗ" >
+                  <AppsList20Regular />
+                </n-icon>
+                <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(document)" title="កែប្រែព័ត៌មាន" >
+                  <Edit20Regular />
+                </n-icon>
+                <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(document)" title="លុបគណនីនេះចោល" >
+                  <TrashOutline />
+                </n-icon>
+                <!-- <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
+                  <IosCheckmarkCircleOutline />
+                </n-icon> -->
+                <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(document)" title="ឯកសារកំពុងបើកជាសាធារណ" >
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
+                </n-icon>
+                <div v-if="document.pdf" class="cursor-pointer " @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
+                  <n-icon size="20" class="cursor-pointer text-red-500" >
+                    <DocumentPdf24Regular />
+                  </n-icon>
+                </div>
+                <n-icon size="20" class="cursor-pointer text-blue-700 mx-1" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" >
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
+                </n-icon>
+              </div>
+          </div>
+        </div>
+      </Transition>
+      <Transition name="slide-fade" >
+        <div v-if="table.records.matched.length <= 0" class="vcb-table w-full p-16" >មិនមានព័ត៌មាននោះឡើយ។</div>
+      </Transition>
       <!-- Loading -->
-      <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
-        <div class="spinner mt-24">
-          <Icon size="40" class="animate-spin  text-blue-500" >
-           <IosRefresh />
-          </Icon><br/><br/>
-          កំពុងអាន...
+      <Transition name="slide-fade" >
+        <div v-if="table.loading" class="table-loading absolute left-0 top-0 right-0 bottom-0 bg-white bg-opacity-75 ">
+          <div class="spinner mt-24">
+            <Icon size="40" class="animate-spin  text-blue-500" >
+            <IosRefresh />
+            </Icon><br/><br/>
+            កំពុងអាន...
+          </div>
+          <div class="absolute top-3 right-3 " @click="closeTableLoading" >
+            <Icon size="40" class="text-red-600" >
+            <CloseCircleOutline />
+            </Icon>
+          </div>
         </div>
-        <div class="absolute top-3 right-3 " @click="closeTableLoading" >
-          <Icon size="40" class="text-red-600" >
-           <CloseCircleOutline />
-          </Icon>
-        </div>
-      </div>
-      
+      </Transition>
     </div>
     <!-- Pagination of crud -->
-    <div class="vcb-table-pagination">
-      <!-- First -->
-      <!-- Previous -->
-      <div class="vcb-pagination-page" v-html='"<"' @click="previous()" ></div>
-      <!-- Pages (7) -->
-      <div v-for="(page, index) in table.pagination.buttons" :key="index" class="vcb-pagination-page pages h-8 mx-2 font-bold" @click="table.pagination.page == page ? false : goTo(page) " >
-        <div :class="'page w-8 h-8 text-center align-middle leading-8 cursor-pointer' + (table.pagination.page == page ? ' text-blue-500' : '' ) ">{{ page }}</div>
+    <Transition name="fade" >
+      <!-- Pagination of crud -->
+      <div class="fixed left-0 right-0 bottom-12 h-12 flex" >
+        <div class="vcb-table-pagination ">
+          <!-- First -->
+          <!-- Previous -->
+          <div class="vcb-pagination-page w-8 h-8 text-center align-middle leading-8 font-bold cursor-pointer" v-html='"<"' @click="previous()" ></div>
+          <!-- Pages (7) -->
+          <div v-for="(page, index) in table.pagination.buttons" :key="index" :class="'vcb-pagination-page pages h-8 mx-2 font-bold' + (table.pagination.page == page ? ' bg-blue-500 text-white  rounded-full' : '' )" @click="table.pagination.page == page ? false : goTo(page) " >
+            <div class="page w-8 h-8 text-center align-middle leading-8 cursor-pointer">{{ page }}</div>
+          </div>
+          <!-- Next -->
+          <div class="vcb-pagination-page w-8 h-8 text-center align-middle leading-8 font-bold cursor-pointer" v-html='">"' @click="next()" ></div>
+          <!-- Last -->
+          <!-- Go to -->
+          <!-- Total per page -->
+        </div>
       </div>
-      <!-- Next -->
-      <div class="vcb-pagination-page" v-html='">"' @click="next()" ></div>
-      <!-- Last -->
-      <!-- Go to -->
-      <!-- Total per page -->
-    </div>
+    </Transition>
     <!-- Filter panel of crud -->
     <div v-if="filterPanel" class="vcb-filter-panel h-64">
       <div class="filter-container relative w-full flex">
@@ -142,14 +142,15 @@
       <div class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
         <svg class="w-12 h-12 mr-4 mt-0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" fill="currentColor"></path></svg>
       </div>
-      <div class="absolute top-3 right-20 cursor-pointer " @click="copyShareLink" >
+      <!-- Share button -->
+      <!-- <div class="absolute top-3 right-20 cursor-pointer " @click="copyShareLink" >
         <svg class="w-8 h-8 mr-4 mt-2 cursor-pointer font-bold ml-4"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><g><g><path d="M383.822,344.427c-16.045,0-31.024,5.326-41.721,15.979l-152.957-88.42c1.071-5.328,2.142-9.593,2.142-14.919
           c0-5.328-1.071-9.593-2.142-14.919l150.826-87.35c11.762,10.653,26.741,17.041,43.852,17.041c35.295,0,64.178-28.766,64.178-63.92
           C448,72.767,419.117,44,383.822,44c-35.297,0-64.179,28.767-64.179,63.92c0,5.327,1.065,9.593,2.142,14.919l-150.821,87.35
           c-11.767-10.654-26.741-17.041-43.856-17.041c-35.296,0-63.108,28.766-63.108,63.92c0,35.153,28.877,63.92,64.178,63.92
           c17.115,0,32.089-6.389,43.856-17.042l151.891,88.421c-1.076,4.255-2.141,8.521-2.141,13.847
           c0,34.094,27.806,61.787,62.037,61.787c34.229,0,62.036-27.693,62.036-61.787C445.858,372.12,418.052,344.427,383.822,344.427z"></path></g></g></svg>
-      </div>
+      </div> -->
     </div>
     <!-- Form Action Menu -->
     <add-remove-reader-form v-bind:model="model" v-bind:record="regulatorRecord" v-bind:show="regulatorModal.show" :onClose="closeShareRegulatorModal"/>
@@ -689,6 +690,7 @@ export default {
           content: res.data.message ,
           duration: 3000
         })
+        showFolderModal.value = false
         getFolders()
       }).catch( err => {
         console.log( err.response.data )
@@ -710,6 +712,7 @@ export default {
           content: res.data.message ,
           duration: 3000
         })
+        showFolderModal.value = false
         getFolders( )
       }).catch( err => {
         console.log( err.response.data )
@@ -808,43 +811,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-  .vcb-table-panel {
-    @apply relative p-4 overflow-auto;
-  }
-  .vcb-table {
-    @apply w-full;
-    height: fit-content ;
-  }
-  .vcb-table tr.vcb-table-row {
-    @apply border-b border-gray-100 text-left ;
-  }
-  .vcb-table tr.vcb-table-row td {
-    @apply p-2;
-  }
-  .vcb-table-actions-panel {
-    @apply flex flex-row-reverse ;
-  }
-  .vcb-table-actions-panel .vcb-action-button {
-    @apply  rounded-full border border-gray-200 w-8 h-8 mx-2 text-center cursor-pointer hover:border-blue-500 hover:text-blue-500  duration-300;
-  }
-  .vcb-table-headers {
-    @apply border-b border-gray-200;
-  }
-  .vcb-table-headers .vcb-table-header {
-    @apply px-2 py-4 text-left ;
-  }
-  .vcb-table-pagination {
-    @apply flex flex-row fixed bg-white right-0 bottom-0 border border-l p-3  z-50;
-  }
-  .vcb-pagination-page {
-    @apply  rounded-full border border-gray-200 mx-1 leading-7 w-8 h-8 font-bold cursor-pointer hover:text-blue-500 hover:border-blue-500 duration-300;
-  }
-  .vcb-filter-panel {
-    @apply flex flex-row fixed bg-white right-0 bottom-0 left-0 border border-l p-3 ;
-  }
-  .vcb-table-cell {
-    @apply leading-6 align-text-top;
-  }
-</style>

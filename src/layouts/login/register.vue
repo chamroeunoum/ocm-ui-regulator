@@ -1,55 +1,59 @@
 <template >
-    <div class="flex mx-auto pb-8 mt-8 mb-20 sm:w-12/12 md:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-6/12">  
-        <div class="w-full p-8" >
-            <div class="w-48 mx-auto my-4">
-                <img src="./../../assets/logo.svg" class="w-full" >
+    <div class="flex justify-center ">
+        <Transition name="slide-fade" >
+            <div v-if="slideFadeHelper" class="w-full mx-4 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 md:mt-24 sm:mt-12 mb-24">
+                <div class="w-28 mx-auto my-4">
+                    <img src="./../../assets/logo.svg" class="w-full" >
+                </div>
+                <div class="text-center my-2" >
+                    <div class="my-2 text-xs font-muol">{{ store.state.organization.name }}</div>
+                    <div class="my-2 text-xs font-muol">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+                    <div class="my-2 text-4xl font-tactieng" >3</div>
+                </div>
+                <div class="w-full mx-auto my-2 text-xs font-muol">{{ store.state.system.name }}</div>
+                <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-md">សំណើរចូលជាសមាជិក</div>
+                <n-form :model="model" :rules="rules" class="mb-24 text-md" >
+                    <n-form-item path="lastname" label="គោត្តនាម" class=" text-md" >
+                        <n-input v-model:value="model.lastname" @keydown.enter.prevent placeholder="គោត្តនាម" class="text-left text-md " />
+                    </n-form-item>
+                    <n-form-item path="firstname" label="នាម" class=" text-md">
+                        <n-input v-model:value="model.firstname" @keydown.enter.prevent placeholder="នាម" class="text-left  text-md" />
+                    </n-form-item>
+                    <n-form-item path="phone" label="ទូរស័ព្ទ" class=" text-md">
+                        <n-input v-model:value="model.phone" @keydown.enter.prevent placeholder="ទូរស័ព្ទ" class="text-left text-md " />
+                    </n-form-item>
+                    <n-form-item path="email" label="អ៊ីមែល" class=" text-md">
+                        <n-input v-model:value="model.email" placeholder="អ៊ីមែល" class="text-left  text-md" />
+                    </n-form-item>
+                    <n-form-item path="password" label="ពាក្យសម្ងាត់" class=" text-md">
+                        <n-input
+                            v-model:value="model.password"
+                            type="password"
+                            @input="handlePasswordInput"
+                            @keydown.enter.prevent
+                            placeholder="ពាក្យសម្ងាត់"
+                        class="text-left  text-md" />
+                    </n-form-item>
+                    <n-form-item path="password_confirmation" label="បញ្ជាក់ពាក្យសម្ងាត់" class=" text-md">
+                        <n-input
+                            v-model:value="model.password_confirmation"
+                            type="password"
+                            @keydown.enter.prevent 
+                            placeholder="បញ្ជាក់ពាក្យសម្ងាត់"
+                        class="text-left  text-md" />
+                    </n-form-item>
+                    
+                    <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-40 text-md" size="medium" >បកក្រោយ</n-button>
+                    <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-40 text-md" size="medium" >ចុះឈ្មោះជាសមាជិក</n-button>
+                </n-form>
             </div>
-            <div class="text-center" >
-                <div class="my-2 text-lg">{{ store.state.organization.name }}</div>
-            </div>
-            <div class="w-full mx-auto my-8 text-lg ">{{ store.state.system.name }}</div>
-            <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សំណើរចូលជាសមាជិក</div>
-            <n-form :model="model" :rules="rules" class="mb-24" >
-                <n-form-item path="lastname" label="គោត្តនាម">
-                    <n-input v-model:value="model.lastname" @keydown.enter.prevent placeholder="គោត្តនាម" class="text-left " />
-                </n-form-item>
-                <n-form-item path="firstname" label="នាម">
-                    <n-input v-model:value="model.firstname" @keydown.enter.prevent placeholder="នាម" class="text-left " />
-                </n-form-item>
-                <n-form-item path="phone" label="ទូរស័ព្ទ">
-                    <n-input v-model:value="model.phone" @keydown.enter.prevent placeholder="ទូរស័ព្ទ" class="text-left " />
-                </n-form-item>
-                <n-form-item path="email" label="អ៊ីមែល">
-                    <n-input v-model:value="model.email" placeholder="អ៊ីមែល" class="text-left " />
-                </n-form-item>
-                <n-form-item path="password" label="ពាក្យសម្ងាត់">
-                    <n-input
-                        v-model:value="model.password"
-                        type="password"
-                        @input="handlePasswordInput"
-                        @keydown.enter.prevent
-                        placeholder="ពាក្យសម្ងាត់"
-                    class="text-left " />
-                </n-form-item>
-                <n-form-item path="password_confirmation" label="បញ្ជាក់ពាក្យសម្ងាត់" >
-                    <n-input
-                        v-model:value="model.password_confirmation"
-                        type="password"
-                        @keydown.enter.prevent 
-                        placeholder="បញ្ជាក់ពាក្យសម្ងាត់"
-                    class="text-left " />
-                </n-form-item>
-                
-                <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-40" size="medium" >បកក្រោយ</n-button>
-                <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-40" size="medium" >ចុះឈ្មោះជាសមាជិក</n-button>
-            </n-form>
-        </div>
+        </Transition>
+        <div class="fixed bottom-0 w-full"><Footer /></div>
     </div>
-    <div class="fixed bottom-0 w-full"><Footer /></div>
 </template>
 <script>
 import Footer from './../../components/footer/copy-right.vue'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useNotification } from 'naive-ui'
@@ -73,6 +77,7 @@ export default {
             password: '',
             password_confirmation: ''
         })
+        const slideFadeHelper = ref(false)
 
         const rules = {
             firstname: [
@@ -152,6 +157,10 @@ export default {
             })
         }
 
+        setTimeout( function(){
+            slideFadeHelper.value = true
+        }, 300 )
+
         return {
             /**
              * Variables
@@ -163,7 +172,8 @@ export default {
             /**
              * Functions
              */
-            handleSubmit
+            handleSubmit ,
+            slideFadeHelper
         }
     }
 }

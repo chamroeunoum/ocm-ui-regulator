@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center">
+      <n-modal v-model:show="show" transform-origin="center">
         <n-card class="w-1/2 font-pvh text-xl" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="update()" >
@@ -126,7 +126,7 @@ export default {
         name: props.record.name
       }).then( res => {
         if( res.data.ok ){
-          notify.warning({
+          notify.success({
             title: 'រក្សារទុកព័ត៌មាន' ,
             description: res.data.message ,
             duration: 2000

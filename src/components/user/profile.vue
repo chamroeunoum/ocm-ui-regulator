@@ -26,60 +26,61 @@
         </div>
       </div>
       <!-- End Menu -->    
-      <div class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-20 relative">
-        <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden" >
-          <img :src="localProfile" alt="Profile picture" class="w-40 h-40" >
-        </div>
-        <div class="uploader absolute right-0 top-0 w-24flex" >
-          <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
-          <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <div class="changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload"  >
-                  <n-icon size="22" class="text-gray-600" >
-                    <CameraOutline />
-                  </n-icon>
-                </div>
-              </template>ប្ដូររូបភាពគណនី
-            </n-tooltip>
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <div class="saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" >
-                  <n-icon size="22" class="text-gray-600" >
-                    <CloudUploadOutline />
-                  </n-icon>
-                </div>
-              </template>រក្សារទុករូបភាពថ្មី
-            </n-tooltip>
+      <Transition name="slide-fade" >
+        <div v-if="transitionHelper"  class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-20 relative">
+          <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-cover" :style=" 'background-image: url(' + localProfile +');' " >
+          </div>
+          <div class="uploader absolute right-0 top-0 w-24flex" >
+            <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
+            <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <div class="changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload"  >
+                    <n-icon size="22" class="text-gray-600" >
+                      <CameraOutline />
+                    </n-icon>
+                  </div>
+                </template>ប្ដូររូបភាពគណនី
+              </n-tooltip>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <div class="saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" >
+                    <n-icon size="22" class="text-gray-600" >
+                      <CloudUploadOutline />
+                    </n-icon>
+                  </div>
+                </template>រក្សារទុករូបភាពថ្មី
+              </n-tooltip>
+            </div>
+          </div>
+          <div class="my-12">
+            <n-form
+            ref="formRef"
+            label-placement="left"
+            :model="user"
+            label-width="120"
+            >
+              <n-form-item-row label="ឈ្មោះគណនី" >
+                <n-input placeholder="ឈ្មោះគណនី" class="text-left" v-model:value="user.username" />
+              </n-form-item-row>
+              <n-form-item-row label="គោត្តនាម" >
+                <n-input placeholder="គោត្តនាម" class="text-left" v-model:value="user.lastname" />
+              </n-form-item-row>
+              <n-form-item-row label="នាម">
+                <n-input placeholder="នាម" class="text-left" v-model:value="user.firstname" />
+              </n-form-item-row>
+              <n-form-item-row label="ទូរស័ព្ទ">
+                <n-input placeholder="ទូរស័ព្ទ" class="text-left" v-model:value="user.phone" />
+              </n-form-item-row>
+              <n-form-item-row label="អ៊ីមែល" >
+                <n-input placeholder="អ៊ីមែល" class="text-left" disabled v-model:value="user.email" />
+              </n-form-item-row>
+            </n-form>
+            <!-- <n-button type="default" class="mx-8 w-32 my-1" @click="$router.push('/welcome')" >បកក្រោយ</n-button> -->
+            <n-button type="primary" secondary class="mx-8 w-32 my-1" @click="save()" >រក្សារទុក</n-button>
           </div>
         </div>
-        <div class="my-12">
-          <n-form
-          ref="formRef"
-          label-placement="left"
-          :model="user"
-          label-width="120"
-          >
-            <n-form-item-row label="ឈ្មោះគណនី" >
-              <n-input placeholder="ឈ្មោះគណនី" class="text-left" v-model:value="user.username" />
-            </n-form-item-row>
-            <n-form-item-row label="គោត្តនាម" >
-              <n-input placeholder="គោត្តនាម" class="text-left" v-model:value="user.lastname" />
-            </n-form-item-row>
-            <n-form-item-row label="នាម">
-              <n-input placeholder="នាម" class="text-left" v-model:value="user.firstname" />
-            </n-form-item-row>
-            <n-form-item-row label="ទូរស័ព្ទ">
-              <n-input placeholder="ទូរស័ព្ទ" class="text-left" v-model:value="user.phone" />
-            </n-form-item-row>
-            <n-form-item-row label="អ៊ីមែល" >
-              <n-input placeholder="អ៊ីមែល" class="text-left" disabled v-model:value="user.email" />
-            </n-form-item-row>
-          </n-form>
-          <!-- <n-button type="default" class="mx-8 w-32 my-1" @click="$router.push('/welcome')" >បកក្រោយ</n-button> -->
-          <n-button type="primary" secondary class="mx-8 w-32 my-1" @click="save()" >រក្សារទុក</n-button>
-        </div>
-      </div>
+      </Transition>
     </div>
     <div class="flex flex-wrap bottom-0 mx-auto w-full fixed z-40">
       <FooterComponent />
@@ -114,10 +115,15 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
       const notify = useNotification()
       const base64Avatar = ref(null)
       const selectedFileType = ref('')
+      const transitionHelper = ref(false)
 
       if( isAuth() ){
         user.value = getUser()
+        setTimeout( function(){
+          transitionHelper.value = true
+        } , 300 )
       }else{
+        transitionHelper.value = false
         user.value = ref({
           lastname: '' ,
           firstname: '' ,
@@ -311,7 +317,8 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
         uploadFiles,
         clickUpload ,
         localProfile ,
-        model
+        model ,
+        transitionHelper
       }
     }
 

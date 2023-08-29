@@ -2,7 +2,7 @@
   <div>
     <!-- Logo of the Office of Council of Ministers -->
     <div class="w-48 mx-auto my-8">
-      <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
+      <img src="./../../assets/logo.svg" alt="SASTRA Logo" class="w-full" >
     </div>
     <div class="w-full mx-auto mt-4 mb-12 text-lg ">អង្គភាពចំណុះក្រោមទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
     <div class="p-4 flex justify-center  " >
