@@ -78,12 +78,12 @@ const actions = {
     null,
     true
   )},
-  async listDocumentWithValidation ({ state, commit, rootState },params) {
-    return await crud.read(rootState.apiServer+"/"+state.model.name+"/list/document/validation"+ "?" + new URLSearchParams({
+  async listRegulatorWithValidation ({ state, commit, rootState },params) {
+    return await crud.read(rootState.apiServer+"/"+state.model.name+"/list/regulator/validation"+ "?" + new URLSearchParams({
       search: params.search ,
       perPage: params.perPage ,
       page: params.page ,
-      document_id : params.document_id
+      regulator_id : params.regulator_id
     }).toString(),
     null,
     true

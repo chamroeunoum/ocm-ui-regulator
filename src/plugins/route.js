@@ -133,23 +133,23 @@ export const getRoutes = () => {
               },
           ]
       },
-      {
-          name: 'Regulator' ,
-          path: '/regulators',
-          component: RegulatorComponent ,
-          meta: { 
-              transition: 'slide-right' ,
-              requiresAuth: true,
-              is_admin : true
-          },
-          children: [
-              {
-                  name: "RegulatorList" ,
-                  path: '' ,
-                  component: RegulatorListComponent
-              }
-          ]
-      },
+    //   {
+    //       name: 'Regulator' ,
+    //       path: '/regulators',
+    //       component: RegulatorComponent ,
+    //       meta: { 
+    //           transition: 'slide-right' ,
+    //           requiresAuth: true,
+    //           is_admin : true
+    //       },
+    //       children: [
+    //           {
+    //               name: "RegulatorList" ,
+    //               path: '' ,
+    //               component: RegulatorListComponent
+    //           }
+    //       ]
+    //   },
       {
           name: "GlobalSharedRegulator" ,
           path: '/globalshare/:serial' ,

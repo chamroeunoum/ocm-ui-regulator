@@ -54,7 +54,7 @@
             <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="( index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
             <div  class="vcb-table-cell text-xs" >
               លេខចុះ ៖ {{ document.fid }} 
-              កាលបរិច្ឆែទ ៖ {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.document_year.slice(0,10) }} 
+              កាលបរិច្ឆែទ ៖ {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.year.slice(0,10) }} 
               <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
             </div>
             <div class="vcb-table-actions-panel h-5 absolute bottom-0 right-0 text-right">
@@ -111,7 +111,7 @@
           <td class="vcb-table-cell" v-html="record.objective" ></td>
           <td  class="vcb-table-cell" >{{ record.fid }}</td>
           <td  class="vcb-table-cell" >{{ record.type.name }}</td>
-          <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
+          <td class="vcb-table-cell" >{{ record.year.slice(0,10) }}</td>
           <td class="vcb-table-actions-panel text-right" >
             <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(record)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />

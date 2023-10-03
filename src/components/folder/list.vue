@@ -388,7 +388,7 @@ export default {
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
       accessibilityRecord.type_id = record.document_type
-      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.year = new Date( record.year ).getTime()
       accessibilityRecord.publish = record.publish
       accessibilityRecord.active = record.active
       accessibilityRecord.accessibility = record.accessibility

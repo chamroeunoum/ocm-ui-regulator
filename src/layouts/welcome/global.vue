@@ -1,11 +1,17 @@
 <template>
-  <div>
+  <div >
     <top-menu />
-    <div class="flex w-full h-20 p-2 border-b z-50" >
-      <div class="flex-grow px-4 py-3">
+    <div class="flex w-full border-b z-50 border-t " >
+      <div class="absolute flex w-64 h-10 pl-4 py-4 title -mt-16" >
+        <div class="submenu-icon h-8 flex">
+          <svg class="flex-none mr-2 text-red-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M30 18v-2h-6v10h2v-4h3v-2h-3v-2h4z" fill="currentColor"></path><path d="M19 26h-4V16h4a3.003 3.003 0 0 1 3 3v4a3.003 3.003 0 0 1-3 3zm-2-2h2a1.001 1.001 0 0 0 1-1v-4a1.001 1.001 0 0 0-1-1h-2z" fill="currentColor"></path><path d="M11 16H6v10h2v-3h3a2.003 2.003 0 0 0 2-2v-3a2.002 2.002 0 0 0-2-2zm-3 5v-3h3l.001 3z" fill="currentColor"></path><path d="M22 14v-4a.91.91 0 0 0-.3-.7l-7-7A.909.909 0 0 0 14 2H4a2.006 2.006 0 0 0-2 2v24a2 2 0 0 0 2 2h16v-2H4V4h8v6a2.006 2.006 0 0 0 2 2h6v2zm-8-4V4.4l5.6 5.6z" fill="currentColor"></path></svg>
+          <div class="submenu-icon-title flex-grow w-full leading-9 font-muol" v-html="model.title" ></div>
+        </div>
+      </div>
+      <div class="flex-grow p-4">
         <!-- Search box -->
         <div class="relative " >
-          <input type="text" placeholder="សួមដកឃ្លាដើម្បីបន្ថែមលក្ខណស្វែងរក ..." @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 pl-4 pr-10 h-10 w-full rounded-full border border-gray-200 transition duration-500 focus:border-blue-600 hover:border-blue-600 text-xs" />
+          <input type="text" placeholder="សួមដកឃ្លាដើម្បីបន្ថែមលក្ខណស្វែងរក ..." @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-white pl-4 pr-10 h-10 w-full rounded-full border border-gray-300 transition duration-500 focus:border-blue-600 hover:border-blue-600 text-xs" />
           <Icon size="30" class="absolute right-1 top-1 text-gray-400 cursor-pointer" >
             <n-icon>
               <Search20Regular />
@@ -13,13 +19,55 @@
           </Icon>
         </div>
         <!-- Search box -->
+        <div class="pt-4 flex justify-center flex-wrap" >
+          <div class="filter-control" >
+            <n-input v-model:value="fid" type="text" placeholder="លេខចុះ" @keypress.enter="filterRecords(false)" />
+          </div>
+          <div class="filter-control" >
+            <n-date-picker v-model:value="year" placeholder="ថ្ងៃ ខែ ឆ្នាំ ឯកសារ" type="date" clearable />
+          </div>
+          <div class="filter-control" >
+            <n-select
+              v-model:value="selectedTypes"
+              filterable
+              placeholder="សូមជ្រើសរើសប្រភេទឯកសារ"
+              :options="types"
+              multiple
+            />
+          </div>
+          <div class="filter-control" >
+            <n-select
+              v-model:value="selectedOrganizations"
+              filterable
+              placeholder="សូមជ្រើសរើសក្រសួងស្ថាប័ន"
+              :options="organizations"
+              multiple
+            />
+          </div>
+          <div class="filter-control" >
+            <n-select
+              v-model:value="selectedSignatures"
+              filterable
+              placeholder="សូមជ្រើសរើសហត្ថលេខា"
+              :options="signatures"
+              multiple
+            />
+          </div>
+          <div class="relative filter-control-button " @click="filterRecords(false)" >
+            ស្វែងរក
+            <svg class="absolute right-1 top-1 h-6 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
+          </div>
+          <div class="relative filter-control-button-clear " @click="clearSearch(false)" >
+            សំអាត
+            <svg class="absolute right-1 top-1 h-6 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Public folder -->
     <Transition name="fade" >
       <div v-if="Array.isArray( folders ) && folders.length > 0" class="flex flex-wrap z-40">
         <div class="vcb-result-message w-full m-8 mb-0 border-b border-gray-100 pb-4 text-left font-bold">ថតឯកសារសាធារណៈ ៖ </div>
-        <!-- Table of crud -->
         <div class="vcb-table-panel flex flex-row w-full ">
           <div v-for="(folder,index) in folders" :key="index" >
             <router-link :to="'/global/'+folder.id+'/regulators'" class="h-20 bg-gray-100 p-4 pr-6 rounded m-8 cursor-pointer hover:shadow relative flex flex-wrap" >
@@ -38,10 +86,12 @@
         <div class="vcb-table-panel flex flex-row w-full mb-24 ">
           <div class="vcb-table w-full" >
             <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
-              <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words text-xs" v-html="( index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
+              <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words text-xs" v-html="( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
               <div  class="vcb-table-cell text-xs" >
-                លេខចុះ ៖ {{ document.fid }} 
-                កាលបរិច្ឆែទ ៖ {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.document_year.slice(0,10) }} 
+                {{ Array.isArray( document.types ) && document.types.length > 0 ? prefixOfTypes[ document.types[0].id ] : '' }} 
+                {{ ' - ' + applyTagMark( document.fid ) }} 
+                {{ ' - ' + document.year.slice(0,10) }} 
+                
                 <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
               </div>
               <div class="vcb-table-actions-panel h-5 absolute bottom-0 right-0 text-right">
@@ -122,7 +172,7 @@
       </div>
     </Transition>
     <!-- Folder modal selection -->
-    <n-modal v-model:show="showFolderModal" @on-after-leave="showFolderModal.value=false" >
+    <n-modal v-model:show="showFolderModal" @on-after-leave="showFolderModal=false" >
       <n-card
         style="width: 600px"
         title="សូមជ្រើសរើសថតឯកសារ"
@@ -135,15 +185,19 @@
           Oops!
         </template> -->
         <!-- Where the available folder of the user -->
-        <div v-for="(folder, index) in listFolders.value" :key="index" class="p-2 cursor-pointer hover:bg-gray-100 rounded duration-500 flex" 
+        <div v-if="listFolders.length <= 0" >មិនមានថតឯកសារនៅឡើយ។
+          <router-link to="/folders" class="text-blue-600" >ទៅបង្កើតថតឯកសារ</router-link>
+        </div>
+        <div v-if="listFolders.length>0" v-for="(folder, index) in listFolders" :key="index" class="p-2 cursor-pointer hover:bg-gray-100 rounded duration-500 flex" 
+        @click="!folder.exists? addRegulatorToFolder(folder) : removeRegulatorFromFolder(folder) " 
         >
           <div class="flex-grow">
             {{ (index +1 ) + '. ' + folder.name }}
           </div>
-          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" @click="addDocumentToFolder(folder)"  >
+          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" >
             <CheckboxChecked20Regular />
           </Icon>
-          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeDocumentFromFolder(folder)"  >
+          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" >
             <CheckboxChecked20Regular />
           </Icon>
         </div>  
@@ -196,7 +250,8 @@ import { IosRefresh } from '@vicons/ionicons4'
 import { CloseCircleOutline } from '@vicons/ionicons5'
 import { Refresh } from '@vicons/tabler'
 import VuePdfEmbed from 'vue-pdf-embed'
-import TopMenu from './../../components/menu/topmenu.vue'
+import TopMenu from './../../components/menu/topmenu-floattop.vue'
+import dateFormat from 'dateformat'
 
 export default {
   name: 'WelcomeTemplate' ,
@@ -224,8 +279,10 @@ export default {
     const dialog = useDialog()
     const subMenuHelper = ref(false)
     const showFolderModal = ref(false)
-    const listFolders = reactive([])
-    const selectedDocumentId = ref(0)
+    const listFolders = ref([])
+    const selectedRegulatorId = ref(0)
+    const year = ref(null)
+    const fid = ref(null)
 
     if( getUser() == undefined && getUser() == null ){
       router.push('/welcome')  
@@ -245,7 +302,7 @@ export default {
      */    
     const model = reactive( {
       name: "search_regulator" ,
-      title: "លិខិតបទដ្ឋានគតិយុត្ត"
+      title: "ស្វែងរក លិខិតបទដ្ឋានគតិយុត្ត"
     })
     const table = reactive( {
       loading: false , 
@@ -307,6 +364,15 @@ export default {
       }
     }
 
+    function clearSearch(){
+      fid.value = '' 
+      year.value = null 
+      selectedTypes.value = [] 
+      selectedOrganizations.value = []
+      selectedSignatures.value = []
+      filterRecords(false)
+    }
+
     /**
      * Functions
      */
@@ -319,7 +385,12 @@ export default {
       store.dispatch(model.name+'/list',{
         search: table.search ,
         perPage: table.pagination.perPage ,
-        page: table.pagination.page
+        page: table.pagination.page ,
+        fid : fid.value ,
+        year : year.value > 0 ? dateFormat(year.value,'yyyy-mm-dd') : null ,
+        types : selectedTypes.value ,
+        organizations : selectedOrganizations.value ,
+        signatures : selectedSignatures.value
       }).then(res => {
         table.records.all = table.records.matched = res.data.records
         table.pagination = res.data.pagination
@@ -460,11 +531,11 @@ export default {
     }
 
     function getFolders(){
-      store.dispatch('folder/listDocumentWithValidation',{
+      store.dispatch('folder/listRegulatorWithValidation',{
         search: '' ,
         page: 1 ,
         perPage: 50 ,
-        document_id : selectedDocumentId.value
+        regulator_id : selectedRegulatorId.value
       }).then( res => {
         listFolders.value = res.data.records
       }).catch( err => {
@@ -477,20 +548,20 @@ export default {
       /**
        * Mark the selected document
        */
-      selectedDocumentId.value = document.id
+      selectedRegulatorId.value = document.id
       getFolders()
     }
 
     function closeFolderModalPopup(){
       showFolderModal.value = false
       listFolders.value = []
-      selectedDocumentId.value = 0
+      selectedRegulatorId.value = 0
     }
 
-    function addDocumentToFolder(folder){
+    function addRegulatorToFolder(folder){
       store.dispatch('folder/addRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        regulator_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដាក់ឯកសារចូលថត" ,
@@ -509,18 +580,18 @@ export default {
       })
     }
 
-    function removeDocumentFromFolder(folder){
+    function removeRegulatorFromFolder(folder){
       store.dispatch('folder/removeRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        regulator_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដកឯកសារចេញពីថត" ,
           content: res.data.message ,
           duration: 3000
         })
-        showFolderModal.value
-        getFolders( )
+        showFolderModal.value = false
+        getFolders()
       }).catch( err => {
         console.log( err.response.data )
         notify.error({
@@ -580,12 +651,96 @@ export default {
       })
     }
     
+    const selectedTypes = ref([])
+    const types = computed(()=>{
+      return store.getters['regulatorType/getRecords'].map( 
+        type => (
+          { label: type.id + ". " + type.name , value : type.id }
+        )
+      )
+    })
+    const selectedOrganizations = ref([])
+    const organizations = computed(()=>{
+      return store.getters['organization/getRecords'].map( 
+        organization => (
+          { label: organization.id + ". " + organization.name , value : organization.id }
+        )
+      )
+    })
+    const selectedSignatures = ref([])
+    const signatures = computed(()=>{
+      return store.getters['signature/getRecords'].map( 
+        signature => (
+          { label: signature.id + ". " + signature.name , value : signature.id }
+        )
+      )
+    })
+
+    /**
+     * Load pivot data of this model
+     */
+    function getTypes(){
+      store.dispatch('regulatorType/list').then(res=>{
+        store.commit('regulatorType/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានប្រភេទឯកសារ' ,
+          description: 'មានបញ្ហាក្នុងពេលអានប្រភេទឯកសារ។'
+        })
+        console.log( err )
+      })
+    }
+    function getSignatures(){
+      store.dispatch('signature/list').then(res=>{
+        store.commit('signature/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានហត្ថលេខា' ,
+          description: 'មានបញ្ហាក្នុងពេលអានហត្ថលេខា។'
+        })
+        console.log( err )
+      })
+    }
+    /**
+     * Load pivot data of this model
+     */
+     function getOrganizations(){
+      store.dispatch('organization/list').then(res=>{
+        store.commit('organization/setRecords',res.data.records)
+      }).catch(err =>{
+        notify.error({
+          title: 'អានអង្គភាពនៃឯកសាររួចរាល់' ,
+          description: 'មានបញ្ហាក្នុងពេលអានអង្គភាពរបស់ឯកសារ។'
+        })
+        console.log( err )
+      })
+    }
+
+    const prefixOfTypes = ref([
+      'មិនមាន' ,
+      'នស/រកម' ,
+      'នស/រកត' ,
+      'អនក្រ/បក' ,
+      'ស.ជ.ណ' ,
+      'សសរ' ,
+      'សរ,សរណន' ,
+      'ប្រ.ក' ,
+      'គនបជ' ,
+      'ផយស' ,
+      'បប' ,
+      'ផសក្រ' ,
+      'អនក្រ.តត' ,
+      'នស/រកត'
+    ])
 
     /**
      * Start fetching records
      */
     getGlobalFolders()
     getRecords()
+    getTypes()
+    getSignatures()
+    getOrganizations()
 
     return {
       /**
@@ -598,6 +753,7 @@ export default {
       subMenuHelper ,
       showFolderModal ,
       listFolders ,
+      prefixOfTypes ,
       /**
        * Table
        */
@@ -621,10 +777,11 @@ export default {
        * Functions
        */
       logout ,
-      addDocumentToFolder ,
-      removeDocumentFromFolder ,
+      addRegulatorToFolder ,
+      removeRegulatorFromFolder ,
       showFolderModalPopup ,
       applyTagMark ,
+      clearSearch ,
       /**
        * Components
        */
@@ -644,7 +801,15 @@ export default {
        * Public folder
        */
       folders ,
-      showShareModalLoading
+      showShareModalLoading ,
+      selectedTypes ,
+      types ,
+      selectedOrganizations ,
+      organizations ,
+      selectedSignatures ,
+      signatures ,
+      year ,
+      fid
     }
   },
   mounted(){
@@ -654,5 +819,14 @@ export default {
 <style scoped>
   .shareDocumentPdf {
     @apply text-red-500 m-8 w-48 h-48 p-8 cursor-pointer shadow border border-gray-100 rounded hover:border-gray-300 duration-300 ;
+  }
+  .filter-control {
+    @apply w-60 m-2;
+  }
+  .filter-control-button {
+    @apply w-28 h-9 m-2 cursor-pointer hover:border-green-600 text-green-600 duration-300 border border-green-300 text-left pl-4 rounded leading-8 bg-white font-bold;
+  }
+  .filter-control-button-clear {
+    @apply w-28 h-9 m-2 cursor-pointer hover:border-red-600 text-red-600 duration-300 border border-red-300 text-left pl-4 rounded leading-8 bg-white font-bold;
   }
 </style>

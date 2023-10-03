@@ -1,16 +1,29 @@
 <template>
   <div class="w-full" >
+    <!-- Title of crud -->
+    <div class="flex w-full h-12 title -mt-12 pl-2 border-b " >
+      <div class="submenu-icon h-8 flex">
+        <svg class="flex-none mr-2 text-yellow-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
+        <div class="submenu-icon-title flex-grow w-full leading-9 font-muol" v-html="model.title" ></div>
+      </div>
+    </div>
   <!-- Top action panel of crud -->
     <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
-      <!-- Title of crud -->
-      <div class="flex w-64 h-10 py-1 title " >
-        <div class="submenu-icon h-8 flex">
-          <svg class="flex-none mr-2 text-yellow-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
-          <div class="submenu-icon-title flex-grow w-full leading-9 font-bold" v-html="model.title" ></div>
-        </div>
-      </div>
       <!-- Actions button of the crud -->
-      <div class="flex-grow action-buttons flex-row-reverse flex">
+      <div class="flex-grow action-buttons flex">
+        <div class="w-2/5 relative" >
+          <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
+          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
+            <n-icon>
+              <Search20Regular />
+            </n-icon>
+          </Icon>
+          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
+            <n-icon>
+              <Filter />
+            </n-icon>
+          </Icon> -->
+        </div>
         <!-- New Button -->
         <div class="mt-1 ml-2">
           <n-button type="success" @click="showCreateModal()" >
@@ -30,41 +43,30 @@
             ស្វែងរកឯកសារ
           </n-button> -->
         </div>
-        <div class="w-2/5 relative" >
-          <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
-          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
-            <n-icon>
-              <Filter />
-            </n-icon>
-          </Icon> -->
-        </div>
         <div class="mt-1 ml-2"></div>
       </div>
     </div>
     <!-- Table of crud -->
     <Transition name="fade" >
-      <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table-panel">
-        <div v-for="(folder, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
-          <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="( index + 1 ) + ' . ' + folder.name + ( folder.documents !== undefined ? ' ( ' + folder.documents.length + ' )' : '' )" ></div>
+      <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table-panel flex">
+        <div v-for="(folder, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8 border w-48 m-1 p-2 rounded cursor-pointer hover:shadow hover:border-blue-500 duration-300 " style="overflow:hidden; text-wrap: nowrap ; text-overflow: ellipsis;" >
+          <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words text-xs" v-html="( index + 1 ) + ' . ' + folder.name" ></div>
           <!-- Document Actions -->
           <div class="record-actions-panel flex mb-2" >
-            <n-icon size="22" class="cursor-pointer mx-1 text-blue-500" @click="showEditModal(folder)" title="កែប្រែព័ត៌មាន" >
+            <n-icon size="22" class="cursor-pointer mx-2 text-blue-500" @click="showEditModal(folder)" title="កែប្រែព័ត៌មាន" >
               <Edit20Regular />
             </n-icon>
-            <n-icon size="22" class="cursor-pointer mx-1 text-red-500" @click="destroy(folder)" title="លុបគណនីនេះចោល" >
+            <n-icon size="22" class="cursor-pointer mx-2 text-red-500" @click="destroy(folder)" title="លុបគណនីនេះចោល" >
               <TrashOutline />
             </n-icon>
             <!-- <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(folder)" title="ឯកសារកំពុងបើកជាសាធារណ" >
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
             </n-icon> -->
-            <n-icon v-if="folder.documents !== undefined && folder.documents.length " size="22" class="cursor-pointer mx-1  text-red-500" @click="$router.push('/folders/'+folder.id+'/regulators')" title="ឯកសារកំពុងបើកជាសាធារណ" >
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
-            </n-icon>
+              <svg 
+              v-if="folder.regulators !== undefined && folder.regulators.length " 
+              class="w-6 h-6 cursor-pointer ml-2  text-red-500" @click="$router.push('/folders/'+folder.id+'/regulators')" title="ឯកសារកំពុងបើកជាសាធារណ"
+              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
+              <span class="text-xs font-bold -mt-1 text-red-500" >{{ folder.regulators !== undefined && folder.regulators.length > 0 ? folder.regulators.length : '' }}</span>
           </div>
         </div>
         
@@ -381,7 +383,7 @@ export default {
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
       accessibilityRecord.type_id = record.document_type
-      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.year = new Date( record.year ).getTime()
       accessibilityRecord.publish = record.publish
       accessibilityRecord.active = record.active
       accessibilityRecord.accessibility = record.accessibility

@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center">
+      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center" :close-on-esc="true" :mask-closable="true" >
         <n-card class="w-1/2 font-pvh text-xl" :title="'បន្ថែម ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" :disabled="btnSavingLoadingRef" @click="create()" :loading="btnSavingLoadingRef" >
@@ -37,14 +37,14 @@
                   <n-form-item label="កាលបរិច្ឆែក" path="year" class="w-4/5 mr-8" >
                     <n-date-picker v-model:value="record.year" placeholder="កាលបរិច្ឆែក" type="date" clearable class="w-full" />
                   </n-form-item>
-                  <n-form-item label="ប្រភេទ" path="email" class="w-4/5 mr-8" >
+                  <!-- <n-form-item label="ប្រភេទ" path="email" class="w-4/5 mr-8" >
                     <n-select
                       v-model:value="record.type_id"
                       filterable
                       placeholder="សូមជ្រើសរើសប្រភេទឯកសារ"
                       :options="documentTypes"
                     />
-                  </n-form-item>
+                  </n-form-item> -->
                   <n-form-item label="ឯកសារយោង" path="pdfs" class="w-4/5 mr-8" >
                     <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
                     <div class="border rounded border-gray-200 w-full text-sm text-center cursor-pointer hover:border-green-500" @click="clickUpload" >
@@ -303,14 +303,14 @@ export default {
         })
         return false
       }
-      if( props.record.type_id <= 0 ){
-        notify.warning({
-          'title' : 'ពិនិត្យព័ត៌មាន' ,
-          'description' : 'សូមជ្រើសរើស ប្រភេទឯកសារ' ,
-          duration : 3000
-        })
-        return false
-      }
+      // if( props.record.type_id <= 0 ){
+      //   notify.warning({
+      //     'title' : 'ពិនិត្យព័ត៌មាន' ,
+      //     'description' : 'សូមជ្រើសរើស ប្រភេទឯកសារ' ,
+      //     duration : 3000
+      //   })
+      //   return false
+      // }
       if( props.record.year == null ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
@@ -345,7 +345,7 @@ export default {
         objective: props.record.objective ,
         active: 1 ,
         year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
-        type_id: props.record.type_id ,
+        // type_id: props.record.type_id ,
         
       }).then( res => {
         switch( res.status ){
@@ -364,6 +364,7 @@ export default {
             uploadFiles()
           }else{
             btnSavingLoadingRef.value = false
+            props.onClose()
           }
           break;
         }

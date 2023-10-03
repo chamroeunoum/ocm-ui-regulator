@@ -95,11 +95,11 @@
   font-family: siemreap;
 }
 @font-face {
-  font-family: siemreap;
+  font-family: tacteng;
   src: url("assets/fonts/Tactieng/TACTENG.TTF");
 }
 .font-tactieng {
-  font-family: siemreap;
+  font-family: tacteng;
 }
 body * {
   font-family: Arial, Helvetica, sans-serif, kantumruy;

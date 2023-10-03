@@ -64,7 +64,7 @@
             <td class="vcb-table-cell" v-html="record.objective" ></td>
             <td  class="vcb-table-cell" >{{ record.fid }}</td>
             <td  class="vcb-table-cell" >{{ record.type.name }}</td>
-            <td class="vcb-table-cell" >{{ record.document_year.slice(0,10) }}</td>
+            <td class="vcb-table-cell" >{{ record.year.slice(0,10) }}</td>
             <td class="vcb-table-actions-panel text-right" >
               <n-icon v-if="record.pdf != 1" size="20" class="cursor-pointer text-red-500 p-2 pt-1  mx-1"  @click="viewPdf(record)" title="មើលឯកសារ" alt="មើលឯកសារ"  >
                 <DocumentPdf24Regular />

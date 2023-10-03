@@ -48,36 +48,36 @@
     <div class="vcb-table-panel">
       <Transition name="slide-fade" >
         <div v-if="table.records.matched.length > 0" class="vcb-table w-full" >
-          <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
-            <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="( index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
+          <div v-for="(regulator, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
+            <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="( index + 1 ) + ' . ' + applyTagMark(regulator.objective)" ></div>
             <div  class="vcb-table-cell text-xs mb-2" >
-              លេខចុះ ៖ {{ document.fid }} 
-              កាលបរិច្ឆែទ ៖ {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.document_year.slice(0,10) }} 
-              <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
+              លេខចុះ ៖ {{ regulator.fid }} 
+              កាលបរិច្ឆែទ ៖ {{ regulator.type != undefined ? ' - ' + regulator.type.name : '' }} - {{ regulator.year.slice(0,10) }} 
+              <!-- {{ regulator.createdBy != undefined ? ( ' - ' + regulator.createdBy.lastname + ' ' + regulator.createdBy.firstname ) : '' }} -->
             </div>
             <!-- Document Actions -->
             <div class="record-actions-panel flex mb-2" >
-                <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(document)" title="ប្រតិបត្តិការផ្សេងៗ" >
+                <n-icon size="22" class="cursor-pointer text-blue-500 mx-1" @click="showShareRegulatorModal(regulator)" title="ប្រតិបត្តិការផ្សេងៗ" >
                   <AppsList20Regular />
                 </n-icon>
-                <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(document)" title="កែប្រែព័ត៌មាន" >
+                <n-icon size="22" class="cursor-pointer text-blue-500" @click="showEditModal(regulator)" title="កែប្រែព័ត៌មាន" >
                   <Edit20Regular />
                 </n-icon>
-                <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(document)" title="លុបគណនីនេះចោល" >
+                <n-icon size="22" class="cursor-pointer text-red-500" @click="destroy(regulator)" title="លុបគណនីនេះចោល" >
                   <TrashOutline />
                 </n-icon>
                 <!-- <n-icon size="22" :class="'cursor-pointer ' + (record.active == 1 ? ' text-green-500 ' : ' text-gray-500 ') " @click="activateRegulator(record)" :title="record.active == 1 ? 'គណនីនេះកំពុងបើកតំណើរការ' : 'គណនីនេះកំពុងត្រូវបានបិទមិនអាចប្រើប្រាស់បាន' " >
                   <IosCheckmarkCircleOutline />
                 </n-icon> -->
-                <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(document)" title="ឯកសារកំពុងបើកជាសាធារណ" >
+                <n-icon size="22" class="cursor-pointer mx-1  text-green-500" @click="showAccessibilityModal(regulator)" title="ឯកសារកំពុងបើកជាសាធារណ" >
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M22 14a8 8 0 1 0 8 8a8.01 8.01 0 0 0-8-8zm5.91 7h-1.954a12.03 12.03 0 0 0-1.218-4.332A6.01 6.01 0 0 1 27.91 21zm-7.854 0A10.014 10.014 0 0 1 22 16.015A10.012 10.012 0 0 1 23.945 21zm3.89 2A10.01 10.01 0 0 1 22 27.985A10.012 10.012 0 0 1 20.055 23zm-4.684-6.332A12.027 12.027 0 0 0 18.044 21H16.09a6.01 6.01 0 0 1 3.172-4.332zM16.09 23h1.953a12.027 12.027 0 0 0 1.218 4.332A6.01 6.01 0 0 1 16.09 23zm8.648 4.332A12.024 12.024 0 0 0 25.956 23h1.954a6.009 6.009 0 0 1-3.172 4.332z" fill="currentColor"></path><path d="M6 14h6v2H6z" fill="currentColor"></path><path d="M6 6h12v2H6z" fill="currentColor"></path><path d="M6 10h12v2H6z" fill="currentColor"></path><path d="M6 24h6v2H6z" fill="currentColor"></path><path d="M12 30H4a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h16a2.002 2.002 0 0 1 2 2v8h-2V4H4v24h8z" fill="currentColor"></path></svg>
                 </n-icon>
-                <div v-if="document.pdf" class="cursor-pointer " @click="pdfPreview(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
+                <div v-if="regulator.pdf" class="cursor-pointer " @click="pdfPreview(regulator)" title="មើលឯកសារ" alt="មើលឯកសារ" >
                   <n-icon size="20" class="cursor-pointer text-red-500" >
                     <DocumentPdf24Regular />
                   </n-icon>
                 </div>
-                <n-icon size="20" class="cursor-pointer text-blue-700 mx-1" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" >
+                <n-icon size="20" class="cursor-pointer text-blue-700 mx-1" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(regulator)" >
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
                 </n-icon>
               </div>
@@ -171,17 +171,18 @@
         </template> -->
         <!-- Where the available folder of the user -->
         <div v-for="(folder, index) in listFolders" :key="index" class="p-2 cursor-pointer hover:bg-gray-100 rounded duration-500 flex" 
+          @click=" !folder.exists ? addDocumentToFolder(folder) : removeDocumentFromFolder(folder) "
         >
           <div class="flex-grow">
             {{ (index +1 ) + '. ' + folder.name }}
           </div>
-          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" @click="addDocumentToFolder(folder)"  >
+          <Icon v-if="!folder.exists" size="20" class="text-gray-600 flex-none" >
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
           </Icon>
-          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" @click="removeDocumentFromFolder(folder)"  >
+          <Icon v-if="folder.exists" size="20" class="text-green-600 flex-none" >
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M13.854 7.854a.5.5 0 0 0-.708-.708L8.5 11.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l5-5zM5.682 3A2.682 2.682 0 0 0 3 5.682v8.636C3 15.8 4.2 17 5.682 17h8.636C15.8 17 17 15.8 17 14.318V5.682C17 4.2 15.8 3 14.318 3H5.682zM4 5.682C4 4.753 4.753 4 5.682 4h8.636C15.247 4 16 4.753 16 5.682v8.636c0 .929-.753 1.682-1.682 1.682H5.682A1.682 1.682 0 0 1 4 14.318V5.682z" fill="currentColor"></path></g></svg>
           </Icon>
-        </div>  
+        </div>
         <!-- <template #footer>
           Footer
         </template> -->
@@ -245,7 +246,7 @@ export default {
     const notify = useNotification()
     const showFolderModal = ref(false)
     const listFolders = ref([])
-    const selectedDocumentId = ref(0)
+    const selectedRegulatorId = ref(0)
     /**
      * Variables
      */    
@@ -449,8 +450,8 @@ export default {
       editRecord.number = record.fid
       editRecord.title = record.title
       editRecord.objective = record.objective
-      editRecord.type_id = record.document_type
-      editRecord.year = new Date( record.document_year ).getTime()
+      editRecord.type_id = record.regulator_type
+      editRecord.year = new Date( record.year ).getTime()
       editRecord.publish = record.publish
       editRecord.active = record.active
       // editRecord.pdfs = record.pdf
@@ -482,8 +483,8 @@ export default {
       regulatorRecord.number = record.fid
       regulatorRecord.title = record.title
       regulatorRecord.objective = record.objective
-      regulatorRecord.type_id = record.document_type
-      regulatorRecord.year = new Date( record.document_year ).getTime()
+      regulatorRecord.type_id = record.regulator_type
+      regulatorRecord.year = new Date( record.year ).getTime()
       regulatorRecord.publish = record.publish
       regulatorRecord.active = record.active
       regulatorRecord.accessibility = record.accessibility
@@ -516,8 +517,8 @@ export default {
       accessibilityRecord.number = record.fid
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
-      accessibilityRecord.type_id = record.document_type
-      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.type_id = record.regulator_type
+      accessibilityRecord.year = new Date( record.year ).getTime()
       accessibilityRecord.publish = record.publish
       accessibilityRecord.active = record.active
       accessibilityRecord.accessibility = record.accessibility
@@ -653,11 +654,11 @@ export default {
     }
 
     function getFolders(){
-      store.dispatch('folder/listDocumentWithValidation',{
+      store.dispatch('folder/listRegulatorWithValidation',{
         search: '' ,
         page: 1 ,
         perPage: 50 ,
-        document_id : selectedDocumentId.value
+        regulator_id : selectedRegulatorId.value
       }).then( res => {
         listFolders.value = res.data.records
       }).catch( err => {
@@ -665,25 +666,25 @@ export default {
       })
     }
 
-    function showFolderModalPopup(document){
+    function showFolderModalPopup(regulator){
       showFolderModal.value = true
       /**
-       * Mark the selected document
+       * Mark the selected regulator
        */
-      selectedDocumentId.value = document.id
+      selectedRegulatorId.value = regulator.id
       getFolders()
     }
 
     function closeFolderModalPopup(){
       showFolderModal.value = false
       listFolders.value = []
-      selectedDocumentId.value = 0
+      selectedRegulatorId.value = 0
     }
 
     function addDocumentToFolder(folder){
       store.dispatch('folder/addRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        regulator_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដាក់ឯកសារចូលថត" ,
@@ -705,7 +706,7 @@ export default {
     function removeDocumentFromFolder(folder){
       store.dispatch('folder/removeRegulator',{
         id: folder.id ,
-        document_id : selectedDocumentId.value
+        regulator_id : selectedRegulatorId.value
       }).then( res => {
         notify.success({
           title: "ដកឯកសារចេញពីថត" ,

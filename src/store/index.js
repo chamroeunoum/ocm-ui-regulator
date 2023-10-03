@@ -4,22 +4,27 @@ import user from './modules/user'
 import regulator from './modules/regulator'
 import search_regulator from './modules/search_regulators'
 import folder from './modules/folder'
-import regulatorType from './modules/type'
-// import client from './modules/client'
+import regulatorType from './modules/regulator/type'
+import organization from './modules/regulator/organization'
+import signature from './modules/regulator/signature'
 // import staff from './modules/staff'
 
 const debug = process.env.NODE_ENV !== 'production'
 
 export default createStore({
   state: {
-    apiServer: 'http://127.0.0.1:8000/api/webapp' ,
+    // Local computer
+    // apiServer: 'http://127.0.0.1:8000/api/webapp' ,
+    // Internal OCM Server
+    // apiServer: 'http://192.168.200.101:8000/api/webapp' ,
     // apiServer: 'http://edocservice.sctthaicambodia.com/api/webapp' ,
     // apiServer: 'https://ns2.ocm.gov.kh/api/webapp' ,
+    apiServer: 'https://apis.ocm.gov.kh/api/webapp' ,
     organization: {
       name: 'អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ'
     },
     system: {
-      name: 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច'
+      name: 'ប្រព័ន្ធគ្រប់គ្រងឯកសារច្បាប់ និង លិខិតបទដ្ឋានគតិយុត្ត'
     }
     // branch: '' 
   },
@@ -34,6 +39,8 @@ export default createStore({
     regulator ,
     search_regulator ,
     regulatorType ,
+    organization ,
+    signature
     // client ,
     // staff
   },

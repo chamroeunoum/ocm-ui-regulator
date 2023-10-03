@@ -1,19 +1,20 @@
 <template>
-  <div class="font-pvh flex w-full h-16 p-2 border-b border-gray-300 " >
-    <div class="flex-none w-14 rounded-full mr-1" >
+  <div class="font-pvh flex w-full h-16 p-2 flex-row-reverse " >
+    <!-- <div class="flex-none w-14 rounded-full mr-1" >
       <img src="./../../assets/logo.png" alt="គ្រប់គ្រងបណ្ដុំឯកសារ" title="គ្រប់គ្រងបណ្ដុំឯកសារ" class="w-full mx-auto" >
     </div>
-    <div class="flex-grow h-12 leading-10 pt-1 text-md font-muol ml-2 text-left">{{ systemName }}</div>
-    <div v-if="profilePicture!=null" class="flex-none h-12 leading-10 pt-1 font-muol text-right mr-4 invisible sm:visible md:visible lg:visible xl:visible" style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" >{{ username }}</div>
+    <div class="flex-grow h-12 leading-10 pt-1 text-md font-muol ml-2 text-left">{{ systemName }}</div> -->
     <div class="flex-none ">
       <!-- User profile -->
       <div v-if="isLoggedIn" class="relative "  >
-        <div class="w-12 h-12 rounded-full " @click="subMenuHelper=!subMenuHelper" >
+        <div class="h-12 w-40 flex flex-row-reverse" @click="subMenuHelper=!subMenuHelper" >
           <!-- <svg v-if="profilePicture==null" xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg> -->
-          <svg v-if="profilePicture==null" xmlns="http://www.w3.org/2000/svg" class="border border-gray-200 rounded-full overflow-hidden w-12 h-12 mx-auto cursor-pointer" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-128 -128 768 768"><rect x="64" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="64" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="64" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect></svg>
-          <div v-if="profilePicture!=null" class="w-12 h-12 shadow rounded-full overflow-hidden  cursor-pointer bg-center bg-no-repeat bg-cover bg-origin-content " :style=" 'background-image: url(' + profilePicture +');' " ></div>
+          <div class="flex-none border border-gray-200 rounded-full overflow-hidden w-12 h-12 cursor-pointer bg-white" >
+            <svg class="w-12 mx-auto" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-128 -128 768 768"><rect x="64" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="64" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="64" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="216" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="64" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="216" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect><rect x="368" y="368" width="80" height="80" rx="40" ry="40" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></rect></svg>
+          </div>
+          <div v-if="profilePicture!=null" class="flex-none h-12 leading-10 pt-1 font-muol text-right mr-4 invisible sm:visible md:visible lg:visible xl:visible" style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" >{{ username }}</div>
         </div>
         <Transition name="fade" >
           <div v-if="subMenuHelper" class="submenu fixed bg-white shadow-md left-0 right-0 top-0 bottom-0 p-12 flex flex-wrap text-left z-50 justify-center ">

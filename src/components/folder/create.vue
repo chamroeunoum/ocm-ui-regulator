@@ -138,7 +138,7 @@ export default {
             'description' : res.data.message ,
             duration : 3000
           })
-          clearRecord()
+          props.record.name = '' 
           props.onClose()
           break;
         }

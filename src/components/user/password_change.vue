@@ -1,13 +1,13 @@
 <template>
   <div class="w-full relative flex flex-wrap" >
     <top-menu />
+    <!-- Title of crud -->
+    <div class="flex w-full h-12 border-b py-1 title -mt-12 pl-2" >
+        <svg class="w-8 h-8 cursor-pointer text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M21 2a8.998 8.998 0 0 0-8.612 11.612L2 24v6h6l10.388-10.388A9 9 0 1 0 21 2zm0 16a7.013 7.013 0 0 1-2.032-.302l-1.147-.348l-.847.847l-3.181 3.181L12.414 20L11 21.414l1.379 1.379l-1.586 1.586L9.414 23L8 24.414l1.379 1.379L7.172 28H4v-3.172l9.802-9.802l.848-.847l-.348-1.147A7 7 0 1 1 21 18z" fill="currentColor"></path><circle cx="22" cy="10" r="2" fill="currentColor"></circle></svg>
+        <div class="leading-9 font-muol ml-2" >ប្ដូរពាក្យសម្ងាត់</div>
+      </div>
     <div class="w-full">
-      <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
-        <!-- Title of crud -->
-        <div class="flex w-64 h-10 py-1 title " >
-          <svg class="w-8 h-8 cursor-pointer text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M21 2a8.998 8.998 0 0 0-8.612 11.612L2 24v6h6l10.388-10.388A9 9 0 1 0 21 2zm0 16a7.013 7.013 0 0 1-2.032-.302l-1.147-.348l-.847.847l-3.181 3.181L12.414 20L11 21.414l1.379 1.379l-1.586 1.586L9.414 23L8 24.414l1.379 1.379L7.172 28H4v-3.172l9.802-9.802l.848-.847l-.348-1.147A7 7 0 1 1 21 18z" fill="currentColor"></path><circle cx="22" cy="10" r="2" fill="currentColor"></circle></svg>
-          <div class="leading-9 font-muol ml-2" >ប្ដូរពាក្យសម្ងាត់</div>
-        </div>
+      <div class="flex w-full title-bar px-4 py-4 ">
         <!-- Actions button of the crud -->
         <div class="flex-grow action-buttons flex-row-reverse flex">
           <!-- New Button -->
@@ -24,7 +24,7 @@
         </div>
       </div>
       <Transition name="slide-fade" >
-        <div  v-if="transitionHelper" class="passwordChange p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-20 relative">
+        <div  v-if="transitionHelper" class="passwordChange p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-10 relative">
           <div class="my-12">
             <n-form
             ref="formRef"
@@ -57,7 +57,7 @@ import { reactive , ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useNotification } from 'naive-ui'
-import TopMenu from './../menu/topmenu.vue'
+import TopMenu from './../menu/topmenu-floattop.vue'
 import FooterComponent from './../footer/copy-right.vue'
 
   export default {

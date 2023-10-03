@@ -1,18 +1,31 @@
 <template>
   <div class="w-full" >
+    <!-- Title of crud -->
+    <div class="flex w-full h-12 py-1 title -mt-12 border-b" >
+      <Icon size="27" class="text-red-600 mr-2" >
+        <n-icon>
+          <DocumentPdf24Regular />
+        </n-icon>
+      </Icon>
+      <div class="leading-9 font-muol" v-html="model.title + ' ' + 'នៃថតឯកសារ' " ></div>
+    </div>
     <!-- Top action panel of crud -->
     <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
-      <!-- Title of crud -->
-      <div class="flex w-64 h-10 py-1 title " >
-        <Icon size="27" class="text-red-600 mr-2" >
-          <n-icon>
-            <DocumentPdf24Regular />
-          </n-icon>
-        </Icon>
-        <div class="leading-9 font-muol" v-html="model.title + ' ' + 'នៃថតឯកសារ' " ></div>
-      </div>
       <!-- Actions button of the crud -->
-      <div class="flex-grow action-buttons flex-row-reverse flex">
+      <div class="flex-grow action-buttons flex">
+        <div class="w-2/5 relative" >
+          <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
+          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
+            <n-icon>
+              <Search20Regular />
+            </n-icon>
+          </Icon>
+          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
+            <n-icon>
+              <Filter />
+            </n-icon>
+          </Icon> -->
+        </div>
         <!-- New Button -->
         <div class="mt-1 ml-2">
           <!-- <n-button type="success" @click="showCreateModal()" >
@@ -28,19 +41,6 @@
             ថតឯកសារ
           </n-button>
         </div>
-        <div class="w-2/5 relative" >
-          <input type="text" @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-gray-100 px-2 h-9 my-1 w-full rounded border border-gray-200 focus:border-blue-600 hover:border-blue-600 " placeholder="ស្វែងរក" />
-          <Icon size="27" class="absolute right-1 top-2 text-gray-400 hover:text-blue-700 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
-          <!-- <Icon size="27" class="absolute -left-10 top-2 text-gray-500 hover:text-blue-700 cursor-pointer" @click="filterPanel=!filterPanel">
-            <n-icon>
-              <Filter />
-            </n-icon>
-          </Icon> -->
-        </div>
         <div class="mt-1 ml-2"></div>
       </div>
     </div>
@@ -52,7 +52,7 @@
             <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words" v-html="( index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
             <div  class="vcb-table-cell text-xs mb-2" >
               លេខចុះ ៖ {{ document.fid }} 
-              កាលបរិច្ឆែទ ៖ {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.document_year.slice(0,10) }} 
+              កាលបរិច្ឆែទ ៖ {{ document.type != undefined ? ' - ' + document.type.name : '' }} - {{ document.year.slice(0,10) }} 
               <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
             </div>
             <!-- Document Actions -->
@@ -452,7 +452,7 @@ export default {
       editRecord.title = record.title
       editRecord.objective = record.objective
       editRecord.type_id = record.document_type
-      editRecord.year = new Date( record.document_year ).getTime()
+      editRecord.year = new Date( record.year ).getTime()
       editRecord.publish = record.publish
       editRecord.active = record.active
       // editRecord.pdfs = record.pdf
@@ -485,7 +485,7 @@ export default {
       regulatorRecord.title = record.title
       regulatorRecord.objective = record.objective
       regulatorRecord.type_id = record.document_type
-      regulatorRecord.year = new Date( record.document_year ).getTime()
+      regulatorRecord.year = new Date( record.year ).getTime()
       regulatorRecord.publish = record.publish
       regulatorRecord.active = record.active
       regulatorRecord.accessibility = record.accessibility
@@ -519,7 +519,7 @@ export default {
       accessibilityRecord.title = record.title
       accessibilityRecord.objective = record.objective
       accessibilityRecord.type_id = record.document_type
-      accessibilityRecord.year = new Date( record.document_year ).getTime()
+      accessibilityRecord.year = new Date( record.year ).getTime()
       accessibilityRecord.publish = record.publish
       accessibilityRecord.active = record.active
       accessibilityRecord.accessibility = record.accessibility
@@ -575,7 +575,7 @@ export default {
      * Load pivot data of this model
      */
     function getDocumentTypes(){
-      store.dispatch('regulatorType/compact').then(res=>{
+      store.dispatch('regulatorType/list').then(res=>{
         store.commit('regulatorType/setRecords',res.data.records)
       }).catch(err =>{
         notify.error({
