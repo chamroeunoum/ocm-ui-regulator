@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full relative flex flex-wrap" >
-    <top-menu />
+  <top-menu />
+  <div class="w-full " >
     <!-- Title of crud -->
-    <div class="flex w-full h-12 py-1 pl-2 title -mt-12 border-b " >
+    <div class="flex w-full h-12 title mt-4 px-4 border-b " >
       <svg class="w-8 h-8 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
@@ -28,7 +28,7 @@
       <!-- End Menu -->    
       <Transition name="slide-fade" >
         <div v-if="transitionHelper"  class="profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 mt-10 relative">
-          <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-cover" :style=" 'background-image: url(' + localProfile +');' " ></div>
+          <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-85%" :style=" 'background-image: url(' + localProfile +');' " ></div>
           <div class="uploader absolute right-0 top-0 w-24flex" >
             <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
             <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >
@@ -84,7 +84,7 @@
     <div class="flex flex-wrap bottom-0 mx-auto w-full fixed z-40">
       <FooterComponent />
     </div>
-  </div>
+  </div>  
 </template>
 <script >
 import { isAuth, getUser , authLogout } from './../../plugins/authentication.js'
@@ -92,7 +92,7 @@ import { reactive, ref , computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import FooterComponent from './../../components/footer/copy-right.vue'
-import TopMenu from './../menu/topmenu-floattop.vue'
+import TopMenu from './../menu/topmenu.vue'
 import { useMessage, useNotification } from 'naive-ui'
 import { Icon } from '@vicons/utils'
 import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'

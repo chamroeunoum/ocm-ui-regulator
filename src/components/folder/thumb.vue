@@ -1,14 +1,14 @@
 <template>
   <div class="w-full" >
     <!-- Title of crud -->
-    <div class="flex w-full h-12 title -mt-12 pl-2 border-b " >
+    <div class="flex w-full title mt-4 py-3 px-4 border-b z-50 border-t" >
       <div class="submenu-icon h-8 flex">
         <svg class="flex-none mr-2 text-yellow-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
         <div class="submenu-icon-title flex-grow w-full leading-9 font-muol" v-html="model.title" ></div>
       </div>
     </div>
-  <!-- Top action panel of crud -->
-    <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
+    <!-- Top action panel of crud -->
+    <div class="flex w-full title-bar px-4 border-gray-200 py-4 ">
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex">
         <div class="w-2/5 relative" >
@@ -49,7 +49,8 @@
     <!-- Table of crud -->
     <Transition name="fade" >
       <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="vcb-table-panel flex">
-        <div v-for="(folder, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8 border w-48 m-1 p-2 rounded cursor-pointer hover:shadow hover:border-blue-500 duration-300 " style="overflow:hidden; text-wrap: nowrap ; text-overflow: ellipsis;" >
+        <div v-for="(folder, index) in table.records.matched" :key='index' class="relative vcb-table-row text-left relative mb-8 border w-48 m-1 p-2 rounded cursor-pointer hover:shadow hover:border-blue-500 duration-300 " style="overflow:hidden; text-wrap: nowrap ; text-overflow: ellipsis;" >
+          <svg class="w-12 h-12 text-blue-100 absolute right-2 top-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
           <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words text-xs" v-html="( index + 1 ) + ' . ' + folder.name" ></div>
           <!-- Document Actions -->
           <div class="record-actions-panel flex mb-2" >
@@ -89,7 +90,7 @@
     <!-- Pagination of crud -->
     <Transition name="fade" >
       <!-- Pagination of crud -->
-      <div class="fixed left-0 right-0 bottom-12 h-12 flex" >
+      <div v-if="table.records.matched.length>0" class="fixed left-0 right-0 bottom-12 h-12 flex" >
         <div class="vcb-table-pagination ">
           <!-- First -->
           <!-- Previous -->

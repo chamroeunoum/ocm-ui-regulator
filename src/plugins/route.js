@@ -25,6 +25,8 @@ import FolderRegulatorComponent from './../components/folder/regulator.vue'
 import RegulatorComponent from './../components/regulator/index.vue'
 import RegulatorListComponent from './../components/regulator/list.vue'
 import GlobalSharedRegulatorComponent from './../components/regulator/globalshare/index.vue'
+import AttendantComponent from './../components/attendant/index.vue'
+import AttendantListComponent from './../components/attendant/list.vue'
 /**
  * Error
  */
@@ -63,6 +65,23 @@ export const getRoutes = () => {
               // transition: 'fade'
           }
       },
+    //   {
+    //     name: 'Attendant',
+    //     path: '/attendants',
+    //     component: AttendantComponent ,
+    //         meta: { 
+    //             transition: 'slide-right' ,
+    //             requiresAuth: true,
+    //             is_admin : true
+    //         },
+    //         children: [
+    //             {
+    //                 name: "AttendantList" ,
+    //                 path: '' ,
+    //                 component: AttendantListComponent
+    //             }
+    //         ]
+    //     },
       {
           name: 'GlobalSearch',
           path: '/search',
@@ -190,22 +209,22 @@ export const getRoutes = () => {
             // transition: 'fade'
         }
     },
-    // {
-    //     name: 'Welcome',
-    //     path: '/welcome',
-    //     component: MainPageComponent ,
-    //     meta: {
-    //         // transition: 'fade'
-    //     }
-    // },
-    // {
-    //     name: 'GlobalSearch',
-    //     path: '/search',
-    //     component: GlobalSearchComponent ,
-    //     meta: {
-    //         // transition: 'fade'
-    //     }
-    // },
+    {
+        name: 'Welcome',
+        path: '/welcome',
+        component: MainPageComponent ,
+        meta: {
+            // transition: 'fade'
+        }
+    },
+    {
+        name: 'GlobalSearch',
+        path: '/search',
+        component: GlobalSearchComponent ,
+        meta: {
+            // transition: 'fade'
+        }
+    },
     // {
     //     name: 'GlobalFolder',
     //     path: '/global/:folder_id/regulators',

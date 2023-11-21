@@ -43,8 +43,8 @@
                         class="text-left  text-md" />
                     </n-form-item>
                     
-                    <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-40 text-md" size="medium" >បកក្រោយ</n-button>
-                    <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-40 text-md" size="medium" >ចុះឈ្មោះជាសមាជិក</n-button>
+                    <n-button @click="$router.push('/login')" type="default" class="mx-2 my-1 w-36 text-md" size="medium" >បកក្រោយ</n-button>
+                    <n-button @click="handleSubmit" secondary type="success" class="mx-2 my-1 w-36 text-md" size="medium" >ចុះឈ្មោះជាសមាជិក</n-button>
                 </n-form>
             </div>
         </Transition>

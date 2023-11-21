@@ -1,9 +1,9 @@
 <template>
-  <div class="font-pvh flex w-full h-16 p-2 flex-row-reverse " >
-    <!-- <div class="flex-none w-14 rounded-full mr-1" >
+  <div class="font-pvh flex w-full h-16 p-2 " >
+    <div class="flex-none w-10 rounded-full mr-1" >
       <img src="./../../assets/logo.png" alt="គ្រប់គ្រងបណ្ដុំឯកសារ" title="គ្រប់គ្រងបណ្ដុំឯកសារ" class="w-full mx-auto" >
     </div>
-    <div class="flex-grow h-12 leading-10 pt-1 text-md font-muol ml-2 text-left">{{ systemName }}</div> -->
+    <div class="flex-grow h-12 leading-10 pt-1 text-md font-muol ml-2 text-left">{{ systemName }}</div>
     <div class="flex-none ">
       <!-- User profile -->
       <div v-if="isLoggedIn" class="relative "  >
@@ -17,13 +17,19 @@
           <div v-if="profilePicture!=null" class="flex-none h-12 leading-10 pt-1 font-muol text-right mr-4 invisible sm:visible md:visible lg:visible xl:visible" style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" >{{ username }}</div>
         </div>
         <Transition name="fade" >
-          <div v-if="subMenuHelper" class="submenu fixed bg-white shadow-md left-0 right-0 top-0 bottom-0 p-12 flex flex-wrap text-left z-50 justify-center ">
+          <div v-if="subMenuHelper" class="submenu fixed bg-white shadow-md left-0 right-0 top-0 bottom-0 px-4 py-8 flex flex-wrap text-left z-50 justify-center ">
             <router-link to="/search" class="searchDocument w-32 h-32 m-2 p-4 rounded border border-gray-200 cursor-pointer hover:border-gray-300 hover:shadow duration-300 " >
               <div class="submenu-icon h-24 flex flex-wrap justify-center text-center">
                 <svg class="flex-none mx-auto h-16 text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M6.44 9.439A1.495 1.495 0 0 1 7.5 9h5a1.5 1.5 0 0 1 1.5 1.5v4a1.5 1.5 0 0 1-1.5 1.5H9.121l-.56-.56A4.482 4.482 0 0 0 9 13.5V15h3.5a.5.5 0 0 0 .5-.5V13H9v.5a4.481 4.481 0 0 0-1-2.829V10h-.5a.5.5 0 0 0-.145.021a4.503 4.503 0 0 0-.915-.582zM13 10.5a.5.5 0 0 0-.5-.5H9v2h4v-1.5zM5 9.027a4.551 4.551 0 0 0-1 0V4a2 2 0 0 1 2-2h4.586a1.5 1.5 0 0 1 1.06.44l3.915 3.914A1.5 1.5 0 0 1 16 7.414V16a2 2 0 0 1-2 2h-3.085a1.495 1.495 0 0 0-.354-.56l-.44-.44H14a1 1 0 0 0 1-1V8h-3.5A1.5 1.5 0 0 1 10 6.5V3H6a1 1 0 0 0-1 1v5.027zM11.5 7h3.293L11 3.207V6.5a.5.5 0 0 0 .5.5zm-4.197 8.596a3.5 3.5 0 1 0-.707.707l2.55 2.55a.5.5 0 1 0 .708-.707l-2.55-2.55zM7 13.5a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0z" fill="currentColor"></path></g></svg>
                 <div class="submenu-icon-title h-8 w-full leading-9 font-bold" >ស្វែងរក</div>
               </div>
             </router-link>
+            <!-- <router-link to="/attendants" class="searchDocument w-32 h-32 m-2 p-4 rounded border border-gray-200 cursor-pointer hover:border-gray-300 hover:shadow duration-300 " >
+              <div class="submenu-icon h-24 flex flex-wrap justify-center text-center">
+                <svg class="flex-none mx-auto h-16 text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 8h14v2H16z" fill="currentColor"></path><path d="M6 10.59L3.41 8L2 9.41l4 4l8-8L12.59 4L6 10.59z" fill="currentColor"></path><path d="M16 22h14v2H16z" fill="currentColor"></path><path d="M6 24.59L3.41 22L2 23.41l4 4l8-8L12.59 18L6 24.59z" fill="currentColor"></path></svg>' ,
+                <div class="submenu-icon-title h-8 w-full leading-9 font-bold" >វត្តមាន</div>
+              </div>
+            </router-link> -->
             <!-- <router-link to="/regulators" class="myRegulators w-32 h-32 m-2 p-4 rounded border border-gray-200 cursor-pointer hover:border-gray-300 hover:shadow duration-300 " >
               <div class="submenu-icon h-24 flex flex-wrap justify-center text-center">
                 <svg class="flex-none mx-auto h-16 text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
@@ -66,7 +72,7 @@
       <!-- End of user profile-->
       <!-- User profile -->
       <div v-if="!isLoggedIn" class="w-12 h-12 cursor-pointer " @click="$router.push('/')" >
-        <div class=" leading-10 p-1 my-2 mr-2 w-12 h-12 rounded-full bg-blue-500 text-white" >
+        <div class=" leading-10 p-1 mr-2 w-12 h-12 rounded-full bg-blue-500 text-white" >
           ចូល
         </div>
       </div>

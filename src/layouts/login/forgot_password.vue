@@ -20,8 +20,8 @@
                         <n-input v-model:value="model.email" placeholder="អ៊ីមែល" class="text-left text-md " @keyup.enter="requestReset()" :disabled="disabledHelper.value" />
                     </n-form-item>
                     
-                    <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-40 text-md" size="medium" :disabled="disabledHelper.value" >ចូលប្រើប្រាស់</n-button>
-                    <n-button secondary type="success" class="mx-4 my-1 w-40 text-md" size="medium" @click="requestReset()" :disabled="disabledHelper.value" >ស្នើរប្ដូរពាក្យសម្ងាត់</n-button>
+                    <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-36 text-md" size="medium" :disabled="disabledHelper.value" >ចូលប្រើប្រាស់</n-button>
+                    <n-button secondary type="success" class="mx-4 my-1 w-36 text-md" size="medium" @click="requestReset()" :disabled="disabledHelper.value" >ស្នើរប្ដូរពាក្យសម្ងាត់</n-button>
                 </n-form>
             </div>
         </Transition>

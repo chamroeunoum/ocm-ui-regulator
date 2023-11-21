@@ -10,11 +10,11 @@
     </div>
   </div>
   <n-modal v-model:show="toggleAbout" @on-after-leave="toggleAbout=false" class="bg-white rounded" >
-    <div v-if="toggleAbout" class="about-us p-8 " >
+    <div v-if="toggleAbout" class="about-us p-8" >
       <div class="w-28 mx-auto my-4">
         <img src="./../../assets/logo.svg" alt="SASTRA Logo" class="w-full" >
       </div>
-      <div class="w-full font-muol text-center leading-9 text-xs" >ក្រោមការងារណែនាំពី<br/>ឧបនាយករដ្ឋមន្ត្រី រដ្ឋមន្ត្រីទទួលបន្ទុកទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
+      <div class="w-full font-muol text-center leading-9 text-xs" >ក្រោមការណែនាំដ៏ខ្ពង់ខ្ពស់របស់<br/>ឧបនាយករដ្ឋមន្ត្រី រដ្ឋមន្ត្រីទទួលបន្ទុកទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
       <div class="font-tactieng w-full text-center h-4 leading-4 text-4xl" >6</div>
       <div class="w-full text-center font-muol leading-9 text-xs" >ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច<br/>អភិវឌ្ឍន៍ដោយក្រុមការងារ<br/>នៃ<br/>នាយកដ្ឋានឯកសារអេឡិចត្រូនិច និងព័ត៌មានវិទ្យា<br/>កំណែប្រែ ២.០</div>        
     </div>

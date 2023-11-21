@@ -1,18 +1,20 @@
 <template>
-  <div >
+  <div class=" min-h-screen">
     <top-menu />
-    <div class="flex w-full border-b z-50 border-t " >
-      <div class="absolute flex w-64 h-10 pl-4 py-4 title -mt-16" >
+    <div class="flex w-full border-b z-50 border-t" >
+      <div class="flex w-full pl-4 py-4 title " >
         <div class="submenu-icon h-8 flex">
           <svg class="flex-none mr-2 text-red-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M30 18v-2h-6v10h2v-4h3v-2h-3v-2h4z" fill="currentColor"></path><path d="M19 26h-4V16h4a3.003 3.003 0 0 1 3 3v4a3.003 3.003 0 0 1-3 3zm-2-2h2a1.001 1.001 0 0 0 1-1v-4a1.001 1.001 0 0 0-1-1h-2z" fill="currentColor"></path><path d="M11 16H6v10h2v-3h3a2.003 2.003 0 0 0 2-2v-3a2.002 2.002 0 0 0-2-2zm-3 5v-3h3l.001 3z" fill="currentColor"></path><path d="M22 14v-4a.91.91 0 0 0-.3-.7l-7-7A.909.909 0 0 0 14 2H4a2.006 2.006 0 0 0-2 2v24a2 2 0 0 0 2 2h16v-2H4V4h8v6a2.006 2.006 0 0 0 2 2h6v2zm-8-4V4.4l5.6 5.6z" fill="currentColor"></path></svg>
           <div class="submenu-icon-title flex-grow w-full leading-9 font-muol" v-html="model.title" ></div>
         </div>
       </div>
+    </div>
+    <div class="flex w-full " >
       <div class="flex-grow p-4">
         <!-- Search box -->
         <div class="relative " >
           <input type="text" placeholder="សួមដកឃ្លាដើម្បីបន្ថែមលក្ខណស្វែងរក ..." @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-white pl-4 pr-10 h-10 w-full rounded-full border border-gray-300 transition duration-500 focus:border-blue-600 hover:border-blue-600 text-xs" />
-          <Icon size="30" class="absolute right-1 top-1 text-gray-400 cursor-pointer" >
+          <Icon size="30" class="absolute right-1 top-1 text-gray-400 cursor-pointer" @click="filterRecords(false)" >
             <n-icon>
               <Search20Regular />
             </n-icon>
@@ -21,45 +23,48 @@
         <!-- Search box -->
         <div class="pt-4 flex justify-center flex-wrap" >
           <div class="filter-control" >
-            <n-input v-model:value="fid" type="text" placeholder="លេខចុះ" @keypress.enter="filterRecords(false)" />
+            <n-input v-model:value="fid" type="text" placeholder="លេខចុះ" @update:value="filterRecordsWithKeyPress()" />
           </div>
           <div class="filter-control" >
-            <n-date-picker v-model:value="year" placeholder="ថ្ងៃ ខែ ឆ្នាំ ឯកសារ" type="date" clearable />
+            <n-date-picker v-model:value="year" @update:value="filterRecords(false)"  placeholder="ថ្ងៃខែឆ្នាំ" type="date" clearable />
           </div>
           <div class="filter-control" >
             <n-select
               v-model:value="selectedTypes"
               filterable
-              placeholder="សូមជ្រើសរើសប្រភេទឯកសារ"
+              placeholder="ប្រភេទ"
               :options="types"
               multiple
+              @update:value="filterRecords(false)" 
             />
           </div>
-          <div class="filter-control" >
+          <div class="filter-control hidden" >
             <n-select
               v-model:value="selectedOrganizations"
               filterable
-              placeholder="សូមជ្រើសរើសក្រសួងស្ថាប័ន"
+              placeholder="ក្រសួងស្ថាប័ន"
               :options="organizations"
               multiple
+              @update:value="filterRecords(false)" 
             />
           </div>
-          <div class="filter-control" >
+          <div class="filter-control hidden" >
             <n-select
               v-model:value="selectedSignatures"
               filterable
-              placeholder="សូមជ្រើសរើសហត្ថលេខា"
+              placeholder="ហត្ថលេខា"
               :options="signatures"
               multiple
+              @update:value="filterRecords(false)" 
             />
           </div>
-          <div class="relative filter-control-button " @click="filterRecords(false)" >
+          <div class="relative filter-control-button hidden" @click="filterRecords(false)" >
             ស្វែងរក
-            <svg class="absolute right-1 top-1 h-6 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
+            <svg class="absolute right-1 h-6 top-1 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
           </div>
-          <div class="relative filter-control-button-clear " @click="clearSearch(false)" >
+          <div class="relative filter-control-button-clear hidden " @click="clearSearch(false)" >
             សំអាត
-            <svg class="absolute right-1 top-1 h-6 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
+            <svg class="absolute right-1 h-6 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352" fill="currentColor"></path><path d="M192 112V72h0a23.93 23.93 0 0 1 24-24h80a23.93 23.93 0 0 1 24 24h0v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M184 176l8 224"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M328 176l-8 224"></path></svg>
           </div>
         </div>
       </div>
@@ -87,19 +92,14 @@
           <div class="vcb-table w-full" >
             <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
               <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words text-xs" v-html="( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
-              <div  class="vcb-table-cell text-xs" >
-                {{ Array.isArray( document.types ) && document.types.length > 0 ? prefixOfTypes[ document.types[0].id ] : '' }} 
-                {{ ' - ' + applyTagMark( document.fid ) }} 
-                {{ ' - ' + document.year.slice(0,10) }} 
-                
-                <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
-              </div>
+              <div  class="vcb-table-cell text-xs" v-html="applyTagMark( ( Array.isArray( document.types ) && document.types.length > 0 ? prefixOfTypes[ document.types[0].id ] : '' ) + ( ' - ' + applyTagMark( document.fid ) ) + ( ' - ' + document.year.slice(0,10) ) ) " ></div>
+              <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
               <div class="vcb-table-actions-panel h-5 absolute bottom-0 right-0 text-right">
-                <n-icon v-if="document.pdf"  size="20" class="cursor-pointer text-red-500 ml-4"  @click="showShareModalPopup(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
-                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
-                </n-icon>
                 <n-icon v-if="isLoggedIn"  size="20" class="cursor-pointer text-blue-700 font-bold ml-4" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" >
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
+                </n-icon>
+                <n-icon v-if="document.pdf"  size="20" class="cursor-pointer text-red-500 ml-4"  @click="showShareModalPopup(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
                 </n-icon>
               </div>
             </div>
@@ -124,8 +124,8 @@
             <Transition name="fade" >
               <vue-pdf-embed v-if="!showShareModalLoading" :source="pdf.url" class="w-full h-screen overflow-y-scroll" />
             </Transition>
-            <div v-if="!showShareModalLoading" class="absolute top-3 right-3 cursor-pointer " @click="closePdf" >
-              <svg class="w-12 h-12 mr-4 mt-0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" fill="currentColor"></path></svg>
+            <div v-if="!showShareModalLoading" class="absolute top-3 right-3 cursor-pointer  " @click="closePdf" >
+              <svg class="bg-white shadow rounded-full w-12 h-12 mr-4 mt-0 border-gray-200 duration-300 text-red-500 p-1 mx-auto cursor-pointer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2zm5.4 21L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4l-1.6 1.6z" fill="currentColor"></path></svg>
             </div>
             <!-- <div v-if="!showShareModalLoading" class="absolute top-3 right-20 cursor-pointer " @click="copyShareLink" >
               <svg v-if="isLoggedIn" class="w-8 h-8 mr-4 mt-2 cursor-pointer font-bold ml-4"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><g><g><path d="M383.822,344.427c-16.045,0-31.024,5.326-41.721,15.979l-152.957-88.42c1.071-5.328,2.142-9.593,2.142-14.919
@@ -153,17 +153,18 @@
           <!-- End PDF Dialog -->
         </div>
         <!-- Pagination of crud -->
-        <div class="fixed left-0 right-0 bottom-12 flex" >
-          <div class="vcb-table-pagination">
+        <div class="fixed left-0 right-0 bottom-12 flex flex-wrap" >
+          <!-- This pagination is for the media side with from Medium up -->
+          <div class="vcb-table-pagination bg-blue-300">
             <!-- First -->
             <!-- Previous -->
-            <div class="vcb-pagination-page w-8 h-8 text-center align-middle leading-8 font-bold cursor-pointer" v-html='"<"' @click="previous()" ></div>
+            <div class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
             <!-- Pages (7) -->
-            <div v-for="(page, index) in table.pagination.buttons" :key="index" :class="'vcb-pagination-page pages h-8 mx-2 font-bold' + (table.pagination.page == page ? ' bg-blue-500 text-white  rounded-full' : '' )" @click="table.pagination.page == page ? false : goTo(page) " >
+            <div v-for="(page, index) in table.pagination.buttons" :key="index" :class="'vcb-pagination-page pages h-8 mx-2 font-bold' + (table.pagination.page == page ? ' text-blue-500 text-lg border-none rounded-full' : '' )" @click="table.pagination.page == page ? false : goTo(page) " >
               <div class="page w-8 h-8 text-center align-middle leading-8 cursor-pointer">{{ page }}</div>
             </div>
             <!-- Next -->
-            <div class="vcb-pagination-page w-8 h-8 text-center align-middle leading-8 font-bold cursor-pointer" v-html='">"' @click="next()" ></div>
+            <div class="vcb-pagination-page " v-html='">"' @click="next()" ></div>
             <!-- Last -->
             <!-- Go to -->
             <!-- Total per page -->
@@ -284,9 +285,9 @@ export default {
     const year = ref(null)
     const fid = ref(null)
 
-    if( getUser() == undefined && getUser() == null ){
-      router.push('/welcome')  
-    }
+    // if( getUser() == undefined && getUser() == null ){
+    //   router.push('/welcome')  
+    // }
 
     /**
      * Data
@@ -343,6 +344,14 @@ export default {
     /**
      * Login function
      */
+    const setTimeoutHelper = reactive({id:null})
+    function filterRecordsWithKeyPress(){
+      clearTimeout( setTimeoutHelper.id )
+      setTimeoutHelper.id = setTimeout( 
+        filterRecords(false) ,
+        3000
+      )
+    }
     function filterRecords(helper=true){
       if( helper ){
         table.records.matched = []
@@ -396,13 +405,13 @@ export default {
         table.pagination = res.data.pagination
 
         var paginationNumberList = 5
-        if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
+        if( ( table.pagination.page - ( parseInt( paginationNumberList / 2 ) + 1 ) ) < 1 ){
           table.pagination.start = 1
-          table.pagination.end = table.pagination.totalPages > 9 ? 9 : table.pagination.totalPages
+          table.pagination.end = table.pagination.totalPages > paginationNumberList ? paginationNumberList : table.pagination.totalPages
         }
         else{
-          table.pagination.start = table.pagination.page  - ( paginationNumberList - 1 )
-          table.pagination.end = table.pagination.page + 4 >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + 4
+          table.pagination.start = table.pagination.page - parseInt( paginationNumberList / 2 )
+          table.pagination.end = table.pagination.page >= table.pagination.totalPages ? table.pagination.totalPages : table.pagination.page + parseInt( paginationNumberList / 2 )
         }
         /**
          * Create pagination buttons
@@ -655,7 +664,8 @@ export default {
     const types = computed(()=>{
       return store.getters['regulatorType/getRecords'].map( 
         type => (
-          { label: type.id + ". " + type.name , value : type.id }
+          // { label: type.id + ". " + type.name , value : type.id }
+          { label: type.name , value : type.id }
         )
       )
     })
@@ -663,7 +673,8 @@ export default {
     const organizations = computed(()=>{
       return store.getters['organization/getRecords'].map( 
         organization => (
-          { label: organization.id + ". " + organization.name , value : organization.id }
+          // { label: organization.id + ". " + organization.name , value : organization.id }
+          { label: organization.name , value : organization.id }
         )
       )
     })
@@ -671,7 +682,8 @@ export default {
     const signatures = computed(()=>{
       return store.getters['signature/getRecords'].map( 
         signature => (
-          { label: signature.id + ". " + signature.name , value : signature.id }
+          // { label: signature.id + ". " + signature.name , value : signature.id }
+          { label: signature.name , value : signature.id }
         )
       )
     })
@@ -782,6 +794,7 @@ export default {
       showFolderModalPopup ,
       applyTagMark ,
       clearSearch ,
+      filterRecordsWithKeyPress ,
       /**
        * Components
        */
@@ -821,12 +834,18 @@ export default {
     @apply text-red-500 m-8 w-48 h-48 p-8 cursor-pointer shadow border border-gray-100 rounded hover:border-gray-300 duration-300 ;
   }
   .filter-control {
-    @apply w-60 m-2;
+    @apply w-40 m-1;
   }
   .filter-control-button {
-    @apply w-28 h-9 m-2 cursor-pointer hover:border-green-600 text-green-600 duration-300 border border-green-300 text-left pl-4 rounded leading-8 bg-white font-bold;
+    @apply w-28 h-8 m-1 pl-2 cursor-pointer hover:border-green-600 text-green-600 duration-300 border border-green-300 text-left rounded leading-8 bg-white font-bold;
   }
   .filter-control-button-clear {
-    @apply w-28 h-9 m-2 cursor-pointer hover:border-red-600 text-red-600 duration-300 border border-red-300 text-left pl-4 rounded leading-8 bg-white font-bold;
+    @apply w-28 h-8 m-1 pl-2 cursor-pointer hover:border-red-600 text-red-600 duration-300 border border-red-300 text-left rounded leading-8 bg-white font-bold;
+  }
+  .vcb-pagination-page{
+    @apply text-center align-middle leading-8 font-bold cursor-pointer;
+  }
+  .vcb-table-pagination {
+    @apply p-2;
   }
 </style>

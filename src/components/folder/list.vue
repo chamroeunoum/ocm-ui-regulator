@@ -1,5 +1,6 @@
 <template>
   <div class="w-full" >
+    <top-menu />
   <!-- Top action panel of crud -->
     <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
       <!-- Title of crud -->
@@ -128,7 +129,7 @@
     <accessibility-form v-bind:model="model" v-bind:record="accessibilityRecord" v-bind:show="accessibilityModal.show" :onClose="closeAccessibilityModal"/>
   </div>
 </template>
-<script>
+<script >
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
@@ -145,6 +146,7 @@ import { Edit20Regular, Key16Regular, Save20Regular, Add20Regular, Search20Regul
 /**
  * CRUD component form
  */
+ import TopMenu from './../menu/topmenu-floattop.vue'
 import CreateForm from './create.vue'
 import UpdateForm from './update.vue'
 import AccessibilityForm from './actions/accessibility.vue'
@@ -171,7 +173,8 @@ export default {
     ContactCard28Regular ,
     Filter ,
     ArrowBackIosRound ,
-    AccessibilityForm
+    AccessibilityForm ,
+    TopMenu
   },
   setup(){
     var store = useStore()

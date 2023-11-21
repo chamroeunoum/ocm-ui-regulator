@@ -13,8 +13,7 @@
   </div>
 </template>
 <script >
-// import TopMenu from './../menu/topmenu-floattop.vue'
-import TopMenu from './../menu/topmenu-floattop.vue'
+import TopMenu from './../menu/topmenu.vue'
 import FooterComponent from './../footer/copy-right.vue'
 export default {
   components: {

@@ -16,8 +16,8 @@
                     <n-form-item path="code" label="កូតសម្ងាត់" class="md">
                         <n-input v-model:value="model.code" @keydown.enter.prevent placeholder="កូតសម្ងាត់" class="text-left text-md " @keyup.enter="confirm()" />
                     </n-form-item>
-                    <n-button @click="$router.push({ name: 'PasswordForgot', params: { email: model.email } })"  type="default" class="mx-4 my-1 w-60 text-md" size="medium" >បកក្រោយ</n-button>
-                    <n-button @click="confirm()" secondary type="success" class="mx-4 my-1 w-60 text-md" size="medium" >បញ្ជាក់លេខកូដប្ដូរពាក្យសម្ងាត់</n-button>
+                    <n-button @click="$router.push({ name: 'PasswordForgot', params: { email: model.email } })"  type="default" class="mx-4 my-1 w-32 text-md" size="medium" >បកក្រោយ</n-button>
+                    <n-button @click="confirm()" secondary type="success" class="mx-4 my-1 w-54 text-md" size="medium" >បញ្ជាក់លេខកូដប្ដូរពាក្យសម្ងាត់</n-button>
                     
                 </n-form>
             </div>
