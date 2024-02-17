@@ -2,21 +2,20 @@
   <div class="w-full" >
     <div class="w-full leading-9 font-moul -mt-12 mb-4 text-left pl-16" v-html="model.title" ></div>
     <!-- Top action panel of crud -->
-    <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">
+    <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4">
       <!-- Title of crud -->
-      <div class="flex w-64 h-10 py-1 title hidden" >
+      <div class="flex w-64 h-10 py-1 title  hidden" >
         <svg class="flex-none h-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M16 8h14v2H16z" fill="currentColor"></path><path d="M6 10.59L3.41 8L2 9.41l4 4l8-8L12.59 4L6 10.59z" fill="currentColor"></path><path d="M16 22h14v2H16z" fill="currentColor"></path><path d="M6 24.59L3.41 22L2 23.41l4 4l8-8L12.59 18L6 24.59z" fill="currentColor"></path></svg>
         <div class="leading-9 font-moul" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
-      <div class="flex-grow action-buttons flex-row-reverse flex p-2">
-        <div v-if=" currentTimeslot != null " class="py-1 h-10 px-6 leading-8 rounded-full mr-2 text-white bg-red-500 cursor-pointer" @click="checkout" >ចេញវេន</div>
-        <div v-if=" currentTimeslot != null " class="py-1 h-10 px-3 leading-8 rounded text-blue-600 mr-2 ">អ្នកកំពុងនៅក្នុងវេន ៖ {{ currentTimeslot != null ? currentTimeslot.title + " " + currentTimeslot.start + " ដល់ " + currentTimeslot.end : '' }}</div>
-        <div v-if=" activeTimeslot != null && currentTimeslot == null " class="py-1 h-10 px-6 leading-8 rounded-full bg-blue-500 mr-2 text-white  cursor-pointer " @click="checkin" >ចូលវេន</div>
-        <div v-if=" activeTimeslot != null && currentTimeslot == null " class="py-1 h-10 px-3 leading-8 rounded text-blue-600 mr-2 ">ពេលនេះគឺវេន ៖ {{ activeTimeslot != null ? activeTimeslot.title + " " + activeTimeslot.start + " ដល់ " + activeTimeslot.end : '' }}</div>
-        <div class="py-3 h-10 px-3 leading-8" >
+      <div class="flex-grow action-buttons flex-row-reverse flex">
+        <div class="ml-2">
           <digital-clock />
         </div>
+        <div class="py-1 px-3 leading-9 rounded text-blue-600 mr-2 text-lg">វេន ព្រឹក ០៧៖០០ ដល់ ១១៖០០</div>
+        <!-- <div class="py-1 px-3 leading-9 border border-red-400 rounded text-red-800" >ចេញធ្វើការ</div> -->
+        <div class="py-1 px-3 leading-9 rounded mr-2 text-blue-600 text-lg" >ចូលធ្វើការ</div>
       </div>
     </div>
     <!-- Table of crud -->
@@ -24,36 +23,36 @@
       <Transition name="slide-fade" >
         <div class="vcb-table w-full" >
           <div class="flex w-full flex-wrap" >
-            <div class="w-full sm:w-1/2 sm:text-xs sm:leading-tight md:w-1/3 lg:w-1/4 xl:w-1/5 2xl:w-1/6  p-1" v-for="(day, index) in daysOfMonth" :key='index' >
-              <div v-if="table.records.matched[ day.date ] != undefined" class="day border border-gray-200 rounded p-4" :style=" 'color: ' + ( daysOfWeek.find( (dow ) => dow.number == day.number ).color.hexa ) + '; ' " >
+            <div class="w-1/5 p-1" v-for="(day, index) in daysOfMonth" :key='index' >
+              <div class="day border border-gray-200 rounded p-4" :style=" 'color: ' + ( daysOfWeek.find( (dow ) => dow.number == day.number ).color.hexa ) + '; ' " >
                 <!-- Case there are more than one attendants -->
-                <table class="w-full">
+                <table class="w-full" v-if="table.records.matched[ day.date ] != undefined" >
                   <tr >
                     <td class=" py-1 text-left " colspan="2" >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 text-right font-bold" colspan="2"  >{{ getDayOfWeek( day.number ).name.kh }} - {{ table.records.matched[ day.date ] != undefined ? table.records.matched[ day.date ].date : day.date }}</td>
+                    <td class=" py-1 text-right font-bold" colspan="2"  >{{ getDayOfWeek( day.number ).name.kh }} - {{ table.records.matched[ day.date ].date }}</td>
                   </tr>
-                  <tr v-if="table.records.matched[ day.date ] != undefined" class="bg-gray-100 " >
+                  <tr class="bg-gray-100 " >
                     <td class="font-moul py-1 text-left ">វេន</td>
                     <td class="font-moul py-1 text-left ">ចូល</td>
                     <td class="font-moul py-1 text-left ">ចេញ</td>
                     <td class="font-moul py-1 text-right ">សរុប</td>
                   </tr>
-                  <tr v-if="table.records.matched[ day.date ] != undefined" v-for="(ct , ctIndex) in table.records.matched[ day.date ].calculateTime.checktimes" :key="ctIndex">
+                  <tr v-for="(ct , ctIndex) in table.records.matched[ day.date ].calculateTime.checktimes" :key="ctIndex">
                     <td class=" py-1 text-left " >{{ ct.timeslot.title }}</td>
                     <td class=" py-1 text-left " >{{ ct.checkin }}</td>
                     <td class=" py-1 text-left " >
-                      <n-button v-if="ct.checkout == null && isToday(day.date) == 1" type="error" secondary round size="tiny" @click="checkout" >ចេញ</n-button>
+                      <n-button v-if="ct.checkout == null && isToday(day.date)" type="error" secondary round size="tiny" >ចេញ</n-button>
                       {{ ct.checkout }}
                     </td>
                     <td class=" py-1 text-right font-bold" >{{ ct.workedTime }}</td>
                   </tr>
-                  <tr v-if="table.records.matched[ day.date ] != undefined" >
-                    <td class=" py-1 text-left " colspan="3" >សរុបរយះពេលបំពេញការងារ</td>
-                    <td class=" py-1 text-right font-bold"  >{{ table.records.matched[ day.date ].calculateTime.total.workedTime }}</td>
+                  <tr >
+                    <td class=" py-1 text-left " colspan="2" >សរុបរយះពេលបំពេញការងារ</td>
+                    <td class=" py-1 text-right font-bold" colspan="2"  >{{ table.records.matched[ day.date ].calculateTime.total.workedTime }}</td>
                   </tr>
-                  <tr class="" v-if="table.records.matched[ day.date ] != undefined" >
-                    <td class=" py-1 text-left " colspan="3" >រយះពេលដែល{{ ( table.records.matched[ day.date ].calculateTime.total.lateOrEarly > 0 ? ' លើស ' : ' ខ្វះ ' ) }}</td>
-                    <td :class="'pb-2 text-right text-xl font-bold' + ( table.records.matched[ day.date ].calculateTime.total.lateOrEarly > 0 ? ' text-green-600 ' : ' text-red-600 ' )"  >{{ table.records.matched[ day.date ].calculateTime.total.lateOrEarly }}</td>
+                  <tr >
+                    <td class=" py-1 text-left " colspan="2" >រយះពេលដែល{{ ( table.records.matched[ day.date ].calculateTime.total.lateOrEarly > 0 ? ' លើស ' : ' ខ្វះ ' ) }}</td>
+                    <td :class="'pb-2 text-right text-xl font-bold' + ( table.records.matched[ day.date ].calculateTime.total.lateOrEarly > 0 ? ' text-green-600 ' : ' text-red-600 ' )" colspan="2"  >{{ table.records.matched[ day.date ].calculateTime.total.lateOrEarly }}</td>
                   </tr>
                 </table>
                 <!-- In case there is none attendants -->
@@ -72,11 +71,11 @@
                     <td class=" py-1 text-left ">{{ timeslot.title }}</td>
                     <td class=" py-1 text-left ">
                       {{ timeslot.start }}
-                      <n-button v-if="isToday(day.date)==1" type="primary" secondary round size="tiny" >ចូល</n-button>
+                      <n-button v-if="isToday(day.date)" type="primary" secondary round size="tiny" >ចូល</n-button>
                     </td>
                     <td class=" py-1 text-left ">
                       {{ timeslot.end }}
-                      <n-button v-if="isToday(day.date)==1" type="error" secondary round size="tiny" >ចេញ</n-button>
+                      <n-button v-if="isToday(day.date)" type="error" secondary round size="tiny" >ចេញ</n-button>
                     </td>
                     <td class=" py-1 text-right font-bold" >0</td>
                   </tr>
@@ -91,39 +90,7 @@
                 </table> -->
 
               </div>
-              <div v-if="table.records.matched[ day.date ] == undefined && isToday( day.date ) == 2 " class="day border border-gray-200 rounded p-4 h-48 " :style=" 'color: ' + ( daysOfWeek.find( (dow ) => dow.number == day.number ).color.hexa ) + '; ' " >
-                <table class="w-full">
-                  <tr >
-                    <td class=" py-1 text-left " colspan="2" >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 text-right font-bold" colspan="2"  >{{ getDayOfWeek( day.number ).name.kh }} - {{ table.records.matched[ day.date ] != undefined ? table.records.matched[ day.date ].date : day.date }}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="4" class="font-moul text-red text-2xl" >អវត្តមាន</td>
-                  </tr>
-                </table>
-              </div>
-              <div v-if="table.records.matched[ day.date ] == undefined && isToday( day.date ) == 1 " class="day border border-gray-200 rounded p-4 h-48 " :style=" 'color: ' + ( daysOfWeek.find( (dow ) => dow.number == day.number ).color.hexa ) + '; ' " >
-                <table class="w-full">
-                  <tr >
-                    <td class=" py-1 text-left " colspan="2" >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 text-right font-bold" colspan="2"  >{{ getDayOfWeek( day.number ).name.kh }} - {{ table.records.matched[ day.date ] != undefined ? table.records.matched[ day.date ].date : day.date }}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="4" class="font-moul text-red text-2xl" >ថ្ងៃនេះ</td>
-                  </tr>
-                </table>
-              </div>
-              <div v-if="table.records.matched[ day.date ] == undefined && isToday( day.date ) == 4 " class="day border border-gray-200 rounded p-4 h-48 relative " :style=" 'color: ' + ( daysOfWeek.find( (dow ) => dow.number == day.number ).color.hexa ) + '; ' " >
-                <div class="absolute left-0 top-0 right-0 bottom-0 flex flex-wrap justify-center content-center " >
-                  <div class="font-kantumruy text-4xl " >{{ getDayOfWeek( day.number ).name.kh }}</div>
-                </div>
-                <table class="w-full">
-                  <tr >
-                    <td class=" py-1 text-left " >កាលបរិច្ឆែទ ៖ </td>
-                    <td class=" py-1 text-right font-bold" >{{ getDayOfWeek( day.number ).name.kh }} - {{ table.records.matched[ day.date ] != undefined ? table.records.matched[ day.date ].date : day.date }}</td>
-                  </tr>
-                </table>
-              </div>
+              <!-- {{  table.records.all[ day.date ] }} -->
             </div>
           </div>
         </div>
@@ -253,14 +220,12 @@ export default {
     const dialog = useDialog()
     const message = useMessage()
     const notify = useNotification()
+    const showFolderModal = ref(false)
+    const listFolders = ref([])
+    const selectedRegulatorId = ref(0)
     const attendantDate = ref(null)
     attendantDate.value = (new Date()).getTime()
     const daysOfMonth = ref([])
-    const timeslots = ref([])
-    const activeTimeslot = ref(null)
-    const currentTimeslot = ref(null)
-    const currentChecktime = ref(null)
-    const currentDay = ref(null)
     const daysOfWeek = reactive([
       {
         name: {
@@ -358,8 +323,8 @@ export default {
      * Variables
      */    
     const model = reactive( {
-      name: "attendant" ,
-      title: "វត្តមាន"
+      name: "task" ,
+      title: "ការងារ"
     })
 
     const table = reactive( {
@@ -399,10 +364,6 @@ export default {
     })
     const filterPanel = ref(false)
 
-    const today = computed(() => {
-      return dateFormat( new Date( attendantDate.value ) , 'yyyy-mm-dd' )
-    })
-
     function filterRecords(helper=true){
       if( helper ){
         table.records.matched = []
@@ -422,149 +383,6 @@ export default {
       }else{
         setTimeout( goTo(1) , 500 )
       }
-    }
-    /**
-     * Set active timeslot
-     */
-    function setActiveTimeslot(){
-      // Set active timeslot compare to the current time
-      let now = new Date();
-      activeTimeslot.value = timeslots.value.find( (ts) => {
-        let start = new Date( now.getFullYear() , now.getMonth() , now.getDate() , ts.start.split(':')[0] , ts.start.split(':')[1] )
-        let end = new Date( now.getFullYear() , now.getMonth() , now.getDate() , ts.end.split(':')[0] , ts.end.split(':')[1] )
-        return start.getTime() <= now.getTime() && now.getTime() <= end.getTime()
-      })
-      // Set current timeslot that user is in
-      // currentTimeslot
-    }
-    
-    /**
-     * Check in
-     */
-    function checkin(){
-      let date = new Date()
-      let day = dateFormat( date , 'yyyy-mm-dd' )
-      let time = dateFormat( date , 'HH:MM' )
-      
-      dialog.info({
-          title: "វត្តមាន",
-          content: "ចូលធ្វើការ?",
-          positiveText: "បាទ / ចាស",
-          negativeText: "ទេ",
-          maskClosable: false,
-          closable: false ,
-          closeOnEsc: false ,
-          onMaskClick: () => {
-            message.warning("សូមជ្រើសរើសជម្រើសណាមួយជាមុនសិន។");
-          },
-          onEsc: () => {
-            message.warning("សូមជ្រើសរើសជម្រើសណាមួយជាមុនសិន។");
-            return false
-          },
-          onNegativeClick: () => {
-            
-          },
-          onPositiveClick: () => {
-            store.dispatch('attendant/checkinwithsystem',{
-              day: day ,
-              time: time ,
-              timeslot_id: activeTimeslot.value.id ,
-              meta: 'Browser'
-            }).then( res => {
-              console.log( res )
-              if( res.data.ok ){
-                notify.success( {
-                  title: "វត្តមាន" ,
-                  description: 'ជោគជ័យ' ,
-                  content: "បានកត់ត្រាម៉ោងចូលធ្វើការរូចរាល់។" ,
-                  meta: '',
-                  duration: 3000
-                } )
-                getRecords()
-              }else{
-                notify.error( {
-                  title: "វត្តមាន" ,
-                  description: 'មានហញ្ហា' ,
-                  content: "មានបញ្ហាក្នុងពេលកត់ត្រាម៉ោងចូលធ្វើការរូចរាល់។" ,
-                  meta: ''
-                } )
-              }
-            })
-            .catch( err => {
-              notify.error( {
-                  title: "វត្តមាន" ,
-                  description: 'មានហញ្ហា' ,
-                  content: err ,
-                  meta: ''
-                } )
-            })
-          }
-        });
-      
-      console.log( day + " " + time )
-    }
-
-    function checkout(){
-      let date = new Date()
-      let day = dateFormat( date , 'yyyy-mm-dd' )
-      let time = dateFormat( date , 'HH:MM' )
-      
-      dialog.info({
-          title: "វត្តមាន",
-          content: "ចេញពីធ្វើការ?",
-          positiveText: "បាទ / ចាស",
-          negativeText: "ទេ",
-          maskClosable: false,
-          closable: false ,
-          closeOnEsc: false ,
-          onMaskClick: () => {
-            message.warning("សូមជ្រើសរើសជម្រើសណាមួយជាមុនសិន។");
-          },
-          onEsc: () => {
-            message.warning("សូមជ្រើសរើសជម្រើសណាមួយជាមុនសិន។");
-            return false
-          },
-          onNegativeClick: () => {
-            
-          },
-          onPositiveClick: () => {
-            store.dispatch('attendant/checkoutwithsystem',{
-              day: day ,
-              time: time ,
-              timeslot_id: currentTimeslot.value.id ,
-              checktime_id: currentChecktime.value.checkin_id ,
-              meta: 'Browser' 
-            }).then( res => {
-              if( res.data.ok ){
-                notify.success( {
-                  title: "វត្តមាន" ,
-                  description: 'ជោគជ័យ' ,
-                  content: "បានកត់ត្រាម៉ោងចេញធ្វើការរូចរាល់។" ,
-                  meta: '',
-                  duration: 3000
-                } )
-                getRecords()
-              }else{
-                notify.error( {
-                  title: "វត្តមាន" ,
-                  description: 'មានបញ្ហា' ,
-                  content: "មានបញ្ហាក្នុងពេលកត់ត្រាម៉ោងចេញធ្វើការរូចរាល់។" ,
-                  meta: '' 
-                } )
-              }
-            })
-            .catch( err => {
-              notify.error( {
-                  title: "វត្តមាន" ,
-                  description: 'មានបញ្ហា' ,
-                  content: err ,
-                  meta: ''
-                } )
-            })
-          }
-        });
-      
-      console.log( day + " " + time )
     }
 
     /**
@@ -586,7 +404,6 @@ export default {
         table.records.all = table.records.matched = res.data.records
         table.pagination = res.data.pagination
         daysOfMonth.value = res.data.daysOfMonth
-        timeslots.value = res.data.timeslots
         var paginationNumberList = 5
         if( ( table.pagination.page - ( paginationNumberList - 1 ) ) < 1 ){
           table.pagination.start = 1
@@ -604,18 +421,11 @@ export default {
           table.pagination.buttons.push(i)
         }
 
-        activeTimeslot.value = null
-        currentTimeslot.value = null
-        currentChecktime.value = null
-
-        setToday()
-        setActiveTimeslot()
         closeTableLoading()
       }).catch( err => {
         console.log( err )
       })
     }
-
     function closeTableLoading(){
       table.loading = false
     }
@@ -671,48 +481,7 @@ export default {
     }
 
     function isToday(date) {
-      // 1 => Today , 2 Before today , 4 after today
-      let now = new Date()
-      now.setHours(0)
-      now.setMinutes(0)
-      now.setSeconds(0)
-      now.setMilliseconds(0)
-      let today = new Date(date)
-      today.setHours(0)
-      today.setMinutes(0)
-      today.setSeconds(0)
-      today.setMilliseconds(0)
-      return ( now.getTime() - today.getTime() ) > 0
-        // Before today
-        ? 2
-        : ( 
-          ( now.getTime() - today.getTime() ) < 0
-          // After Today
-          ? 4
-          // After today
-          : 1
-        )
-    }
-
-    function setToday(){
-      currentDay.value = null
-      for(var index in table.records.all ){
-        if( isToday( table.records.all[ index ].date ) == 1 ){
-          currentDay.value = table.records.all[ index ]
-          /**
-           * Track the current timeslot that is currently working on
-           */
-          for(var cIndex in currentDay.value.calculateTime.checktimes ){
-            currentChecktime.value = currentDay.value.calculateTime.checktimes[ cIndex ];
-            // If the checktime checkout is null then it is meant the checktime does not checkout yet
-            if( currentChecktime.value.checkout == null ){
-              currentTimeslot.value = currentChecktime.value.timeslot
-              break;
-            }
-          }
-          break;
-        }
-      }
+      return new Date().toDateString() === new Date(date).toDateString() ? true : false
     }
 
     /**
@@ -730,12 +499,6 @@ export default {
       filterPanel ,
       daysOfMonth ,
       daysOfWeek ,
-      attendantDate ,
-      today ,
-      timeslots ,
-      activeTimeslot ,
-      currentTimeslot ,
-      currentChecktime ,
       /**
        * Table
        */
@@ -758,9 +521,7 @@ export default {
       applyTagMark ,
       goToMonth ,
       getDayOfWeek ,
-      isToday ,
-      checkin ,
-      checkout
+      isToday
     }
   }
 }

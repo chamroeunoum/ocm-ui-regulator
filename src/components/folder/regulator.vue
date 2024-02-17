@@ -7,7 +7,7 @@
           <DocumentPdf24Regular />
         </n-icon>
       </Icon>
-      <div class="leading-9 font-muol" v-html="model.title + ' ' + 'នៃថតឯកសារ' " ></div>
+      <div class="leading-9 font-moul" v-html="model.title + ' ' + 'នៃថតឯកសារ' " ></div>
     </div>
     <!-- Top action panel of crud -->
     <div class="flex w-full title-bar border-b px-4 border-gray-200 py-4 ">

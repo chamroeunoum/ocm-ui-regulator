@@ -1,18 +1,19 @@
 <template>
-    <div class="flex min-h-screen justify-center " >
+    <div class="relative flex min-h-screen justify-center " >
       <Transition name="slide-fade" >
       <div v-if="toggleLoginForm" class="w-full p-8">
-        <div class="w-40 mx-auto mt-6">
+        <div class="w-20 mx-auto mt-6">
           <img src="./../../assets/logo.svg" class="w-full" >
         </div>
         <div class="text-center" >
-          <div class="my-2 text-xs font-muol hidden">{{ store.state.company.name }}</div>
-          <div class="my-2 text-xs font-muol hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+          <div class="my-2 font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
           <div class="my-2 text-4xl font-tactieng" >3</div>
+          <div class="my-2 font-moul hidden">{{ store.state.company.name }}</div>
+          <div class="my-2 font-moul hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
         </div>
-        <div class="w-full mx-auto my-2 leading-6 text-center font-muol ">{{ store.state.system.name }}</div>
+        <div class="w-full mx-auto my-2 leading-6 text-center font-moul ">{{ store.state.system.name }}</div>
         <div class="mx-auto mt-8 w-4/5 sm:w-3/5 md:w-2/5 lg:w-2/5 xl:w-1/4 2xl:w-1/5" >
-          <div class="w-full mx-auto my-8 text-left text-md hidden">ចូលប្រព័ន្ធ</div>
+          <div class="w-full mx-auto my-8 text-left hidden">ចូលប្រព័ន្ធ</div>
           <n-space vertical>
             <n-input round 
               placeholder="អ៊ីមែល"
@@ -89,6 +90,7 @@
     <div class="fixed bottom-0 mx-auto w-full">
       <FooterComponent />
     </div>
+    <FrameCorner4Component />
   </div>
 </template>
 <script>
@@ -96,6 +98,7 @@ import { getUser } from './../../plugins/authentication'
 import { getMaxUploadFilesize, setMaxUploadFilesize } from './../../plugins/file'
 import { getRoutes } from './../../plugins/route'
 import FooterComponent from './../../components/footer/copy-right.vue'
+import FrameCorner4Component from './../../components/widgets/frame/corner4.vue'
 import { Key20Regular } from "@vicons/fluent";
 import { AlternateEmailOutlined , PersonOutlined, VpnKeyOutlined, EmailOutlined } from '@vicons/material'
 import { Login, DocumentPdf } from '@vicons/carbon'
@@ -112,7 +115,8 @@ export default {
     FooterComponent,
     PersonOutlined ,
     VpnKeyOutlined ,
-    EmailOutlined
+    EmailOutlined ,
+    FrameCorner4Component
   },
   setup(){
     /**

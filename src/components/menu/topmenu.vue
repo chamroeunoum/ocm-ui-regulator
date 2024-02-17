@@ -3,8 +3,8 @@
     <div class="flex-none w-10 rounded-full mr-1" >
       <img src="./../../assets/logo.png" alt="គ្រប់គ្រងបណ្ដុំឯកសារ" title="គ្រប់គ្រងបណ្ដុំឯកសារ" class="w-full mx-auto" >
     </div>
-    <div class="flex-grow h-12 leading-10 pt-1 text-md font-muol ml-2 text-left">{{ systemName }}</div>
-    <div v-if="profilePicture!=null" class="flex-none h-12 leading-10 pt-1 font-muol text-right mr-4 invisible sm:visible md:visible lg:visible xl:visible" style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" >{{ username }}</div>
+    <div class="flex-grow h-12 leading-10 pt-1 text-md font-moul ml-2 text-left">{{ systemName }}</div>
+    <div v-if="profilePicture!=null" class="flex-none h-12 leading-10 pt-1 font-moul text-right mr-4 invisible sm:visible md:visible lg:visible xl:visible" style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" >{{ username }}</div>
     <div class="flex-none ">
       <!-- User profile -->
       <div v-if="isLoggedIn" class="relative "  >

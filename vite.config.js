@@ -18,6 +18,6 @@ export default defineConfig({
         // host: '192.168.0.121' ,
         // OCM
         // host: '172.29.0.120' ,
-        port: 4000
+        port: 7002
     }
 })

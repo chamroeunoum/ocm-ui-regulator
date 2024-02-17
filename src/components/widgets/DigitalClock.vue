@@ -1,8 +1,6 @@
 <template>
     <!-- Start Widget -->
-    <div class="digital-clock ">
-        <p class="time">{{ clock.time }}</p>
-    </div>
+    <div class="time">{{ clock.date + ' ' + clock.time }}</div>
     <!-- End widget -->
 </template>
 <script>
@@ -26,7 +24,7 @@ export default {
         function updateTime() {
             var cd = new Date();
             clock.time = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2);
-            clock.date = zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth()+1, 2) + '-' + zeroPadding(cd.getDate(), 2) + ' ' + week[cd.getDay()];
+            clock.date = zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth()+1, 2) + '-' + zeroPadding(cd.getDate(), 2);
         };
 
         function zeroPadding(num, digit) {
@@ -64,10 +62,7 @@ export default {
 }
 </script>
 <style scoped >
-    .digital-clock {
-        @apply border border-gray-400 py-2 px-4 rounded-lg bg-gray-200;
-    }
     .time {
-        @apply text-xl font-bold text-gray-700 ;
+        @apply leading-tight font-bold text-gray-700 ;
     }
 </style>

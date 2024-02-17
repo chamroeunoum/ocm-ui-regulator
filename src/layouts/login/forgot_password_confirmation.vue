@@ -1,16 +1,17 @@
 <template >
     <div class="flex justify-center ">
         <Transition name="slide-fade" >
-            <div v-if="slideFadeHelper" class="w-full mx-4 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 md:mt-24 sm:mt-12 mb-24">
-                <div class="w-40 mx-auto my-4">
+            <div v-if="slideFadeHelper" class="w-full mx-4 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 mt-12 mb-24">
+                <div class="w-24 mx-auto my-1">
                     <img src="./../../assets/logo.svg" class="w-full" >
                 </div>
                 <div class="text-center my-2" >
-                    <div class="my-2 text-xs font-muol hidden">{{ store.state.organization.name }}</div>
-                    <div class="my-2 text-xs font-muol hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+                    <div class="my-2 font-moul hidden">{{ store.state.organization.name }}</div>
+                    <div class="my-2 font-moul hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+                    <div class="my-2 font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
                     <div class="my-2 text-4xl font-tactieng" >3</div>
                 </div>
-                <div class="w-full mx-auto my-2 text-xs font-muol">{{ store.state.system.name }}</div>
+                <div class="w-full mx-auto my-2 font-moul">{{ store.state.system.name }}</div>
                 <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-md">បញ្ជាក់ការប្ដូរពាក្យសម្ងាត់</div>
                 <n-form :model="model" :rules="rules" class="mb-24 text-md">
                     <n-form-item path="code" label="កូតសម្ងាត់" class="md">

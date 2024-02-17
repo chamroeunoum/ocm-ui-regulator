@@ -9,7 +9,7 @@
             <DocumentPdf24Regular />
           </n-icon>
         </Icon>
-        <div class="leading-9 font-muol" v-html="model.title" ></div>
+        <div class="leading-9 font-moul" v-html="model.title" ></div>
       </div>
       <!-- Actions button of the crud -->
       <div class="flex-grow action-buttons flex-row-reverse flex">

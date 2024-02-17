@@ -3,8 +3,8 @@ import crud from '../../api/crud'
 // initial state
 const state = () => ({
   model: {
-    name: "attendants" ,
-    title: "វត្តមាន" 
+    name: "tasks" ,
+    title: "ការងារ" 
   },
   records: [] ,
   record: null ,

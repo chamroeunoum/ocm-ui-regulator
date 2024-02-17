@@ -1,24 +1,21 @@
 <template>
-  <div class=" min-h-screen">
+  <div class=" min-h-screen ">
     <top-menu />
-    <div class="flex w-full border-b z-50 border-t" >
+    <div class="w-full leading-9 font-moul -mt-12 mb-4 text-left pl-16" v-html="model.title" ></div>
+    <div class="flex w-full border-b z-50 hidden" >
       <div class="flex w-full pl-4 py-4 title " >
         <div class="submenu-icon h-8 flex">
           <svg class="flex-none mr-2 text-red-600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M30 18v-2h-6v10h2v-4h3v-2h-3v-2h4z" fill="currentColor"></path><path d="M19 26h-4V16h4a3.003 3.003 0 0 1 3 3v4a3.003 3.003 0 0 1-3 3zm-2-2h2a1.001 1.001 0 0 0 1-1v-4a1.001 1.001 0 0 0-1-1h-2z" fill="currentColor"></path><path d="M11 16H6v10h2v-3h3a2.003 2.003 0 0 0 2-2v-3a2.002 2.002 0 0 0-2-2zm-3 5v-3h3l.001 3z" fill="currentColor"></path><path d="M22 14v-4a.91.91 0 0 0-.3-.7l-7-7A.909.909 0 0 0 14 2H4a2.006 2.006 0 0 0-2 2v24a2 2 0 0 0 2 2h16v-2H4V4h8v6a2.006 2.006 0 0 0 2 2h6v2zm-8-4V4.4l5.6 5.6z" fill="currentColor"></path></svg>
-          <div class="submenu-icon-title flex-grow w-full leading-9 font-muol" v-html="model.title" ></div>
+          <div class="submenu-icon-title flex-grow w-full leading-9 font-moul" v-html="model.title" ></div>
         </div>
       </div>
     </div>
-    <div class="flex w-full " >
+    <div class="flex w-full" >
       <div class="flex-grow p-4">
         <!-- Search box -->
-        <div class="relative " >
-          <input type="text" placeholder="សួមដកឃ្លាដើម្បីបន្ថែមលក្ខណស្វែងរក ..." @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-white pl-4 pr-10 h-10 w-full rounded-full border border-gray-300 transition duration-500 focus:border-blue-600 hover:border-blue-600 text-xs" />
-          <Icon size="30" class="absolute right-1 top-1 text-gray-400 cursor-pointer" @click="filterRecords(false)" >
-            <n-icon>
-              <Search20Regular />
-            </n-icon>
-          </Icon>
+        <div class="relative text-left" >
+          <input type="text" placeholder="សួមដកឃ្លាដើម្បីបន្ថែមលក្ខណស្វែងរក ..." @keypress.enter="filterRecords(false)" v-model="table.search" class="bg-white pl-4 pr-10 h-10 w-full rounded-full border border-gray-300 transition duration-500 focus:border-blue-600 hover:border-blue-600" />
+          <svg class="absolute w-8 right-2 bottom-1 text-gray-400 cursor-pointer" @click="filterRecords(false)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M8.5 3a5.5 5.5 0 0 1 4.227 9.02l4.127 4.126a.5.5 0 0 1-.638.765l-.07-.057l-4.126-4.127A5.5 5.5 0 1 1 8.5 3zm0 1a4.5 4.5 0 1 0 0 9a4.5 4.5 0 0 0 0-9z" fill="currentColor"></path></g></svg>
         </div>
         <!-- Search box -->
         <div class="pt-4 flex justify-center flex-wrap" >
@@ -28,7 +25,7 @@
           <div class="filter-control" >
             <n-date-picker v-model:value="year" @update:value="filterRecords(false)"  placeholder="ថ្ងៃខែឆ្នាំ" type="date" clearable />
           </div>
-          <div class="filter-control" >
+          <div class="filter-control-select" >
             <n-select
               v-model:value="selectedTypes"
               filterable
@@ -85,38 +82,31 @@
     </Transition>
     <!-- End public folder -->
     <Transition name="fade" >
-      <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="flex flex-wrap z-40 text-xs">
+      <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="flex flex-wrap z-40">
         <div class="vcb-result-message w-full m-4 pb-2 border-b border-gray-100 text-left font-bold">លទ្ធផលនែការស្វែងរកគឺ ៖ <span class="text-lg text-blue-500">{{ table.pagination.totalRecords }}</span></div>
         <!-- Table of crud -->
         <div class="vcb-table-panel flex flex-row w-full mb-24 ">
           <div class="vcb-table w-full" >
             <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
-              <div class="vcb-table-cell font-bold mb-2 leading-6 text-justify break-words text-xs" v-html="( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
-              <div  class="vcb-table-cell text-xs" v-html="applyTagMark( ( Array.isArray( document.types ) && document.types.length > 0 ? prefixOfTypes[ document.types[0].id ] : '' ) + ( ' - ' + applyTagMark( document.fid ) ) + ( ' - ' + document.year.slice(0,10) ) ) " ></div>
+              <div class="vcb-table-cell mb-2 leading-6 text-justify break-words " v-html="( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) + ' . ' + applyTagMark(document.objective)" ></div>
+              <div  class="vcb-table-cell " v-html="applyTagMark( ( Array.isArray( document.types ) && document.types.length > 0 ? prefixOfTypes[ document.types[0].id ] : '' ) + ( ' - ' + applyTagMark( document.fid ) ) + ( ' - ' + document.year.slice(0,10) ) ) " ></div>
               <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
               <div class="vcb-table-actions-panel h-5 absolute bottom-0 right-0 text-right">
-                <n-icon v-if="isLoggedIn"  size="20" class="cursor-pointer text-blue-700 font-bold ml-4" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" >
-                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
-                </n-icon>
-                <n-icon v-if="document.pdf"  size="20" class="cursor-pointer text-red-500 ml-4"  @click="showShareModalPopup(document)" title="មើលឯកសារ" alt="មើលឯកសារ" >
-                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
-                </n-icon>
+                <svg v-if="isLoggedIn" class="cursor-pointer text-blue-700 font-bold ml-4" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
+                <svg v-if="document.pdf"  size="40" class="cursor-pointer text-red-500 ml-4" @click="showShareModalPopup(document)" title="មើលឯកសារ" alt="មើលឯកសារ" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none"><path d="M7.503 13.002a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0v-.5H8.5a1.5 1.5 0 0 0 0-3h-.997zm.997 2h-.497v-1H8.5a.5.5 0 1 1 0 1zm6.498-1.5a.5.5 0 0 1 .5-.5h1.505a.5.5 0 1 1 0 1h-1.006l-.001 1.002h1.007a.5.5 0 0 1 0 1h-1.007l.002.497a.5.5 0 0 1-1 .002l-.003-.998v-.002l.003-2.002zm-3.498-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h.498a2 2 0 0 0 0-4H11.5zm.5 3v-2a1 1 0 0 1 0 2zM20 20v-1.164c.591-.281 1-.884 1-1.582V12.75c0-.698-.409-1.3-1-1.582v-1.34a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v7.168c-.591.281-1 .884-1 1.582v4.504c0 .698.409 1.3 1 1.582V20a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-2 .5H6a.5.5 0 0 1-.5-.5v-.996h13V20a.5.5 0 0 1-.5.5zm.5-10.5v1h-13V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-1.122-1.5H14a.5.5 0 0 1-.5-.5V4.621L17.378 8.5zm-12.628 4h14.5a.25.25 0 0 1 .25.25v4.504a.25.25 0 0 1-.25.25H4.75a.25.25 0 0 1-.25-.25V12.75a.25.25 0 0 1 .25-.25z" fill="currentColor"></path></g></svg>
               </div>
             </div>
           </div>
           <!-- Loading -->
           <div v-if="table.loading" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white bg-opacity-80 ">
             <div class="flex mx-auto items-center">
-              <div class="spinner text-lg">
-                <Icon size="80" class="animate-spin  text-blue-500" >
-                  <Refresh />
-                </Icon><br/><br/>កំពុងអាន...
+              <div class="spinner">
+                <svg class="animate-spin w-16 mx-auto text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48s21.49-48 48-48s48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48s48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.491-48-48-48z" fill="currentColor"></path></svg>
+                <br/><br/>កំពុងអាន...
               </div>
             </div>
-            <div class="absolute top-3 right-3 cursor-pointer " @click="closeTableLoading" >
-              <Icon size="40" class="text-red-600" >
-                <CloseCircleOutline />
-              </Icon>
+            <div class="absolute top-1 right-1 cursor-pointer bg-white rounded-full " @click="closeTableLoading" >
+              <svg class="w-14 mx-auto text-red-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M320 320L192 192"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M192 320l128-128"></path></svg>
             </div>
           </div>
           <!-- PDF Dialog -->
@@ -138,15 +128,18 @@
             <div v-if="showShareModalLoading" class="table-loading fixed flex h-screen left-0 top-0 right-0 bottom-0 bg-white bg-opacity-80 ">
               <div class="flex mx-auto items-center">
                 <div class="spinner text-lg">
-                  <Icon size="80" class="animate-spin  text-blue-500" >
-                    <Refresh />
-                  </Icon><br/><br/>កំពុងផ្ទុកឯកសារ...
+                  <div class="spinner">
+                    <svg class="animate-spin w-16 mx-auto text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48s21.49-48 48-48s48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48s48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48s48-21.49 48-48s-21.491-48-48-48z" fill="currentColor"></path></svg>
+                    <br/><br/>កំពុងផ្ទុកឯកសារ...
+                  </div>
                 </div>
               </div>
               <div class="absolute top-3 right-3 cursor-pointer " @click="showShareModalLoading=false" >
-                <Icon size="40" class="text-red-600" >
-                  <CloseCircleOutline />
-                </Icon>
+                <svg version="1.1" class="w-12 h-12 text-red-400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><g><path d="M331.3,308.7L278.6,256l52.7-52.7c6.2-6.2,6.2-16.4,0-22.6c-6.2-6.2-16.4-6.2-22.6,0L256,233.4l-52.7-52.7
+		c-6.2-6.2-15.6-7.1-22.6,0c-7.1,7.1-6,16.6,0,22.6c6,6,52.7,52.7,52.7,52.7s-46,46-52.7,52.7c-6.7,6.7-6.4,16.3,0,22.6
+		c6.4,6.4,16.4,6.2,22.6,0l52.7-52.7l52.7,52.7c6.2,6.2,16.4,6.2,22.6,0C337.6,325.1,337.6,314.9,331.3,308.7z"></path><g><g><path d="M256,76c48.1,0,93.3,18.7,127.3,52.7S436,207.9,436,256s-18.7,93.3-52.7,127.3S304.1,436,256,436
+				c-48.1,0-93.3-18.7-127.3-52.7C94.7,349.3,76,304.1,76,256s18.7-93.3,52.7-127.3C162.7,94.7,207.9,76,256,76 M256,48
+				C141.1,48,48,141.1,48,256s93.1,208,208,208c114.9,0,208-93.1,208-208S370.9,48,256,48L256,48z"></path></g></g></g></svg>
               </div>
             </div>
           </div>
@@ -835,6 +828,9 @@ export default {
   }
   .filter-control {
     @apply w-40 m-1;
+  }
+  .filter-control-select {
+    @apply w-40 min-w-max m-1;
   }
   .filter-control-button {
     @apply w-28 h-8 m-1 pl-2 cursor-pointer hover:border-green-600 text-green-600 duration-300 border border-green-300 text-left rounded leading-8 bg-white font-bold;

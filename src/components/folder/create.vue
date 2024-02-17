@@ -26,7 +26,7 @@
                   ref="formRef"
                 >
                   <n-form-item label="ឈ្មោះ" path="name" class="w-4/5 mr-8" >
-                    <n-input v-model:value="record.name" placeholder="ឈ្មោះថតឯកសារ" />
+                    <n-input v-model:value="record.name" placeholder="ឈ្មោះថតឯកសារ" @keyup.enter="create()" />
                   </n-form-item>
                 </n-form>
                 <div class="w-1/2 h-8"></div>  
