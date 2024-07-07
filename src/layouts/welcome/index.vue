@@ -51,6 +51,10 @@ export default {
     const notify = useNotification()
     const dialog = useDialog()
 
+    if( getUser() == undefined && getUser() == null ){
+      router.push('/')  
+    }
+
     /**
      * Check the authentication of the user
      */

@@ -180,7 +180,7 @@ export default {
     const route = useRoute()
 
     if( getUser() !== undefined && getUser() !== null ){
-      router.push('/welcome')  
+      router.push('/')  
     }
     /**
      * Variables

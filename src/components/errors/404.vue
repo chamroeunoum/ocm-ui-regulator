@@ -8,7 +8,7 @@
               <div class="text-center my-2" >
                   <div class="my-2 text-xs font-moul">{{ store.state.organization.name }}</div>
                   <div class="my-2 text-xs font-moul">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
-                  <div class="my-2 text-4xl font-tactieng" >3</div>
+                  <div class="my-2 text-4xl font-tacteing" >3</div>
               </div>
               <div class="w-full mx-auto my-2 text-xs font-moul">{{ store.state.system.name }}</div>
               <div class="w-full mx-auto mt-20 mb-8 pb-2 text-center text-lg flex justify-center ">

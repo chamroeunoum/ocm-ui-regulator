@@ -1,12 +1,14 @@
 <template>
   <div class="relative w-full min-h-screen bg-gray-50 bg-center bg-cover bg-background" oncontextmenu="return false; " >
+    <div class="h-12 mb-4 " >
+      <Topmenu />
+    </div>
     <!-- Top menu -->
     <div class="absolute p-4 top-16 right-0 bottom-0 left-0 ">
       <router-view ></router-view>
     </div>
     <!-- <SidebarLeft /> -->
     <Dock />
-    <Topmenu />
     <!-- <Dock /> -->
   </div>
 </template>

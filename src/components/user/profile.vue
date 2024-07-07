@@ -1,16 +1,14 @@
 <template>
-  <top-menu />
-  <div class="w-full leading-9 font-moul -mt-12 mb-4 text-left pl-16" v-html="model.title" ></div>
   <div class="w-full " >
     <!-- Title of crud -->
-    <div class="flex w-full h-12 title mt-4 px-4 border-b hidden" >
-      <svg class="w-8 h-8 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="flex w-full h-8 title mt-14 px-4 border-b bg-gray-100" >
+      <svg class="w-8 h-6 cursor-pointer text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
-      <div class="leading-9 font-moul ml-2" v-html="model.title" ></div>
+      <div class="leading-7 font-moul text-xs" v-html="model.title" ></div>
     </div>
     <div class="w-full">
-      <div class="flex w-full title-bar px-4 py-4 ">
+      <div class="flex w-full title-bar px-4 py-4">
         <!-- Actions button of the crud -->
         <div class="flex-grow action-buttons flex-row-reverse flex">
           <!-- New Button -->
@@ -28,31 +26,32 @@
       </div>
       <!-- End Menu -->    
       <Transition name="slide-fade" >
-        <div v-if="transitionHelper"  class="bg-white profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 relative">
-          <div class="profileImage border rounded-full border-gray-200 p-2 w-40 h-40 flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-100% bg-white" :style=" 'background-image: url(' + localProfile +');' " ></div>
+        <div v-if="transitionHelper"  class=" profileInformation p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto mb-8 relative">
+          <div class="profileImage border rounded-full border-gray-200 p-2 
+          w-24 h-24 sm:w-30 sm:h-30 md:w-40 md:h-40 lg:w-40 lg:h-40 xl:w-40 xl:h-40 2xl:w-40 2xl:h-40
+          flex-none mx-auto overflow-hidden bg-center bg-no-repeat bg-100% bg-white" :style=" 'background-image: url(' + localProfile +');' " ></div>
           <div class="uploader absolute right-0 top-0 w-24flex" >
             <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
             <div class="cursor-pointer hover:border-green-500 flex flex-wrap"  >
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <div class="changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload"  >
+                  <div class="bg-white changeProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="clickUpload"  >
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M350.54 148.68l-26.62-42.06C318.31 100.08 310.62 96 302 96h-92c-8.62 0-16.31 4.08-21.92 10.62l-26.62 42.06C155.85 155.23 148.62 160 140 160H80a32 32 0 0 0-32 32v192a32 32 0 0 0 32 32h352a32 32 0 0 0 32-32V192a32 32 0 0 0-32-32h-59c-8.65 0-16.85-4.77-22.46-11.32z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><circle cx="256" cy="272" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></circle><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M124 158v-22h-24v22"></path></svg>
                   </div>
                 </template>ប្ដូររូបភាពគណនី
               </n-tooltip>
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <div class="saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" >
+                  <div class="bg-white saveProfile p-2 m-1 border rounded-full w-10 h-10 border-gray-300" @click="uploadFiles" >
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5c0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4c0-2.05 1.53-3.76 3.56-3.97l1.07-.11l.5-.95A5.469 5.469 0 0 1 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5l1.53.11A2.98 2.98 0 0 1 22 15c0 1.65-1.35 3-3 3zM8 13h2.55v3h2.9v-3H16l-4-4z" fill="currentColor"></path></svg>
                   </div>
                 </template>រក្សារទុករូបភាពថ្មី
               </n-tooltip>
             </div>
           </div>
-          <div class="my-12">
+          <div class="mb-4 mt-8">
             <n-form
             ref="formRef"
-            label-placement="left"
             :model="user"
             label-width="120"
             >
@@ -79,7 +78,7 @@
       </Transition>
     </div>
     <div class="flex flex-wrap bottom-0 mx-auto w-full fixed z-40">
-      <FooterComponent />
+      <TopMenu />
     </div>
   </div>  
 </template>
@@ -134,7 +133,7 @@ import { CameraOutline , CloudUploadOutline} from '@vicons/ionicons5'
        */    
       const model = reactive( {
         name: "UserProfile" ,
-        title: "ព័ត៌មានអំពីគណនី"
+        title: "ព័ត៌មានផ្ទាល់ខ្លួន"
       })
       
       function save(){

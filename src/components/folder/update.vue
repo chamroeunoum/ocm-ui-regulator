@@ -2,7 +2,7 @@
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
       <n-modal v-model:show="show" transform-origin="center">
-        <n-card class="w-1/2 font-pvh text-xl" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
+        <n-card class="font-pvh text-md  w-4/5 sm:w-4/5 md:w-3/5 lg:w-3/5 xl:w-2/5 2xl:w-2/5" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" @click="update()" >
               <template #icon>

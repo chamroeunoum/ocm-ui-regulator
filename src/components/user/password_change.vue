@@ -1,11 +1,9 @@
 <template>
-  <top-menu />
-  <div class="w-full leading-9 font-moul -mt-12 mb-4 text-left pl-16" v-html="model.title" ></div>
   <div class="w-full " >
     <!-- Title of crud -->
-    <div class="flex w-full border-b py-3 title mt px-4 hidden" >
-      <svg class="w-8 h-8 cursor-pointer text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M21 2a8.998 8.998 0 0 0-8.612 11.612L2 24v6h6l10.388-10.388A9 9 0 1 0 21 2zm0 16a7.013 7.013 0 0 1-2.032-.302l-1.147-.348l-.847.847l-3.181 3.181L12.414 20L11 21.414l1.379 1.379l-1.586 1.586L9.414 23L8 24.414l1.379 1.379L7.172 28H4v-3.172l9.802-9.802l.848-.847l-.348-1.147A7 7 0 1 1 21 18z" fill="currentColor"></path><circle cx="22" cy="10" r="2" fill="currentColor"></circle></svg>
-      <div class="leading-9 font-moul ml-2" >ប្ដូរពាក្យសម្ងាត់</div>
+    <div class="flex w-full border-b py-2 title mt-12 px-4 bg-gray-100" >
+      <svg class="w-6 h-6 cursor-pointer text-blue-500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M21 2a8.998 8.998 0 0 0-8.612 11.612L2 24v6h6l10.388-10.388A9 9 0 1 0 21 2zm0 16a7.013 7.013 0 0 1-2.032-.302l-1.147-.348l-.847.847l-3.181 3.181L12.414 20L11 21.414l1.379 1.379l-1.586 1.586L9.414 23L8 24.414l1.379 1.379L7.172 28H4v-3.172l9.802-9.802l.848-.847l-.348-1.147A7 7 0 1 1 21 18z" fill="currentColor"></path><circle cx="22" cy="10" r="2" fill="currentColor"></circle></svg>
+      <div class="leading-6 font-moul text-xs ml-2" >ប្ដូរពាក្យសម្ងាត់</div>
     </div>
     <div class="w-full">
       <div class="flex w-full title-bar px-4 py-4 ">
@@ -25,16 +23,15 @@
         </div>
       </div>
       <Transition name="slide-fade" >
-        <div  v-if="transitionHelper" class="bg-white passwordChange p-8 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto border mb-8 relative">
-          <div class="my-12">
+        <div  v-if="transitionHelper" class=" passwordChange p-0 sm:w-2/3 md:w-3/5 lg:w-2/5 w-4/5 mx-auto mb-8 relative">
+          <div class="">
             <n-form
             ref="formRef"
-            label-placement="left"
             label-width="120"
             :model="model" 
             :rules="rules"
             >
-              <div class="w-full mb-8  text-left text-md font-bold" >សូមបញ្ចូលពាក្យសម្ងាត់ថ្មីរបស់អ្នកក្នុងប្រអប់ខាងក្រោម ៖</div>
+              <div class="w-full mb-4 leading-7 text-left text-md " >សូមបញ្ចូលពាក្យសម្ងាត់ថ្មីរបស់អ្នកក្នុងប្រអប់ខាងក្រោម ៖</div>
               <n-form-item-row  path="password"  label="ពាក្យសម្ងាត់" class="text-md" >
                 <n-input type="password" placeholder="ពាក្យសម្ងាត់" class="text-left text-md" v-model:value="model.password" />
               </n-form-item-row>
@@ -48,7 +45,7 @@
       </Transition>
     </div>
     <div class="flex flex-wrap bottom-0 mx-auto w-full fixed z-40">
-      <FooterComponent />
+      <top-menu />
     </div>
   </div>
 </template>

@@ -258,46 +258,46 @@ export const getRoutes = () => {
     //         // transition: 'fade'
     //     }
     // },
-    {
-        name: 'PasswordForgot',
-        path: '/password/forgot',
-        component: ForgotPasswordComponent ,
-        meta: {
-            // transition: 'fade'
-        }
-    },
-    {
-        name: 'PasswordForgotConfirmation',
-        path: '/password/forgot/confirmation',
-        component: ForgotPasswordConfirmationComponent ,
-        meta: {
-            // transition: 'fade'
-        }
-    },
-    {
-        name: 'PasswordUpdate',
-        path: '/password/reset',
-        component: PasswordUpdateComponent ,
-        meta: {
-            // transition: 'fade'
-        }
-    },
-    {
-        name: 'Register',
-        path: '/register',
-        component: RegisterComponent ,
-        meta: {
-            // transition: 'fade'
-        }
-    },
-    {
-        name: 'RegisterConfirmation',
-        path: '/register/confirmation',
-        component: RegisterConfirmationComponent ,
-        meta: {
-            // transition: 'fade'
-        }
-    },
+    // {
+    //     name: 'PasswordForgot',
+    //     path: '/password/forgot',
+    //     component: ForgotPasswordComponent ,
+    //     meta: {
+    //         // transition: 'fade'
+    //     }
+    // },
+    // {
+    //     name: 'PasswordForgotConfirmation',
+    //     path: '/password/forgot/confirmation',
+    //     component: ForgotPasswordConfirmationComponent ,
+    //     meta: {
+    //         // transition: 'fade'
+    //     }
+    // },
+    // {
+    //     name: 'PasswordUpdate',
+    //     path: '/password/reset',
+    //     component: PasswordUpdateComponent ,
+    //     meta: {
+    //         // transition: 'fade'
+    //     }
+    // },
+    // {
+    //     name: 'Register',
+    //     path: '/register',
+    //     component: RegisterComponent ,
+    //     meta: {
+    //         // transition: 'fade'
+    //     }
+    // },
+    // {
+    //     name: 'RegisterConfirmation',
+    //     path: '/register/confirmation',
+    //     component: RegisterConfirmationComponent ,
+    //     meta: {
+    //         // transition: 'fade'
+    //     }
+    // },
     // will match everything and put it under `$route.params.pathMatch`
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: Page404 }
   ]

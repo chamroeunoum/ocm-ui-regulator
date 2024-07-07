@@ -1,6 +1,5 @@
 <template>
   <div class="w-full relative flex flex-wrap" >
-    <top-menu />
     <!-- <router-view ></router-view> -->
     <router-view v-slot="{ Component }">
       <transition :name="$route.meta.transition || 'fade'">
@@ -8,7 +7,7 @@
       </transition>
     </router-view>
     <div class="flex flex-wrap bottom-0 mx-auto w-full fixed z-40">
-      <FooterComponent />
+      <top-menu />
     </div>
   </div>
 </template>

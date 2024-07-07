@@ -9,7 +9,7 @@
                     <div class="my-2 font-moul hidden">{{ store.state.organization.name }}</div>
                     <div class="my-2 font-moul hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
                     <div class="my-2 font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
-                    <div class="my-2 text-4xl font-tactieng" >3</div>
+                    <div class="my-2 text-4xl font-tacteing" >3</div>
                 </div>
                 <div class="w-full mx-auto my-2 font-moul">{{ store.state.system.name }}</div>
                 <div class="w-full mx-auto mt-8 mb-4 border-b pb-2 text-left text-md">បញ្ជាក់ការចុះឈ្មោះជាសមាជិក</div>
