@@ -19,14 +19,14 @@
         <!-- Search box -->
         <div class="pt-4 flex justify-center flex-wrap" >
           <div class="filter-control" >
-            <n-input v-model:value="fid" type="text" placeholder="លេខចុះ" @update:value="filterRecordsWithKeyPress()" />
+            <n-input v-bind:value="fid" type="text" placeholder="លេខចុះ" @update:value="filterRecordsWithKeyPress()" />
           </div>
           <div class="filter-control" >
-            <n-date-picker to='' v-model:value="year" @update:value="filterRecords(false)"  placeholder="ថ្ងៃខែឆ្នាំ" type="date" clearable />
+            <n-date-picker to='' v-bind:value="year" @update:value="filterRecords(false)"  placeholder="ថ្ងៃខែឆ្នាំ" type="date" clearable />
           </div>
           <div class="filter-control-select" >
             <n-select
-              v-model:value="selectedTypes"
+              v-bind:value="selectedTypes"
               filterable
               placeholder="ប្រភេទ"
               :options="types"
@@ -36,7 +36,7 @@
           </div>
           <div class="filter-control hidden" >
             <n-select
-              v-model:value="selectedOrganizations"
+              v-bind:value="selectedOrganizations"
               filterable
               placeholder="ក្រសួងស្ថាប័ន"
               :options="organizations"
@@ -46,7 +46,7 @@
           </div>
           <div class="filter-control hidden" >
             <n-select
-              v-model:value="selectedSignatures"
+              v-bind:value="selectedSignatures"
               filterable
               placeholder="ហត្ថលេខា"
               :options="signatures"
@@ -202,7 +202,7 @@
       </div>
     </Transition>
     <!-- Folder modal selection -->
-    <n-modal v-model:show="showFolderModal" @on-after-leave="showFolderModal=false" >
+    <n-modal v-bind:show="showFolderModal" @on-after-leave="showFolderModal=false" >
       <n-card
         style="width: 600px"
         title="សូមជ្រើសរើសថតឯកសារ"
@@ -251,7 +251,7 @@
     </n-modal>
     <!-- End folder modal selection -->
     <!-- Share file modal  -->
-    <n-modal v-model:show="showShareModal" @on-after-leave="showShareModal.value=false" >
+    <n-modal v-bind:show="showShareModal" @on-after-leave="showShareModal.value=false" >
       <n-card
         title="សូមជ្រើសរើសឯកសារដើម្បីមើល"
         :bordered="false"
