@@ -19,14 +19,14 @@
         <!-- Search box -->
         <div class="pt-4 flex justify-center flex-wrap" >
           <div class="filter-control" >
-            <n-input v-bind:value="fid" type="text" placeholder="លេខចុះ" @update:value="filterRecordsWithKeyPress()" />
+            <n-input v-model:value="fid" type="text" placeholder="លេខចុះ" @update:value="filterRecordsWithKeyPress()" />
           </div>
           <div class="filter-control" >
-            <n-date-picker to='' v-bind:value="year" @update:value="filterRecords(false)"  placeholder="ថ្ងៃខែឆ្នាំ" type="date" clearable />
+            <n-date-picker v-model:value="year" @update:value="filterRecords(false)"  placeholder="ថ្ងៃខែឆ្នាំ" type="date" clearable />
           </div>
           <div class="filter-control-select" >
             <n-select
-              v-bind:value="selectedTypes"
+              v-model:value="selectedTypes"
               filterable
               placeholder="ប្រភេទ"
               :options="types"
@@ -36,7 +36,7 @@
           </div>
           <div class="filter-control hidden" >
             <n-select
-              v-bind:value="selectedOrganizations"
+              v-model:value="selectedOrganizations"
               filterable
               placeholder="ក្រសួងស្ថាប័ន"
               :options="organizations"
@@ -46,7 +46,7 @@
           </div>
           <div class="filter-control hidden" >
             <n-select
-              v-bind:value="selectedSignatures"
+              v-model:value="selectedSignatures"
               filterable
               placeholder="ហត្ថលេខា"
               :options="signatures"
@@ -88,7 +88,7 @@
           <div class="vcb-table w-full" >
             <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left mb-8 relative" >
               <div class="vcb-table-cell mb-2 leading-6 text-left break-words" v-html=" getKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) + '. ' + applyTagMark(document.objective)" ></div>
-              <div  class="vcb-table-cell " v-html="applyTagMark( ( Array.isArray( document.types ) && document.types.length > 0 ? prefixOfTypes[ document.types[0].id ] : '' ) + getKhmer( '/' + applyTagMark( document.fid ) ) + ( ' - ' + getKhmer(document.year.slice(0,10)) ) ) " ></div>
+              <div  class="vcb-table-cell " v-html="applyTagMark( ( document.type != undefined && document.type != null ? prefixOfTypes[ document.type.id ] : '' ) + getKhmer( '/' + applyTagMark( document.fid ) ) + ( ' - ' + getKhmer(document.year.slice(0,10)) ) ) " ></div>
               <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
               <div class="vcb-table-actions-panel h-5">
                 <svg v-if="isLoggedIn" class="cursor-pointer text-blue-700 font-bold ml-4" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>

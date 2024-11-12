@@ -36,6 +36,9 @@ import Dock from './../widgets/dock.vue'
 import ocmLogoUrl from './../../assets/logo.svg'
 
 export default {
+  methods: {
+    
+  },
   name: 'Topmenu'  ,
   components: {
     Dock
@@ -46,15 +49,15 @@ export default {
     const username = computed(() => {
       let user = getUser()
       return user !== null 
-        ? ( user.lastname + " " + user.firstname 
+        ? ( user.people.lastname + " " + user.people.firstname 
           // + ( user.roles != undefined && user.roles != null ? ' (' + user.roles[0].name + ')' : '' ) 
           )
         : "មិនមាន" 
     })
     const countesy = computed(() => {
       let user = getUser()
-      return user !== null && user.person !== null
-        ? user.person.countesies.map( c => c.name ).join(' ')
+      return user !== null && user.countesy !== null
+        ? user.countesy.name
         : "" 
     })
 

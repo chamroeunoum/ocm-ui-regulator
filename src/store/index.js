@@ -17,20 +17,21 @@ export default createStore({
   state: {
     // Local computer
     // apiServer: 'http://127.0.0.1:8000/api/client' ,
+    apiServer: import.meta.env.VITE_API_SERVER ,
     
     // Internal OCM Server
     // apiServer: 'http://192.168.200.101:8000/api/client' ,
     // apiServer: 'https://edoc.onetechcambodia.com/api/client' ,
     // apiServer: 'https://ns2.ocm.gov.kh/api/client' ,
-    apiServer: 'https://apis.ocm.gov.kh/api/client' ,
+    // apiServer: 'https://apis.ocm.gov.kh/api/client' ,
 
     company: {
-      name: 'អគ្គនាយកដ្ឋានសម្របសម្រួលកិច្ចការទូទៅ'
+      name: 'អគ្គនាយកដ្ឋានបរិវត្តកម្មឌីជីថល'
     },
     
     system: {
       // name: 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច'
-      name: 'ប្រព័ន្ធគ្រប់គ្រង ឯកសារសាធារណៈ'
+      name: 'ប្រព័ន្ធ ឯកសារសាធារណៈ'
     }
     // branch: '' 
   },
