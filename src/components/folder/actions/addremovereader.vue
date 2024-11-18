@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" :on-before-leave="tableClearBeforeLeave" transform-origin="center" :on-after-enter="initial" >
+      <n-modal v-bind:show="show" :on-after-leave="onClose" :on-before-leave="tableClearBeforeLeave" transform-origin="center" :on-after-enter="initial" >
         <n-card class="w-4/5 font-pvh text-xl relative" :title="'ប្រតិបត្តិការផ្សេងទៀតរបស់ ' + model.title" :bordered="false" size="small">
           <div class="flex title-bar border-b border-gray-200">
             <!-- Actions button of the crud -->

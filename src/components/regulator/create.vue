@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center" :close-on-esc="true" :mask-closable="true" >
+      <n-modal v-bind:show="show" :on-after-leave="onClose" transform-origin="center" :close-on-esc="true" :mask-closable="true" >
         <n-card class="w-1/2 font-pvh text-xl" :title="'បន្ថែម ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" :disabled="btnSavingLoadingRef" @click="create()" :loading="btnSavingLoadingRef" >

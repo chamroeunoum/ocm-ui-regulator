@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" :on-before-leave="beforeLeaveModal" transform-origin="center" :on-after-enter="afterEnterModal" >
+      <n-modal v-bind:show="show" :on-after-leave="onClose" :on-before-leave="beforeLeaveModal" transform-origin="center" :on-after-enter="afterEnterModal" >
         <n-card class="w-4/5 text-md relative" :bordered="false" size="small">
           <div class="font-moul text-md my-4 pb-4 border-b" >វិសាលភាពនៃការប្រើប្រាស់ឯកសារ</div>
           <div class="accessibility-paletter" >
