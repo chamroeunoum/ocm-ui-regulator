@@ -28,3 +28,18 @@ export const isVideo = (filename) => {
   }
   return false;
 }
+
+export const setMaxUploadFilesize = (val) => {
+  try {
+    localStorage.setItem('max_upload_filesize', JSON.stringify( val ));
+  } catch (error) {
+    console.log(error)
+  }
+}
+export const getMaxUploadFilesize = () => {
+  try {
+    return parseFloat( JSON.parse( localStorage.getItem('max_upload_filesize') ) )
+  } catch (error) {
+    console.log(error)
+  }
+}

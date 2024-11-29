@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center">
+      <n-modal v-bind:show="show" :on-after-leave="onClose" transform-origin="center" :close-on-esc="true" :mask-closable="true" >
         <n-card class="w-1/2 font-pvh text-xl" :title="'បន្ថែម ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" :disabled="btnSavingLoadingRef" @click="create()" :loading="btnSavingLoadingRef" >
@@ -37,25 +37,33 @@
                   <n-form-item label="កាលបរិច្ឆែក" path="year" class="w-4/5 mr-8" >
                     <n-date-picker v-model:value="record.year" placeholder="កាលបរិច្ឆែក" type="date" clearable class="w-full" />
                   </n-form-item>
-                  <n-form-item label="ប្រភេទ" path="email" class="w-4/5 mr-8" >
+                  <!-- <n-form-item label="ប្រភេទ" path="email" class="w-4/5 mr-8" >
                     <n-select
                       v-model:value="record.type_id"
                       filterable
                       placeholder="សូមជ្រើសរើសប្រភេទឯកសារ"
                       :options="documentTypes"
                     />
-                  </n-form-item>
+                  </n-form-item> -->
                   <n-form-item label="ឯកសារយោង" path="pdfs" class="w-4/5 mr-8" >
                     <input type="file" placeholder="ឯកសារយោង" @change="fileChange" class="hidden " id="referenceDocument" />
                     <div class="border rounded border-gray-200 w-full text-sm text-center cursor-pointer hover:border-green-500" @click="clickUpload" >
-                      <div class="no-files-upload h-full w-full p-4">
+                      <div class="no-files-upload h-full w-full p-4 text-md leading-7">
                         <n-icon size="40" class="text-red-600" >
                           <DocumentPdf24Regular />
                         </n-icon>
                         <br/>សូមបញ្ចូលឯកសារយោង។
+                        <br/>ទំហំអតិបរមារបស់ឯកសារគឺ ៖ <strong>{{ maxUploadFilesize }}</strong> មេកាបៃ ( MB )
                       </div>
                       <div class="list-files-upload w-full p-4" >
-                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" v-html="'ឯកសារយោងមានឈ្មោះ៖ ' + pdf.name + ' , ទំហំ៖ ' + (pdf.size/1024/1024).toFixed(2) + ' មេកាបៃ (MB)' " ></div>
+                        <!-- <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" v-html="'ឯកសារយោងមានឈ្មោះ៖ ' + pdf.name + ' , ទំហំ៖ ' + (pdf.size/1024/1024).toFixed(2) + ' មេកាបៃ (MB)' " ></div> -->
+                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" >
+                          <div v-if="pdf.name != undefined && pdf.name != null " class="w-full flex flex-wrap h-12 p-2 leading-9 relative" >
+                            <div :class="'w-full text-left' + ((pdf.size/1024/1024).toFixed(2) <= maxUploadFilesize ? ' text-green-500' : ' text-red-500' ) " >{{ index + 1 }}. {{  pdf.name }} - {{ (pdf.size/1024/1024).toFixed(2) }} មេកាបៃ ( MB )</div>
+                            <svg v-if=" (pdf.size/1024/1024).toFixed(2) <= maxUploadFilesize " class="text-green-600 w-8 absolute top-2 right-2 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            <svg v-if=" (pdf.size/1024/1024).toFixed(2) > maxUploadFilesize " class="text-red-600 w-8  absolute top-2 right-2 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><circle cx="256" cy="256" r="208" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></circle><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" d="M108.92 108.92l294.16 294.16"></path></svg>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </n-form-item>
@@ -74,6 +82,7 @@
 <script>
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { getMaxUploadFilesize }  from './../../plugins/file'
 import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
 import { DocumentPdf24Regular } from '@vicons/fluent'
@@ -133,6 +142,7 @@ export default {
     const message = useMessage()
     const notify = useNotification()
     const btnSavingLoadingRef = ref(false)
+    const maxUploadFilesize = ref( getMaxUploadFilesize() )
     /**
      * Variables
      */    
@@ -236,13 +246,14 @@ export default {
 
         // // Read in the image file as base64 type
         // props.record.pdfs.push( window.URL.createObjectURL( file ) )
-        props.record.pdfs.push( file )
+        file.name != undefined && file.name != null ? props.record.pdfs.push( file ) : false
       }
     }
     /**
      * On click file upload
      */
     function clickUpload(){
+      props.record.pdfs = [] // clear previous pdf
       document.getElementById('referenceDocument').click()
     }
     function uploadFiles(){
@@ -292,14 +303,14 @@ export default {
         })
         return false
       }
-      if( props.record.type_id <= 0 ){
-        notify.warning({
-          'title' : 'ពិនិត្យព័ត៌មាន' ,
-          'description' : 'សូមជ្រើសរើស ប្រភេទឯកសារ' ,
-          duration : 3000
-        })
-        return false
-      }
+      // if( props.record.type_id <= 0 ){
+      //   notify.warning({
+      //     'title' : 'ពិនិត្យព័ត៌មាន' ,
+      //     'description' : 'សូមជ្រើសរើស ប្រភេទឯកសារ' ,
+      //     duration : 3000
+      //   })
+      //   return false
+      // }
       if( props.record.year == null ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
@@ -334,7 +345,7 @@ export default {
         objective: props.record.objective ,
         active: 1 ,
         year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
-        type_id: props.record.type_id ,
+        // type_id: props.record.type_id ,
         
       }).then( res => {
         switch( res.status ){
@@ -353,6 +364,7 @@ export default {
             uploadFiles()
           }else{
             btnSavingLoadingRef.value = false
+            props.onClose()
           }
           break;
         }
@@ -446,7 +458,8 @@ export default {
        */
       fileChange , 
       clickUpload ,
-      uploadFiles
+      uploadFiles ,
+      maxUploadFilesize
     }
   }
 }

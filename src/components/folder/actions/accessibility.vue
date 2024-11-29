@@ -1,19 +1,20 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" :on-before-leave="beforeLeaveModal" transform-origin="center" :on-after-enter="afterEnterModal" >
-        <n-card class="w-4/5 font-pvh text-xl relative" title="កំណត់វិសាលភាពប្រើប្រាស់ឯកសារ" :bordered="false" size="small">
+      <n-modal v-bind:show="show" :on-after-leave="onClose" :on-before-leave="beforeLeaveModal" transform-origin="center" :on-after-enter="afterEnterModal" >
+        <n-card class="w-4/5 text-md relative" :bordered="false" size="small">
+          <div class="font-moul text-md my-4 pb-4 border-b" >វិសាលភាពនៃការប្រើប្រាស់ឯកសារ</div>
           <div class="accessibility-paletter" >
-            <div class="cursor-pointer w-full p-8 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(0)" >បិទការប្រើប្រាស់
+            <div class="cursor-pointer leading-7 w-full p-4 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(0)" >១. បិទការប្រើប្រាស់
               <svg v-if="parseInt( record.accessibility ) == 0 " class="absolute right-5 top-5 w-12 h-12 text-green-600 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z" fill="currentColor"></path></svg>
             </div>
-            <div class="cursor-pointer w-full p-8 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(1)" >ប្រើប្រាស់ផ្ទាល់ខ្លួន និង អ្នកដែលបានចែករំលែកទៅ
+            <div class="cursor-pointer leading-7 w-full p-4 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(1)" >២. ប្រើប្រាស់ផ្ទាល់ខ្លួន និង អ្នកដែលបានចែករំលែកទៅ
               <svg v-if="parseInt( record.accessibility ) == 1 " class="absolute right-5 top-5 w-12 h-12 text-green-600 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z" fill="currentColor"></path></svg>
             </div>
-            <div class="cursor-pointer w-full p-8 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(2)" >ប្រើប្រាស់ទូទៅក្នុងប្រព័ន្ធ
+            <div class="cursor-pointer leading-7 w-full p-4 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(2)" >៣. ប្រើប្រាស់ទូទៅក្នុងប្រព័ន្ធ
               <svg v-if="parseInt( record.accessibility ) == 2 " class="absolute right-5 top-5 w-12 h-12 text-green-600 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z" fill="currentColor"></path></svg>
             </div>
-            <div class="cursor-pointer w-full p-8 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(4)" >ប្រើប្រាស់ជាសកល
+            <div class="cursor-pointer leading-7 w-full p-4 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(4)" >៤. ប្រើប្រាស់ជាសកល
               <svg v-if="parseInt( record.accessibility ) == 4 " class="absolute right-5 top-5 w-12 h-12 text-green-600 " xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z" fill="currentColor"></path></svg>
             </div>
           </div>

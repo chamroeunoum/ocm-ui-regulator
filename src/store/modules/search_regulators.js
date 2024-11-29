@@ -25,10 +25,11 @@ const actions = {
   async list ({ state, commit, rootState },params) {
     return await crud.list(
       rootState.apiServer+"/"+state.model.name + "?" + new URLSearchParams({
-        // unit: params.unit ,
-        // date: params.date ,
-        // number: params.number ,
-        // type: params.type ,
+        fid: params.fid ,
+        year: params.year ,
+        types: params.types ,
+        signatures: params.signatures ,
+        organizations: params.organizations ,
         search: params.search ,
         perPage: params.perPage ,
         page: params.page

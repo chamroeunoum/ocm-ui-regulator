@@ -8,10 +8,10 @@ export const authLogout = () => {
 }
 export const isAuth = () => {
   try {
-    if( localStorage.getItem('token') === null ){
-      return false
+    if( getAuthorization() != false && getUser() != null ){
+      return true
     }
-    return true
+    return false
   } catch (error) {
     console.log(error)
   }
@@ -25,7 +25,7 @@ export const getToken = () => {
 }
 export const getAuthorization = () => {
   try {
-    return getToken() != null ? ( getToken().token_type + ' ' + getToken().access_token ) : '' 
+    return getToken() != null ? ( getToken().token_type + ' ' + getToken().access_token ) : false
   } catch (error) {
     console.log(error)
   }

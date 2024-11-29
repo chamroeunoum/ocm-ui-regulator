@@ -6,10 +6,10 @@
                     <Col span="12" offset="9" >
                         <Card style="width:350px; margin: 120px 0px 0px; " >
                             <div style="text-align: center;" >
-                                <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
+                                <img src="./../../assets/logo.svg" alt="{{ store.state.system.name }}" class="w-full" >
                             </div>
                             <div class="text-center" >
-                                <div class="my-2 text-lg">{{ store.state.organization.name }}</div>
+                                <div class="my-2 text-lg hidden">{{ store.state.organization.name }}</div>
                             </div>
                             <div class="w-full mx-auto my-8 text-lg ">{{ store.state.system.name }}</div>
                             <div style="text-align:left; margin: 20px auto auto; ">
