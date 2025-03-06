@@ -31,9 +31,9 @@
 <script >
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
-import { getUser } from './../../plugins/authentication'
-import Dock from './../widgets/dock.vue'
-import ocmLogoUrl from './../../assets/logo.svg'
+import { getUser } from '@plugins/authentication'
+import Dock from '@component/widgets/Dock.vue'
+import ocmLogoUrl from '@assets/logo.svg'
 
 export default {
   methods: {
