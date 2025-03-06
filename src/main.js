@@ -11,6 +11,8 @@ import 'vant/lib/index.css'
 
 import NaiveUI from 'naive-ui'
 
+import KhmerNumber from './plugins/KhmerNumber.js'
+
 import VueToast from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -49,5 +51,6 @@ app.use(NaiveUI)
 app.use(HtmlToPaper)
 app.use(pinia)
 app.use(store)
+app.use(KhmerNumber)
 app.use(router)
 app.mount('#app')

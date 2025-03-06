@@ -38,9 +38,9 @@
       <Transition name="fade" >
         <div v-if="table.records.matched.length > 0" class="vcb-table w-full" >
           <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left relative mb-8" >
-            <div class="vcb-table-cell text-md mb-2 leading-7 text-left break-words " v-html=" getKhmer( index + 1 ) + '. ' + applyTagMark(document.objective)" ></div>
+            <div class="vcb-table-cell text-md mb-2 leading-7 text-left break-words " v-html=" $toKhmer( index + 1 ) + '. ' + applyTagMark(document.objective)" ></div>
             <div  class="vcb-table-cell text-xs mb-2" >
-              {{ document.types != undefined ? document.types.map( t => t.desp ).join(', ') : '' }} {{ '/' + getKhmer( document.fid ) }} {{ ' - ' + getKhmer( document.year.slice(0,10) ) }} 
+              {{ document.types != undefined ? document.types.map( t => t.desp ).join(', ') : '' }} {{ '/' + $toKhmer( document.fid ) }} {{ ' - ' + $toKhmer( document.year.slice(0,10) ) }} 
               <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
             </div>
             <!-- Document Actions -->
@@ -192,7 +192,6 @@ import CreateForm from './create.vue'
 import UpdateForm from './update.vue'
 import AddRemoveReaderForm from './actions/addremovereader.vue'
 import AccessibilityForm from './actions/accessibility.vue'
-import { getKhmer } from './../../plugins/kh/number.js'
 export default {
   name: "Regulator" ,
   components: {
@@ -800,7 +799,7 @@ export default {
       removeDocumentFromFolder ,
       showFolderModal ,
       listFolders ,
-      getKhmer
+      $toKhmer
     }
   }
 }

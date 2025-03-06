@@ -82,13 +82,13 @@
     <!-- End public folder -->
     <Transition name="fade" >
       <div v-if="Array.isArray( table.records.matched ) && table.records.matched.length > 0 " class="flex flex-wrap z-40">
-        <div class="vcb-result-message w-full m-4 pb-2 border-b border-gray-100 text-left font-pvh">លទ្ធផលនែការស្វែងរកគឺ ៖ {{ getKhmer( table.pagination.totalRecords ) }} ឯកសារ {{ table.pagination.totalPages > 0 ? " - " + getKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }} </div>
+        <div class="vcb-result-message w-full m-4 pb-2 border-b border-gray-100 text-left font-pvh">លទ្ធផលនែការស្វែងរកគឺ ៖ {{ $toKhmer( table.pagination.totalRecords ) }} ឯកសារ {{ table.pagination.totalPages > 0 ? " - " + $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }} </div>
         <!-- Table of crud -->
         <div class="vcb-table-panel flex flex-row w-full ">
           <div class="vcb-table w-full" >
             <div v-for="(document, index) in table.records.matched" :key='index' class="vcb-table-row text-left mb-8 relative" >
-              <div class="vcb-table-cell mb-2 leading-6 text-left break-words" v-html=" getKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) + '. ' + applyTagMark(document.objective)" ></div>
-              <div  class="vcb-table-cell " v-html="applyTagMark( ( document.type != undefined && document.type != null ? prefixOfTypes[ document.type.id ] : '' ) + getKhmer( '/' + applyTagMark( document.fid ) ) + ( ' - ' + getKhmer(document.year.slice(0,10)) ) ) " ></div>
+              <div class="vcb-table-cell mb-2 leading-6 text-left break-words" v-html=" $toKhmer( ( table.pagination.perPage * ( table.pagination.page - 1 ) ) + index + 1 ) + '. ' + applyTagMark(document.objective)" ></div>
+              <div  class="vcb-table-cell " v-html="applyTagMark( ( document.type != undefined && document.type != null ? prefixOfTypes[ document.type.id ] + '/' : '' ) + $toKhmer( applyTagMark( document.fid ) ) + ( ' - ' + $toKhmer(document.year.slice(0,10)) ) ) " ></div>
               <!-- {{ document.createdBy != undefined ? ( ' - ' + document.createdBy.lastname + ' ' + document.createdBy.firstname ) : '' }} -->
               <div class="vcb-table-actions-panel h-5">
                 <svg v-if="isLoggedIn" class="cursor-pointer text-blue-700 font-bold ml-4" title="ដាក់ឯកសារចូលថត" alt="ដាក់ឯកសារចូលថត" @click="showFolderModalPopup(document)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20"><g fill="none"><path d="M7.167 3c.27 0 .535.073.765.21l.135.09l1.6 1.2H15.5a2.5 2.5 0 0 1 2.479 2.174l.016.162L18 7v7.5a2.5 2.5 0 0 1-2.336 2.495L15.5 17h-11a2.5 2.5 0 0 1-2.495-2.336L2 14.5v-9a2.5 2.5 0 0 1 2.336-2.495L4.5 3h2.667zm.99 4.034a1.5 1.5 0 0 1-.933.458l-.153.008L3 7.499V14.5a1.5 1.5 0 0 0 1.356 1.493L4.5 16h11a1.5 1.5 0 0 0 1.493-1.355L17 14.5V7a1.5 1.5 0 0 0-1.355-1.493L15.5 5.5H9.617l-1.46 1.534zM7.168 4H4.5a1.5 1.5 0 0 0-1.493 1.356L3 5.5v.999l4.071.001a.5.5 0 0 0 .302-.101l.06-.054L8.694 5.02L7.467 4.1a.5.5 0 0 0-.22-.093L7.167 4z" fill="currentColor"></path></g></svg>
@@ -180,11 +180,11 @@
             <!-- This pagination is for the media side with from Medium up -->
             <div v-if="table.pagination.totalPages > 1" class="vcb-table-pagination bg-blue-300 mx-auto">
               <!-- Information -->
-              <!-- <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-6 p-1 mx-2" >{{ table.pagination.totalRecords > 0 ? getKhmer( table.pagination.totalRecords ) + " គណនី" : "" }}</div> -->
-              <!-- <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-6 p-1 mx-2" >{{ table.pagination.totalPages > 0 ? getKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div> -->
+              <!-- <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-6 p-1 mx-2" >{{ table.pagination.totalRecords > 0 ? $toKhmer( table.pagination.totalRecords ) + " គណនី" : "" }}</div> -->
+              <!-- <div class="vcb-table-pagination-info font-pvh text-blue-600 leading-6 p-1 mx-2" >{{ table.pagination.totalPages > 0 ? $toKhmer( table.pagination.totalPages ) + " ទំព័រ" : "" }}</div> -->
               <!-- First -->
               <!-- Pages (7) -->
-              <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ getKhmer( page ) }}</div>
+              <div v-for="(page, index) in table.pagination.buttons" :key="index" :class=" (table.pagination.page == page ? ' vcb-pagination-page-active ' : ' vcb-pagination-page ' )" @click="table.pagination.page == page ? false : goTo(page) " >{{ $toKhmer( page ) }}</div>
               <!-- Previous -->
               <Transition name="slide-fade" >
                 <div v-if="table.pagination.page > 1 " class="vcb-pagination-page " v-html='"<"' @click="previous()" ></div>
@@ -224,7 +224,7 @@
         >
           <n-tooltip trigger="hover" >
             <template #trigger>
-              <div class="flex-grow leading-8">{{ getKhmer(index +1 ) + '. ' + folder.name }}</div>
+              <div class="flex-grow leading-8">{{ $toKhmer(index +1 ) + '. ' + folder.name }}</div>
             </template>
             <div class="leading-7 text-center" >ដាក់ឯកសារចូល ឬ ដកឯកសារពី ក្នុងថត <br/>{{ folder.name }}</div>
           </n-tooltip>
@@ -294,7 +294,6 @@ import { Refresh } from '@vicons/tabler'
 import VuePdfEmbed from 'vue-pdf-embed'
 import TopMenu from './../../components/menu/topmenu-floattop.vue'
 import dateFormat from 'dateformat'
-import { getKhmer } from './../../plugins/kh/number.js'
 import ocmLogoUrl from './../../assets/logo.svg'
 
 export default {
@@ -896,7 +895,6 @@ export default {
       signatures ,
       year ,
       fid ,
-      getKhmer ,
       askForPassword ,
       ocmLogoUrl
     }
