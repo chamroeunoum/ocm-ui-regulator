@@ -451,8 +451,7 @@ export default {
       accessibilityModal ,
       accessibilityRecord ,
       showAccessibilityModal ,
-      closeAccessibilityModal ,
-      $toKhmer
+      closeAccessibilityModal
     }
   }
 }

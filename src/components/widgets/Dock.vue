@@ -78,7 +78,7 @@ import { useDialog , useMessage } from 'naive-ui'
 export default {  
   components: {
   } ,
-  name: 'dock' ,
+  name: 'Dock' ,
   props: {
     show : false ,
     showLuncher: false ,
