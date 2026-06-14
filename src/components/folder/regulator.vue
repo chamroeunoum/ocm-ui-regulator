@@ -798,8 +798,7 @@ export default {
       addDocumentToFolder ,
       removeDocumentFromFolder ,
       showFolderModal ,
-      listFolders ,
-      $toKhmer
+      listFolders 
     }
   }
 }
