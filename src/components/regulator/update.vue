@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" transform-origin="center">
+      <n-modal v-bind:show="show" :on-after-leave="onClose" transform-origin="center">
         <n-card class="w-1/2 font-pvh text-xl" :title="'កែប្រែ ' + model.title" :bordered="false" size="small">
           <template #header-extra>
             <n-button type="success" :disabled="btnSavingLoadingRef" @click="update()" :loading="btnSavingLoadingRef" >
@@ -37,14 +37,14 @@
                   <n-form-item label="កាលបរិច្ឆែក" path="year" class="w-4/5 mr-8" >
                     <n-date-picker v-model:value="record.year" placeholder="កាលបរិច្ឆែក" type="date" clearable class="w-full" />
                   </n-form-item>
-                  <n-form-item label="ប្រភេទឯគសារ" path="type" class="w-4/5 mr-8" >
+                  <!-- <n-form-item label="ប្រភេទឯកសារ" path="type" class="w-4/5 mr-8" >
                     <n-select
                       v-model:value="record.type_id"
                       filterable
                       placeholder="សូមជ្រើសរើសប្រភេទឯកសារ"
                       :options="documentTypes"
                     />
-                  </n-form-item>
+                  </n-form-item> -->
                   <!-- <n-form-item label="បិទ ឬ បើកឯកសារ" path="active" class="w-4/5 mr-8" >
                     <n-radio
                       :checked="parseInt(record.active) === 1"
@@ -65,10 +65,12 @@
                           <DocumentPdf24Regular />
                         </n-icon>
                         <br/>បញ្ចូលឯកសារយោង ដើម្បីជំនួសឯកសារដែលមានរួចហើយ។
-                        <br/>
+                        <br/>ទំហំអតិបរមារបស់ឯកសារគឺ ៖ {{  maxUploadFilesize }} មេកាបៃ (MB)
                       </div>
                       <div class="list-files-upload w-full p-4" >
-                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" v-html="'ឯកសារយោងមានឈ្មោះ៖ ' + pdf.name + ' , ទំហំ៖ ' + (pdf.size/1024/1024).toFixed(2) + ' មេកាបៃ (MB)' " ></div>
+                        <div class="selectedFiles w-full m-2" v-for="(pdf,index) in record.pdfs" :key="index" >
+                          <div v-if="pdf.name != undefined && pdf.name != null " class="" > {{ ( index + 1 ) }}. {{  pdf.name }} ( {{ (pdf.size/1024/1024).toFixed(2) }})</div>
+                        </div>
                       </div>
                     </div>
                   </n-form-item>
@@ -87,6 +89,7 @@
 <script>
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { getMaxUploadFilesize }  from './../../plugins/file'
 import { useMessage, useNotification } from 'naive-ui'
 import { Save20Regular } from '@vicons/fluent'
 import { DocumentPdf24Regular } from '@vicons/fluent'
@@ -147,6 +150,7 @@ export default {
     const message = useMessage()
     const notify = useNotification()
     const btnSavingLoadingRef = ref(false)
+    const maxUploadFilesize = ref( getMaxUploadFilesize() )
     /**
      * Variables
      */    
@@ -272,19 +276,23 @@ export default {
         duration: 3000
       })
       store.dispatch('regulator/upload', formData ).then( res => {
-        notify.success({
-          title: 'រក្សារទុកព័ត៌មាន' ,
-          description: 'បានបញ្ចូលឯកសារយោងរួចរាល់។' ,
-          duration: 3000
-        })
+        message.success('បានបញ្ចូលឯកសារយោងរួចរាល់។')
         props.record.pdfs = []
         btnSavingLoadingRef.value = false 
         props.onClose()
       }).catch( err => {
-        console.log( err )
+        let message = ""
+        switch( err.response.status ){
+          case 413 :
+            message = "ទំហំឯកសារ ហួសការកំណត់។"
+            break;
+          default:
+            message = "មានបញ្ហាពេលបញ្ចូលឯកសារយោង។"
+            break;
+        }
         notify.error({
           title: 'រក្សារទុកព័ត៌មាន' ,
-          description: 'មានបញ្ហាពេលបញ្ចូលឯកសារយោង។' ,
+          description: message ,
           duration: 3000
         })
       })
@@ -308,14 +316,14 @@ export default {
         })
         return false
       }
-      if( props.record.type_id <= 0 ){
-        notify.warning({
-          'title' : 'ពិនិត្យព័ត៌មាន' ,
-          'description' : 'សូមជ្រើសរើស ប្រភេទឯកសារ' ,
-          duration : 3000
-        })
-        return false
-      }
+      // if( props.record.type_id <= 0 ){
+      //   notify.warning({
+      //     'title' : 'ពិនិត្យព័ត៌មាន' ,
+      //     'description' : 'សូមជ្រើសរើស ប្រភេទឯកសារ' ,
+      //     duration : 3000
+      //   })
+      //   return false
+      // }
       if( props.record.year == null ){
         notify.warning({
           'title' : 'ពិនិត្យព័ត៌មាន' ,
@@ -337,11 +345,6 @@ export default {
        * Saving information of the regulator
        */
       let year = new Date(props.record.year) 
-      notify.info({
-        title: 'រក្សារទុកព័ត៌មាន' ,
-        description: 'កំពុងរក្សារទុកព័ត៌មាន។' ,
-        duration: 3000
-      })
       btnSavingLoadingRef.value = true
       store.dispatch( props.model.name+'/update',{
         id: props.record.id ,
@@ -349,18 +352,14 @@ export default {
         title: props.record.title ,
         objective: props.record.objective ,
         year: year.getFullYear().toString().padStart(4, '0') + "-" + (year.getMonth() + 1).toString().padStart(2, '0') + "-" + year.getDate().toString().padStart(2, '0') ,
-        type_id: props.record.type_id ,
+        // type_id: props.record.type_id ,
         active: parseInt( props.record.active ) > 0 ? 1 : 0
       }).then( res => {
         switch( res.status ){
           case 200 : 
             document.getElementById('referenceDocument').value = ''     
             if( res.data.ok ){
-              notify.success({
-                title: 'រក្សារទុកព័ត៌មាន' ,
-                description: 'រក្សារទុកព័ត៌មានរបស់ឯកសាររួចរាល់។' ,
-                duration: 3000
-              })
+              message.success('រក្សារទុកព័ត៌មានរបស់ឯកសាររួចរាល់។')
               /**
                * Start uploading reference document of this regulator
                */
@@ -369,6 +368,7 @@ export default {
               }else{
                 props.record.pdfs = []
                 btnSavingLoadingRef.value = false
+                props.onClose()
               }
             }else{
               props.record.pdfs = []
@@ -378,6 +378,7 @@ export default {
                 description: res.data.message ,
                 duration: 3000
               })
+              props.onClose()
             }
           break;
         }
@@ -482,7 +483,8 @@ export default {
        */
       fileChange , 
       clickUpload ,
-      uploadFiles
+      uploadFiles,
+      maxUploadFilesize
     }
   }
 }

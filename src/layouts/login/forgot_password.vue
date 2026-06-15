@@ -1,29 +1,34 @@
 <template >
-    <div class="flex mx-auto pb-8 mt-8 mb-20 sm:w-12/12 md:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-6/12">  
-        <div class="w-full p-8" >
-            <div class="w-28 mx-auto my-4">
-                <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
+    <div class="flex justify-center ">
+        <Transition name="slide-fade" >
+            <div v-if="slideFadeHelper" class="w-full mx-4 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 mt-12 mb-24">
+                <div class="w-24 mx-auto my-1">
+                    <img src="./../../assets/logo.svg" class="w-full" >
+                </div>
+                <div class="text-center my-2" >
+                    <div class="my-2 font-moul hidden">{{ store.state.organization.name }}</div>
+                    <div class="my-2 font-moul hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+                    <div class="my-2 font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
+                    <div class="my-2 text-4xl font-tacteing" >3</div>
+                </div>
+                <div class="w-full mx-auto my-2 font-moul">{{ store.state.system.name }}</div>
+                <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-md">សំណើរប្ដូរពាក្យសម្ងាត់</div>
+                <n-form :model="model" :rules="rules" class="mb-24 text-md" >
+                    <!-- <n-form-item path="phone" label="ទូរស័ព្ទ">
+                        <n-input v-model:value="model.phone" @keydown.enter.prevent placeholder="ទូរស័ព្ទ" class="text-left " />
+                    </n-form-item> -->
+                    <n-form-item path="email" label="អ៊ីមែល" class="text-md" >
+                        <n-input v-model:value="model.email" placeholder="អ៊ីមែល" class="text-left text-md " @keyup.enter="requestReset()" :disabled="disabledHelper.value" />
+                    </n-form-item>
+                    
+                    <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-36 text-md" size="medium" :disabled="disabledHelper.value" >ចូលប្រើប្រាស់</n-button>
+                    <n-button secondary type="success" class="mx-4 my-1 w-36 text-md" size="medium" @click="requestReset()" :disabled="disabledHelper.value" >ស្នើរប្ដូរពាក្យសម្ងាត់</n-button>
+                </n-form>
             </div>
-            <div class="text-center" >
-                <div class="my-2 text-lg">{{ companyName }}</div>
-            </div>
-            <div class="w-full mx-auto my-8 text-lg ">{{ systemName }}</div>
-            <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សំណើរប្ដូរពាក្យសម្ងាត់</div>
-            <n-form :model="model" :rules="rules" class="mb-24" >
-                <!-- <n-form-item path="phone" label="ទូរស័ព្ទ">
-                    <n-input v-model:value="model.phone" @keydown.enter.prevent placeholder="ទូរស័ព្ទ" class="text-left " />
-                </n-form-item> -->
-                <n-form-item path="email" label="អ៊ីមែល">
-                    <n-input v-model:value="model.email" placeholder="អ៊ីមែល" class="text-left " @keyup.enter="requestReset()" :disabled="disabledHelper.value" />
-                </n-form-item>
-                
-                <n-button @click="$router.push('/login')" type="default" class="mx-4 my-1 w-40" size="medium" :disabled="disabledHelper.value" >ចូលប្រើប្រាស់</n-button>
-                <n-button secondary type="success" class="mx-4 my-1 w-40" size="medium" @click="requestReset()" :disabled="disabledHelper.value" >ស្នើរប្ដូរពាក្យសម្ងាត់</n-button>
-            </n-form>
-        </div>
+        </Transition>
+        <div v-if=" disabledHelper.value == true " class="" >សូមមេត្តារងចាំ! អ៊ីមែលរបស់អ្នកកំពុងត្រូវបានត្រួតពិនិត្យ ...</div>
+        <div class="fixed bottom-0 w-full"><Footer /></div>
     </div>
-    <div v-if=" disabledHelper.value == true " class="" >សូមមេត្តារងចាំ! អ៊ីមែលរបស់អ្នកកំពុងត្រូវបានត្រួតពិនិត្យ ...</div>
-    <div class="fixed bottom-0 w-full"><Footer /></div>
 </template>
 <script>
 import Footer from './../../components/footer/copy-right.vue'
@@ -45,6 +50,7 @@ export default {
             phone: '',
             email: ''
         })
+        const slideFadeHelper = ref(false)
         
         const systemName = computed( () => {
             return store.state.system.name != "" ? store.state.system.name : 'ប្រព័ន្ធគ្រប់គ្រងឯកសារអេឡិចត្រូនិច' 
@@ -100,13 +106,19 @@ export default {
             })
         }
 
+        setTimeout( function(){
+            slideFadeHelper.value = true
+        }, 300 )
+
         return {
             model ,
             rules ,
             requestReset ,
             disabledHelper ,
             companyName ,
-            systemName
+            systemName ,
+            store ,
+            slideFadeHelper
         }
     }
 }

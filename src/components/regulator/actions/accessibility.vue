@@ -1,7 +1,7 @@
 <template>
   <!-- Form edit account -->
     <div class="vcb-pop-create font-ktr">
-      <n-modal v-model:show="show" :on-after-leave="onClose" :on-before-leave="beforeLeaveModal" transform-origin="center" :on-after-enter="afterEnterModal" >
+      <n-modal v-bind:show="show" :on-after-leave="onClose" :on-before-leave="beforeLeaveModal" transform-origin="center" :on-after-enter="afterEnterModal" >
         <n-card class="w-4/5 font-pvh text-xl relative" title="កំណត់វិសាលភាពប្រើប្រាស់ឯកសារ" :bordered="false" size="small">
           <div class="accessibility-paletter" >
             <div class="cursor-pointer w-full p-8 border-b border-gray-100 relative hover:bg-gray-100 duration-300 " @click="updateRegulatorAccessibility(0)" >បិទការប្រើប្រាស់

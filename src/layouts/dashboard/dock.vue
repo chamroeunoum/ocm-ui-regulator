@@ -136,18 +136,18 @@ export default {
               // 5 // Customer
           ]
       },
-      {
-          url: '/regulator' ,
-          icon: 'DocumentPdf24Regular' ,
-          name: 'លិខិតបទដ្ឋានគតិយុត្ត',
-          roles: [
-              1, // Admin
-              // 2, // Super
-              // 3, // Auditor
-              // 4, // Member
-              // 5 // Customer
-          ]
-      },
+      // {
+      //     url: '/regulator' ,
+      //     icon: 'DocumentPdf24Regular' ,
+      //     name: 'លិខិតបទដ្ឋានគតិយុត្ត',
+      //     roles: [
+      //         1, // Admin
+      //         // 2, // Super
+      //         // 3, // Auditor
+      //         // 4, // Member
+      //         // 5 // Customer
+      //     ]
+      // },
       // {
       //     url: '/client' ,
       //     icon: 'UserMultiple' ,

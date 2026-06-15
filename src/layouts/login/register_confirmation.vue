@@ -1,31 +1,34 @@
 <template >
-    <div class="flex mx-auto pb-8 mt-8 mb-20 sm:w-12/12 md:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-6/12">  
-        <div class="w-full p-8" >
-            <div class="w-28 mx-auto my-4">
-                <img src="./../../assets/logo.png" alt="SASTRA Logo" class="w-full" >
+    <div class="flex justify-center ">
+        <Transition name="slide-fade" >
+            <div v-if="slideFadeHelper" class="w-full mx-4 xs:w-full sm:w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/5 p-8 mt-12 mb-24">
+                <div class="w-24 mx-auto my-1">
+                    <img src="./../../assets/logo.svg" class="w-full" >
+                </div>
+                <div class="text-center my-2" >
+                    <div class="my-2 font-moul hidden">{{ store.state.organization.name }}</div>
+                    <div class="my-2 font-moul hidden">នាយកដ្ឋានឯកសារអេឡិចត្រូនិចនិងព័ត៌មានវិទ្យា</div>
+                    <div class="my-2 font-moul text-yellow-500">ទីស្ដីការគណៈរដ្ឋមន្ត្រី</div>
+                    <div class="my-2 text-4xl font-tacteing" >3</div>
+                </div>
+                <div class="w-full mx-auto my-2 font-moul">{{ store.state.system.name }}</div>
+                <div class="w-full mx-auto mt-8 mb-4 border-b pb-2 text-left text-md">បញ្ជាក់ការចុះឈ្មោះជាសមាជិក</div>
+                <div class="w-full mx-auto mt-4 mb-4 pb-2 text-left text-md">សូមបញ្ចូល លេខកូដ ដែលបានបញ្ជូនទៅអ៊ីមែលរបស់អ្នក ដើម្បីបញ្ចប់ការចុះឈ្មោះ ក្នុងប្រអប់ខាងក្រោម។</div>
+                <n-form :model="model" :rules="rules" class="mb-24 text-md" >
+                    <n-form-item path="code" label="សូមបញ្ចូលកូតសម្ងាត់" class="text-md">
+                        <n-input v-model:value="model.code" @keydown.enter.prevent placeholder="កូតសម្ងាត់" class="text-left text-md" />
+                    </n-form-item>
+                    <n-button @click="$router.push('/login')" secondary type="default" class="mx-4 my-1 w-44 text-md" size="medium" >បកក្រោយ</n-button>
+                    <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-44 text-md" size="medium" >បញ្ជាក់លេខកូដចុះឈ្មោះ</n-button>
+                </n-form>
             </div>
-            <div class="text-center" >
-                <div class="my-2 text-lg">{{ store.state.organization.name }}</div>
-            </div>
-            <div class="w-full mx-auto my-8 text-lg ">{{ store.state.system.name }}</div>
-            <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">បញ្ជាក់ការចុះឈ្មោះជាសមាជិក</div>
-            <div class="w-full mx-auto mt-12 mb-8 border-b pb-2 text-left text-lg">សូមបញ្ចូល លេខកូដ ដែលបានបញ្ជូនទៅអ៊ីមែលរបស់អ្នក ដើម្បីបញ្ចប់ការចុះឈ្មោះ ។</div>
-            <n-form :model="model" :rules="rules" class="mb-24" >
-                <n-form-item path="code" label="សូមបញ្ចូលកូតសម្ងាត់ដែលបានបញ្ជូនទៅ អ៊ីមែល របស់អ្នក។">
-                    <n-input v-model:value="model.code" @keydown.enter.prevent placeholder="កូតសម្ងាត់" class="text-left " />
-                </n-form-item>
-                
-                <n-button @click="handleSubmit" secondary type="success" class="mx-4 my-1 w-44" size="medium" >បញ្ជាក់លេខកូដចុះឈ្មោះ</n-button>
-                <n-button @click="$router.push('/login')" secondary type="default" class="mx-4 my-1 w-44" size="medium" >បកក្រោយ</n-button>
-                
-            </n-form>
-        </div>
+        </Transition>
+        <div class="fixed bottom-0 w-full"><Footer /></div>
     </div>
-    <div class="fixed bottom-0 w-full"><Footer /></div>
 </template>
 <script>
 import Footer from './../../components/footer/copy-right.vue'
-import { reactive } from 'vue'
+import { reactive , ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useNotification } from 'naive-ui'
@@ -42,6 +45,8 @@ export default {
         const model = reactive({
             code: ''
         })
+
+        const slideFadeHelper = ref(false)
 
         const rules = {
             code: [
@@ -78,11 +83,16 @@ export default {
             }
         }
 
+        setTimeout( function(){
+            slideFadeHelper.value = true
+        }, 300 )
+
         return {
             model ,
             rules ,
             handleSubmit ,
-            store
+            store ,
+            slideFadeHelper
         }
     }
 }
